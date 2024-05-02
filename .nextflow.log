@@ -1,0 +1,174 @@
+Apr-18 11:40:31.037 [main] DEBUG nextflow.cli.Launcher - $> nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+Apr-18 11:40:31.311 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
+Apr-18 11:40:31.340 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/export/home/agletdinov/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
+Apr-18 11:40:31.357 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Apr-18 11:40:31.358 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Apr-18 11:40:31.363 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Apr-18 11:40:31.377 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Apr-18 11:40:31.401 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+Apr-18 11:40:31.403 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+Apr-18 11:40:31.433 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Apr-18 11:40:32.161 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Apr-18 11:40:32.184 [main] INFO  nextflow.cli.CmdRun - Launching `vzv_assembling.nf` [jovial_hilbert] DSL2 - revision: d548835993
+Apr-18 11:40:32.185 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Apr-18 11:40:32.185 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Apr-18 11:40:32.197 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /export/home/agletdinov/.nextflow/secrets/store.json
+Apr-18 11:40:32.202 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@333c8791] - activable => nextflow.secret.LocalSecretsProvider@333c8791
+Apr-18 11:40:32.271 [main] DEBUG nextflow.Session - Session UUID: a0781ea0-1ef8-46c3-85c6-9486bed80338
+Apr-18 11:40:32.271 [main] DEBUG nextflow.Session - Run name: jovial_hilbert
+Apr-18 11:40:32.272 [main] DEBUG nextflow.Session - Executor pool size: 144
+Apr-18 11:40:32.282 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Apr-18 11:40:32.287 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=432; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Apr-18 11:40:32.325 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 23.10.1 build 5891
+  Created: 12-01-2024 22:01 UTC (13-01-2024 01:01 MSD)
+  System: Linux 3.10.0-1160.15.2.el7.x86_64
+  Runtime: Groovy 3.0.19 on OpenJDK 64-Bit Server VM 20-internal-adhoc..src
+  Encoding: UTF-8 (UTF-8)
+  Process: 25359@bigmem01.hpc02.cmd.su [172.22.22.12]
+  CPUs: 144 - Mem: 1007.6 GB (398.1 GB) - Swap: 32.7 GB (32.4 GB)
+Apr-18 11:40:32.472 [main] DEBUG nextflow.Session - Work-dir: /export/home/agletdinov/work/git_projects/nextflow_projects/work [nfs]
+Apr-18 11:40:32.507 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Apr-18 11:40:32.523 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Apr-18 11:40:32.555 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Apr-18 11:40:32.569 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 145; maxThreads: 1000
+Apr-18 11:40:33.044 [main] DEBUG nextflow.Session - Session start
+Apr-18 11:40:33.460 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Apr-18 11:40:33.483 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `maxForks` -- Initialise it to a default value eg. `params.maxForks = some_value`
+Apr-18 11:40:33.486 [main] INFO  nextflow.Nextflow - R N A S E Q - N F   P I P E L I N E
+===================================
+reads          : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/fastq/*R{1,2}*.fastq.gz
+adapters       : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/adapters/adapters.fasta
+primer_a       : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/primers/aADAPTERX_v2.fasta
+primer_g       : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/primers/gXADAPTER_v2.fasta
+key_areas      : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/key_areas/vzv_amplicons.fasta
+script         : /export/home/agletdinov/work/git_projects/nextflow_projects/bin/rename_fasta_id.py
+kraken2db      : /export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE
+outdir         : results/
+maxForks       : null
+
+Apr-18 11:40:34.437 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.437 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.444 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Apr-18 11:40:34.453 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=144; memory=1007.6 GB; capacity=144; pollInterval=100ms; dumpInterval=5m
+Apr-18 11:40:34.456 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Apr-18 11:40:34.549 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.550 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.563 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.563 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.568 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.568 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.574 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.574 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.581 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.581 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.587 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.587 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.593 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.593 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.597 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.597 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.602 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.603 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.607 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.607 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.625 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-18 11:40:34.625 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-18 11:40:34.630 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: FASTQC, vzv_full_run:VZV:SAMTOOLS_INDEX, vzv_full_run:VZV:SAMTOOLS_STATS, TRIM_4_NUCL, vzv_full_run:VZV:TRIM_PRIMERS, TRIM_PRIMERS, MULTIQC, vzv_full_run:VZV:BWA_MEM_BAM_SORT, vzv_full_run:VZV:SAMTOOLS_CONSENSUS, vzv_full_run:MULTIQC, vzv_full_run:VZV:RENAME_FASTA_ID, vzv_full_run:VZV:KRAKEN2, TRIM_ADAPT, RENAME_FASTA_ID, KRAKEN2, vzv_full_run:VZV:FASTQC, vzv_full_run:VZV:BWA_INDEX, BWA_MEM_BAM_SORT, vzv_full_run:VZV:TRIM_ADAPT, BWA_INDEX, SAMTOOLS_CONSENSUS, SAMTOOLS_INDEX, SAMTOOLS_STATS, vzv_full_run:VZV:TRIM_4_NUCL
+Apr-18 11:40:34.630 [main] DEBUG nextflow.Session - Igniting dataflow network (13)
+Apr-18 11:40:34.635 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:FASTQC
+Apr-18 11:40:34.636 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/fastq/; pattern: *R{1,2}*.fastq.gz; options: [checkIfExists:true]
+Apr-18 11:40:34.636 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:TRIM_ADAPT
+Apr-18 11:40:34.636 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:TRIM_4_NUCL
+Apr-18 11:40:34.637 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:TRIM_PRIMERS
+Apr-18 11:40:34.637 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:KRAKEN2
+Apr-18 11:40:34.637 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:BWA_INDEX
+Apr-18 11:40:34.637 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:BWA_MEM_BAM_SORT
+Apr-18 11:40:34.638 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:SAMTOOLS_INDEX
+Apr-18 11:40:34.639 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:SAMTOOLS_CONSENSUS
+Apr-18 11:40:34.639 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:SAMTOOLS_STATS
+Apr-18 11:40:34.640 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:VZV:RENAME_FASTA_ID
+Apr-18 11:40:34.640 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > vzv_full_run:MULTIQC
+Apr-18 11:40:34.640 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_3eb01e6ed4c1d6b7: /export/home/agletdinov/work/git_projects/nextflow_projects/././modules.nf
+  Script_4d7bba13d86fd83d: /export/home/agletdinov/work/git_projects/nextflow_projects/./vzv_modules.nf
+  Script_f07639bed1a18ae1: /export/home/agletdinov/work/git_projects/nextflow_projects/./multiqc.nf
+  Script_1ed5f1f7a391f460: /export/home/agletdinov/work/git_projects/nextflow_projects/vzv_assembling.nf
+Apr-18 11:40:34.641 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+Apr-18 11:40:34.641 [main] DEBUG nextflow.Session - Session await
+Apr-18 11:40:34.798 [Actor Thread 44] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::fastp; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-dca6929da757e10e0c2b13430d9bf94a
+Apr-18 11:40:34.798 [Actor Thread 45] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::bwa; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-9d43a4c5a922ffe5b869963aea5a7998
+Apr-18 11:40:34.798 [Actor Thread 43] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::fastqc; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-2472c99747f9fb1a6eef40cd9db2844a
+Apr-18 11:40:35.010 [Actor Thread 39] INFO  nextflow.processor.TaskProcessor - [57/d33672] Cached process > vzv_full_run:VZV:TRIM_ADAPT (Fastp on 146-vzv_S4_L001)
+Apr-18 11:40:35.010 [Actor Thread 27] INFO  nextflow.processor.TaskProcessor - [66/1f679b] Cached process > vzv_full_run:VZV:TRIM_ADAPT (Fastp on 142-vzv_S1_L001)
+Apr-18 11:40:35.011 [Actor Thread 21] INFO  nextflow.processor.TaskProcessor - [f4/f8ee57] Cached process > vzv_full_run:VZV:BWA_INDEX (Bwa index for /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/key_areas/vzv_amplicons.fasta)
+Apr-18 11:40:35.011 [Actor Thread 40] INFO  nextflow.processor.TaskProcessor - [e5/6b8c88] Cached process > vzv_full_run:VZV:FASTQC (FastQC on 146-vzv_S4_L001)
+Apr-18 11:40:35.011 [Actor Thread 32] INFO  nextflow.processor.TaskProcessor - [ba/a9c55b] Cached process > vzv_full_run:VZV:FASTQC (FastQC on 143-vzv_S2_L001)
+Apr-18 11:40:35.011 [Actor Thread 35] INFO  nextflow.processor.TaskProcessor - [23/33a254] Cached process > vzv_full_run:VZV:TRIM_ADAPT (Fastp on 144-vzv_S3_L001)
+Apr-18 11:40:35.011 [Actor Thread 36] INFO  nextflow.processor.TaskProcessor - [92/acc2a0] Cached process > vzv_full_run:VZV:FASTQC (FastQC on 144-vzv_S3_L001)
+Apr-18 11:40:35.011 [Actor Thread 31] INFO  nextflow.processor.TaskProcessor - [22/9bc0bf] Cached process > vzv_full_run:VZV:TRIM_ADAPT (Fastp on 143-vzv_S2_L001)
+Apr-18 11:40:35.012 [Actor Thread 28] INFO  nextflow.processor.TaskProcessor - [9b/ca1571] Cached process > vzv_full_run:VZV:FASTQC (FastQC on 142-vzv_S1_L001)
+Apr-18 11:40:35.028 [Actor Thread 60] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::cutadapt; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-8ae3c5bb9bca6e534661f65a256fa68e
+Apr-18 11:40:35.041 [Actor Thread 59] INFO  nextflow.processor.TaskProcessor - [42/08b1f3] Cached process > vzv_full_run:VZV:TRIM_4_NUCL (Cutadapt on 144-vzv_S3_L001)
+Apr-18 11:40:35.042 [Actor Thread 28] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=432; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Apr-18 11:40:35.051 [Actor Thread 55] INFO  nextflow.processor.TaskProcessor - [1f/744558] Cached process > vzv_full_run:VZV:TRIM_4_NUCL (Cutadapt on 146-vzv_S4_L001)
+Apr-18 11:40:35.058 [Actor Thread 53] INFO  nextflow.processor.TaskProcessor - [3f/4f2d56] Cached process > vzv_full_run:VZV:TRIM_4_NUCL (Cutadapt on 143-vzv_S2_L001)
+Apr-18 11:40:35.062 [Actor Thread 57] INFO  nextflow.processor.TaskProcessor - [c1/fee44b] Cached process > vzv_full_run:VZV:TRIM_4_NUCL (Cutadapt on 142-vzv_S1_L001)
+Apr-18 11:40:35.083 [Actor Thread 80] INFO  nextflow.processor.TaskProcessor - [bb/c9656a] Cached process > vzv_full_run:VZV:TRIM_PRIMERS (Cutadapt (primers) on 143-vzv_S2_L001)
+Apr-18 11:40:35.092 [Actor Thread 97] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::bwa bioconda::samtools; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-cebcec85ba646e7781f852c7811ad0c5
+Apr-18 11:40:35.091 [Actor Thread 85] INFO  nextflow.processor.TaskProcessor - [eb/fc9678] Cached process > vzv_full_run:VZV:TRIM_PRIMERS (Cutadapt (primers) on 142-vzv_S1_L001)
+Apr-18 11:40:35.098 [Actor Thread 94] INFO  nextflow.processor.TaskProcessor - [56/e8cb40] Cached process > vzv_full_run:VZV:BWA_MEM_BAM_SORT (Bwa mem on 143-vzv_S2_L001)
+Apr-18 11:40:35.102 [Actor Thread 115] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/kraken2; path=/export/home/agletdinov/mambaforge/envs/kraken2
+Apr-18 11:40:35.102 [Actor Thread 74] INFO  nextflow.processor.TaskProcessor - [ad/262098] Cached process > vzv_full_run:VZV:TRIM_PRIMERS (Cutadapt (primers) on 146-vzv_S4_L001)
+Apr-18 11:40:35.105 [Actor Thread 121] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::samtools; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-d886792ff01fc93672c370108071bc30
+Apr-18 11:40:35.111 [Actor Thread 116] INFO  nextflow.processor.TaskProcessor - [94/96e8f3] Cached process > vzv_full_run:VZV:SAMTOOLS_INDEX (Samtools index on 143-vzv_S2_L001)
+Apr-18 11:40:35.114 [Actor Thread 112] INFO  nextflow.processor.TaskProcessor - [e1/a932d9] Cached process > vzv_full_run:VZV:SAMTOOLS_STATS (Samtools consensus on 143-vzv_S2_L001)
+Apr-18 11:40:35.117 [Actor Thread 124] INFO  nextflow.processor.TaskProcessor - [ab/7b8ba3] Cached process > vzv_full_run:VZV:BWA_MEM_BAM_SORT (Bwa mem on 146-vzv_S4_L001)
+Apr-18 11:40:35.117 [Actor Thread 103] INFO  nextflow.processor.TaskProcessor - [b7/0f56a8] Cached process > vzv_full_run:VZV:KRAKEN2 (Kraken2 on 142-vzv_S1_L001)
+Apr-18 11:40:35.119 [Actor Thread 125] INFO  nextflow.processor.TaskProcessor - [aa/72ce94] Cached process > vzv_full_run:VZV:KRAKEN2 (Kraken2 on 146-vzv_S4_L001)
+Apr-18 11:40:35.133 [Actor Thread 95] INFO  nextflow.processor.TaskProcessor - [73/c23633] Cached process > vzv_full_run:VZV:KRAKEN2 (Kraken2 on 143-vzv_S2_L001)
+Apr-18 11:40:35.140 [Actor Thread 63] INFO  nextflow.processor.TaskProcessor - [a1/e22d93] Cached process > vzv_full_run:VZV:TRIM_PRIMERS (Cutadapt (primers) on 144-vzv_S3_L001)
+Apr-18 11:40:35.146 [Actor Thread 135] INFO  nextflow.processor.TaskProcessor - [79/0f7eec] Cached process > vzv_full_run:VZV:SAMTOOLS_STATS (Samtools consensus on 146-vzv_S4_L001)
+Apr-18 11:40:35.149 [Actor Thread 124] INFO  nextflow.processor.TaskProcessor - [27/6e2f25] Cached process > vzv_full_run:VZV:BWA_MEM_BAM_SORT (Bwa mem on 144-vzv_S3_L001)
+Apr-18 11:40:35.150 [Actor Thread 144] INFO  nextflow.processor.TaskProcessor - [9b/f0caf3] Cached process > vzv_full_run:VZV:KRAKEN2 (Kraken2 on 144-vzv_S3_L001)
+Apr-18 11:40:35.152 [Actor Thread 141] INFO  nextflow.processor.TaskProcessor - [a7/a293e4] Cached process > vzv_full_run:VZV:SAMTOOLS_INDEX (Samtools index on 146-vzv_S4_L001)
+Apr-18 11:40:35.155 [Actor Thread 104] INFO  nextflow.processor.TaskProcessor - [69/8dca07] Cached process > vzv_full_run:VZV:BWA_MEM_BAM_SORT (Bwa mem on 142-vzv_S1_L001)
+Apr-18 11:40:35.159 [Actor Thread 139] INFO  nextflow.processor.TaskProcessor - [a2/00436a] Cached process > vzv_full_run:VZV:SAMTOOLS_INDEX (Samtools index on 144-vzv_S3_L001)
+Apr-18 11:40:35.178 [Actor Thread 114] INFO  nextflow.processor.TaskProcessor - [0f/a3cccd] Cached process > vzv_full_run:VZV:SAMTOOLS_INDEX (Samtools index on 142-vzv_S1_L001)
+Apr-18 11:40:35.181 [Actor Thread 137] INFO  nextflow.processor.TaskProcessor - [14/372580] Cached process > vzv_full_run:VZV:SAMTOOLS_STATS (Samtools consensus on 144-vzv_S3_L001)
+Apr-18 11:40:35.185 [Actor Thread 145] INFO  nextflow.processor.TaskProcessor - [2e/981f7a] Cached process > vzv_full_run:VZV:SAMTOOLS_STATS (Samtools consensus on 142-vzv_S1_L001)
+Apr-18 11:40:35.193 [Actor Thread 145] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/multiqc; path=/export/home/agletdinov/mambaforge/envs/multiqc
+Apr-18 11:40:35.205 [Actor Thread 143] INFO  nextflow.processor.TaskProcessor - [02/e7b911] Cached process > vzv_full_run:MULTIQC (MultiQC)
+Apr-18 11:40:35.291 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:35.294 [Task submitter] INFO  nextflow.Session - [53/daaf7f] Submitted process > vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 146-vzv_S4_L001)
+Apr-18 11:40:35.410 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:35.411 [Task submitter] INFO  nextflow.Session - [b0/620770] Submitted process > vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 143-vzv_S2_L001)
+Apr-18 11:40:35.496 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:35.497 [Task submitter] INFO  nextflow.Session - [5c/b07844] Submitted process > vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 144-vzv_S3_L001)
+Apr-18 11:40:35.604 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:35.604 [Task submitter] INFO  nextflow.Session - [aa/0c736d] Submitted process > vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 142-vzv_S1_L001)
+Apr-18 11:40:38.220 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 28; name: vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 146-vzv_S4_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/53/daaf7fd66c92c12fdf79f1a3a915ec]
+Apr-18 11:40:38.233 [Actor Thread 143] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=conda-forge::biopython; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-c690f6c2d8cd4221af8c23d3af022a80
+Apr-18 11:40:38.242 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 34; name: vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 144-vzv_S3_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/5c/b07844294dd08dc310d6042ada8222]
+Apr-18 11:40:38.273 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:38.273 [Task submitter] INFO  nextflow.Session - [3a/1768e2] Submitted process > vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 146-vzv_S4_L001)
+Apr-18 11:40:38.331 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:38.331 [Task submitter] INFO  nextflow.Session - [a3/36ae28] Submitted process > vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 144-vzv_S3_L001)
+Apr-18 11:40:38.377 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 35; name: vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 142-vzv_S1_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/aa/0c736dbcca8e77dc80d3cbc272d953]
+Apr-18 11:40:38.397 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 23; name: vzv_full_run:VZV:SAMTOOLS_CONSENSUS (Samtools consensus on 143-vzv_S2_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/b0/6207708bc382ab883ce314d4d5adc1]
+Apr-18 11:40:38.493 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:38.499 [Task submitter] INFO  nextflow.Session - [3c/a27c9a] Submitted process > vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 142-vzv_S1_L001)
+Apr-18 11:40:38.572 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+Apr-18 11:40:38.573 [Task submitter] INFO  nextflow.Session - [a5/88f958] Submitted process > vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 143-vzv_S2_L001)
+Apr-18 11:40:40.634 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 42; name: vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 143-vzv_S2_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/a5/88f9582a914955be77e634e5afae04]
+Apr-18 11:40:40.697 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 41; name: vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 142-vzv_S1_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3c/a27c9a7752d775178bf6d9b97dc0f5]
+Apr-18 11:40:40.728 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 39; name: vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 146-vzv_S4_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3a/1768e29e83d41553239a95c6411cce]
+Apr-18 11:40:40.755 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 40; name: vzv_full_run:VZV:RENAME_FASTA_ID (Rename fasta id for 144-vzv_S3_L001); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/a3/36ae2872ecde00184af9a010fab480]
+Apr-18 11:40:40.758 [main] DEBUG nextflow.Session - Session await > all processes finished
+Apr-18 11:40:40.762 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Apr-18 11:40:40.762 [main] DEBUG nextflow.Session - Session await > all barriers passed
+Apr-18 11:40:40.852 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'PublishDir' shutdown completed (hard=false)
+Apr-18 11:40:40.876 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=8; failedCount=0; ignoredCount=0; cachedCount=34; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=41.8s; failedDuration=0ms; cachedDuration=58m 54s;loadCpus=0; loadMemory=0; peakRunning=4; peakCpus=12; peakMemory=0; ]
+Apr-18 11:40:41.119 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+Apr-18 11:40:41.272 [main] DEBUG nextflow.util.ThreadPoolManager - Thread pool 'FileTransfer' shutdown completed (hard=false)
+Apr-18 11:40:41.273 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye

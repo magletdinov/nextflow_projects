@@ -1,0 +1,50 @@
+2024-04-13 17:35:04	-	chaotic_bhaskara	-	cc01a2ccad38a30201a1efd18d432a4e	ed31150c-f070-4e39-935c-25fd30764f5b	nextflow run vzv_assembling.nf
+2024-04-13 17:36:12	2.9s	grave_lagrange	ERR	e8b73d9c98f6ca22ee80787f325e420f	08f73c55-5a8d-440e-8678-a443e7e28daa	nextflow run vzv_assembling.nf
+2024-04-13 17:46:59	3.3s	fabulous_blackwell	ERR	e5bc6cde41c70a249aa2c1b83cd63528	b3b7a6f7-cb95-4f5a-8288-72d150bdb45e	nextflow run vzv_assembling.nf
+2024-04-13 17:47:54	12m 49s	drunk_magritte	OK	9b508c8368ceb6921b2852146bcf378c	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf
+2024-04-13 18:13:35	7.9s	lethal_bhaskara	OK	20ecabae5fe734eea5a1f223cc959f67	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:15:35	5.4s	crazy_gautier	OK	20ecabae5fe734eea5a1f223cc959f67	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:23:30	-	stupefied_volta	-	20ecabae5fe734eea5a1f223cc959f67	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:32:03	-	thirsty_lamarck	-	2b0e96d9be6672e6fd78d3cf246af2bc	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:32:22	-	infallible_mestorf	-	7eed9b6f761b2e6b94f82f48ff0ef055	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:33:35	6.3s	intergalactic_sanger	ERR	7eed9b6f761b2e6b94f82f48ff0ef055	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:54:13	-	furious_goodall	-	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:55:04	-	condescending_hugle	-	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 18:59:54	21.7s	zen_goldstine	ERR	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 19:08:34	3.8s	naughty_bell	ERR	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 19:11:13	3.5s	gigantic_venter	ERR	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 19:12:32	16m 51s	determined_gauss	ERR	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 19:29:28	6.5s	determined_brattain	ERR	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 19:29:51	18m 52s	friendly_lattes	ERR	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:18:02	14.5s	boring_feynman	OK	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:36:31	-	ecstatic_gutenberg	-	a06262785e2282a7f3e372e815750aa5	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:43:05	-	peaceful_ramanujan	-	e57eeec61ab3f45e15999ee7b7039b42	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:43:42	-	gigantic_mayer	-	786c95e6389b6282a7691dfa7dd7c56a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:46:22	5.9s	kickass_dijkstra	ERR	900d7085bdf0f6fa5142083acc595bc4	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:48:02	12.3s	peaceful_liskov	OK	900d7085bdf0f6fa5142083acc595bc4	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 22:48:21	3.8s	grave_liskov	OK	900d7085bdf0f6fa5142083acc595bc4	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:10:39	-	hungry_bassi	-	141e7f0c452189266b3fbba6dff25b74	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:11:00	-	exotic_knuth	-	141e7f0c452189266b3fbba6dff25b74	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:11:33	44.1s	sad_cori	OK	141e7f0c452189266b3fbba6dff25b74	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:13:20	3.8s	nostalgic_hodgkin	OK	141e7f0c452189266b3fbba6dff25b74	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:14:46	9.6s	boring_agnesi	OK	141e7f0c452189266b3fbba6dff25b74	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:24:28	29.8s	modest_legentil	ERR	a71b151028bb9b26141b3b07ad4196e3	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-13 23:25:14	-	sick_rosalind	-	a71b151028bb9b26141b3b07ad4196e3	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-14 14:41:47	16m 7s	awesome_brown	OK	4b94ee04815493a98db4db0b752bd5c3	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-14 15:00:35	12m 26s	peaceful_noyce	OK	695fbe2f6e6dfd013a5f3c655169fe4d	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -resume
+2024-04-17 11:55:41	17.7s	cranky_khorana	ERR	f40a914a9515e67b0c0bcafa08aa8827	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_check_raw_data.nf -resume
+2024-04-17 12:47:04	16s	distracted_cori	ERR	ccd57c4afcddb4cf57219d4cba36f340	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 12:48:13	-	nostalgic_ekeblad	-	b62276faa955c7e4933e22595425ab43	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 12:48:48	-	sleepy_einstein	-	44873fc3a0a12cee542c38c90d9efd89	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 12:49:18	7m 44s	nice_torvalds	ERR	7af8db1077427bac43a5d2c81f7347ae	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 12:57:31	43.4s	reverent_gilbert	OK	0db679af0fcc8bac6ee6ba70a818eeb7	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 13:05:50	-	fabulous_euler	-	f4fd97871d63896f8624d177a5a05a05	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 13:06:32	6m 51s	tender_baekeland	OK	f4fd97871d63896f8624d177a5a05a05	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+2024-04-17 17:48:39	5s	jolly_sax	ERR	7311daa48d8144d83277b95b641eebdc	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-17 17:51:09	32.9s	friendly_hypatia	OK	a3cf2efb08ee94e6f3ab716e9f8abd79	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-17 17:51:52	40.8s	stupefied_saha	OK	d5488359933ce4e00bd38ee32db5562a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-17 17:59:19	21.6s	prickly_baekeland	OK	d5488359933ce4e00bd38ee32db5562a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-17 18:16:04	8.9s	stupefied_cori	ERR	d5488359933ce4e00bd38ee32db5562a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-17 18:19:33	9s	sleepy_kalman	ERR	d5488359933ce4e00bd38ee32db5562a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-17 18:20:20	2.8s	evil_kalman	OK	d5488359933ce4e00bd38ee32db5562a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume
+2024-04-18 11:40:32	9.1s	jovial_hilbert	OK	d5488359933ce4e00bd38ee32db5562a	a0781ea0-1ef8-46c3-85c6-9486bed80338	nextflow run vzv_assembling.nf -entry vzv_full_run -resume

@@ -1,0 +1,131 @@
+Apr-17 13:05:49.047 [main] DEBUG nextflow.cli.Launcher - $> nextflow run vzv_assembling.nf -entry vzv_check_raw -resume
+Apr-17 13:05:49.371 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
+Apr-17 13:05:49.403 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/export/home/agletdinov/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
+Apr-17 13:05:49.426 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+Apr-17 13:05:49.428 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+Apr-17 13:05:49.432 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+Apr-17 13:05:49.448 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+Apr-17 13:05:49.473 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+Apr-17 13:05:49.475 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+Apr-17 13:05:49.505 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+Apr-17 13:05:50.241 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+Apr-17 13:05:50.264 [main] INFO  nextflow.cli.CmdRun - Launching `vzv_assembling.nf` [fabulous_euler] DSL2 - revision: f4fd97871d
+Apr-17 13:05:50.265 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+Apr-17 13:05:50.265 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+Apr-17 13:05:50.277 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /export/home/agletdinov/.nextflow/secrets/store.json
+Apr-17 13:05:50.281 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@333c8791] - activable => nextflow.secret.LocalSecretsProvider@333c8791
+Apr-17 13:05:50.350 [main] DEBUG nextflow.Session - Session UUID: a0781ea0-1ef8-46c3-85c6-9486bed80338
+Apr-17 13:05:50.350 [main] DEBUG nextflow.Session - Run name: fabulous_euler
+Apr-17 13:05:50.351 [main] DEBUG nextflow.Session - Executor pool size: 144
+Apr-17 13:05:50.361 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+Apr-17 13:05:50.366 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=432; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+Apr-17 13:05:50.402 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 23.10.1 build 5891
+  Created: 12-01-2024 22:01 UTC (13-01-2024 01:01 MSD)
+  System: Linux 3.10.0-1160.15.2.el7.x86_64
+  Runtime: Groovy 3.0.19 on OpenJDK 64-Bit Server VM 20-internal-adhoc..src
+  Encoding: UTF-8 (UTF-8)
+  Process: 24474@bigmem01.hpc02.cmd.su [172.22.22.12]
+  CPUs: 144 - Mem: 1007.6 GB (400.8 GB) - Swap: 32.7 GB (32.4 GB)
+Apr-17 13:05:50.477 [main] DEBUG nextflow.Session - Work-dir: /export/home/agletdinov/work/git_projects/nextflow_projects/work [nfs]
+Apr-17 13:05:50.503 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+Apr-17 13:05:50.515 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+Apr-17 13:05:50.542 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+Apr-17 13:05:50.556 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 145; maxThreads: 1000
+Apr-17 13:05:50.772 [main] DEBUG nextflow.Session - Session start
+Apr-17 13:05:51.168 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+Apr-17 13:05:51.191 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `maxForks` -- Initialise it to a default value eg. `params.maxForks = some_value`
+Apr-17 13:05:51.194 [main] INFO  nextflow.Nextflow - R N A S E Q - N F   P I P E L I N E
+===================================
+reads          : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/fastq/146*R{1,2}*.fastq.gz
+adapters       : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/adapters/adapters.fasta
+primer_a       : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/primers/aADAPTERX_v2.fasta
+primer_g       : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/primers/gXADAPTER_v2.fasta
+key_areas      : /export/home/agletdinov/work/git_projects/nextflow_projects/test/vzv/key_areas/vzv_areas.fasta
+script         : /export/home/agletdinov/work/git_projects/nextflow_projects/bin/rename_fasta_id.py
+kraken2db      : /export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE
+outdir         : check_raw_data/
+maxForks       : null
+
+Apr-17 13:05:52.015 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.015 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.021 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+Apr-17 13:05:52.028 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=144; memory=1007.6 GB; capacity=144; pollInterval=100ms; dumpInterval=5m
+Apr-17 13:05:52.030 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+Apr-17 13:05:52.100 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.100 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.107 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.107 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.113 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.113 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.119 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.119 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.124 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.124 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.129 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.129 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.134 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.134 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.138 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+Apr-17 13:05:52.138 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+Apr-17 13:05:52.143 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_74c954677a8e8325: /export/home/agletdinov/work/git_projects/nextflow_projects/vzv_assembling.nf
+  Script_1d42d110f8adb0a3: /export/home/agletdinov/work/git_projects/nextflow_projects/./vzv_modules.nf
+  Script_f07639bed1a18ae1: /export/home/agletdinov/work/git_projects/nextflow_projects/./multiqc.nf
+  Script_2e579e5bc725cccb: /export/home/agletdinov/work/git_projects/nextflow_projects/././modules.nf
+Apr-17 13:05:52.143 [main] DEBUG nextflow.Session - Session aborted -- Cause: Access to 'FASTQC.out' is undefined since the process 'FASTQC' has not been invoked before accessing the output attribute
+Apr-17 13:05:52.161 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+Apr-17 13:05:52.161 [main] ERROR nextflow.cli.Launcher - Access to 'FASTQC.out' is undefined since the process 'FASTQC' has not been invoked before accessing the output attribute
+nextflow.exception.ScriptRuntimeException: Access to 'FASTQC.out' is undefined since the process 'FASTQC' has not been invoked before accessing the output attribute
+	at nextflow.script.ProcessDef.getOut(ProcessDef.groovy:152)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
+	at org.codehaus.groovy.runtime.metaclass.MethodMetaProperty$GetBeanMethodMetaProperty.getProperty(MethodMetaProperty.java:76)
+	at org.codehaus.groovy.runtime.callsite.GetEffectivePogoPropertySite.getProperty(GetEffectivePogoPropertySite.java:85)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callGetProperty(AbstractCallSite.java:329)
+	at Script_1d42d110f8adb0a3$_runScript_closure2$_closure4.doCall(Script_1d42d110f8adb0a3:42)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1030)
+	at groovy.lang.Closure.call(Closure.java:427)
+	at groovy.lang.Closure.call(Closure.java:406)
+	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:204)
+	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:188)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at nextflow.script.ComponentDef.invoke_o(ComponentDef.groovy:40)
+	at nextflow.script.WorkflowBinding.invokeMethod(WorkflowBinding.groovy:102)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeOnDelegationObjects(ClosureMetaClass.java:408)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:350)
+	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(PogoMetaClassSite.java:61)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:203)
+	at Script_74c954677a8e8325$_runScript_closure2$_closure5.doCall(Script_74c954677a8e8325:53)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1030)
+	at groovy.lang.Closure.call(Closure.java:427)
+	at groovy.lang.Closure.call(Closure.java:406)
+	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:204)
+	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:188)
+	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
+	at nextflow.script.IterableDef$invoke_a.call(Unknown Source)
+	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
+	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
+	at nextflow.script.BaseScript.run0(BaseScript.groovy:183)
+	at nextflow.script.BaseScript.run(BaseScript.groovy:192)
+	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:236)
+	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:242)
+	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:137)
+	at nextflow.cli.CmdRun.run(CmdRun.groovy:372)
+	at nextflow.cli.Launcher.run(Launcher.groovy:500)
+	at nextflow.cli.Launcher.main(Launcher.groovy:672)
