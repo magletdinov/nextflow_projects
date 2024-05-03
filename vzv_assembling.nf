@@ -9,7 +9,10 @@ params.genome = "/export/home/public/agletdinov_shared/genomes/vzv/NC_001348.1.f
 params.primer_a = "$projectDir/test/vzv/primers/aADAPTERX_v2.fasta"
 params.primer_g = "$projectDir/test/vzv/primers/gXADAPTER_v2.fasta"
 params.key_areas = "$projectDir/test/vzv/key_areas/vzv_amplicons.fasta"
-params.script = "$projectDir/bin/rename_fasta_id.py"
+params.script1 = "$projectDir/bin/rename_fasta_id.py"
+params.script2 = "/export/home/agletdinov/work/git_projects/gitlab/vzv-classifier/vzv_analysis.py"
+params.script3 = "$projectDir/bin/vzv_run.py"
+params.script4 = "$projectDir/bin/clade_aggregate.py"
 params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
 params.outdir = "/export/home/agletdinov/work/nextflow_projects/VZV/results/25_04_24"
 //params.outdir = "check_raw_data/"
@@ -24,7 +27,10 @@ log.info """\
     primer_a       : ${params.primer_a}
     primer_g       : ${params.primer_g}
     key_areas      : ${params.key_areas}
-    script         : ${params.script}
+    script1         : ${params.script1}
+    script2         : ${params.script2}
+    script3         : ${params.script3}
+    script4         : ${params.script4}
     kraken2db      : ${params.kraken2db}
     outdir         : ${params.outdir}
     maxForks       : ${params.maxForks}
@@ -34,15 +40,20 @@ log.info """\
 include { VZV } from './vzv_modules.nf'
 include { VZV_CHECK } from './vzv_modules.nf'
 include { MULTIQC } from './multiqc.nf'
+include { AGG_CLADES } from './vzv_clades.nf'
 
 workflow vzv_full_run{
     Channel
         .fromFilePairs(params.reads, checkIfExists: true)
         .set { read_pairs_ch }
     key_areas = file(params.key_areas)
-    script = params.script
-    VZV(read_pairs_ch, key_areas, script)
-    MULTIQC(VZV.out)
+    script1 = params.script1
+    script2 = params.script2
+    script3 = params.script3
+    script4 = params.script4
+    VZV(read_pairs_ch, key_areas, script1, script2, script3)
+    AGG_CLADES(script4, VZV.out)
+    MULTIQC(VZV.out | concat(AGG_CLADES.out) | collect)
 }
 
 workflow vzv_check_raw{

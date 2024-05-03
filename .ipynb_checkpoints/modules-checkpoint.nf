@@ -238,7 +238,7 @@ process RENAME_FASTA_ID {
     //maxRetries 5
     
     output:
-    path("${sample_id}_renamed.fasta")
+    tuple val(sample_id), path("*.fasta")
    
     cpus 1
     //maxForks params.maxForks
@@ -268,5 +268,34 @@ process KRAKEN2 {
     script:
     """
     kraken2 --db ${params.kraken2db}  --threads ${task.cpus} --gzip-compressed --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
+    """
+}
+
+
+process IDENTIFY_CLADE {
+    conda "/export/home/agletdinov/mambaforge/envs/reat"
+     
+    tag "Clade for ${sample_id}"
+    publishDir "${params.outdir}/clades", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(consensus)
+    path(script2)
+    path(script3)
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    //path("clade_for_${sample_id}.log")
+    path("*_clade.json")
+   
+    cpus 1
+    //maxForks params.maxForks
+    script:
+    """
+    mkdir temp_in_for_${sample_id}
+    mv ${consensus} temp_in_for_${sample_id}
+    python3 ${script2} -i temp_in_for_${sample_id} -o temp_out_for_${sample_id}
+    python3 ${script3} -i temp_out_for_${sample_id}/full_report.json -o ${sample_id}_clade.json
     """
 }

@@ -1,10 +1,13 @@
-include { FASTQC; TRIM_ADAPT; TRIM_4_NUCL; TRIM_PRIMERS; BWA_INDEX; BWA_MEM_BAM_SORT; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS; SAMTOOLS_STATS; RENAME_FASTA_ID; KRAKEN2 } from './modules.nf'
+include { FASTQC; TRIM_ADAPT; TRIM_4_NUCL; TRIM_PRIMERS; BWA_INDEX; BWA_MEM_BAM_SORT; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS; SAMTOOLS_STATS; RENAME_FASTA_ID; KRAKEN2; IDENTIFY_CLADE } from './modules.nf'
+
 
 workflow VZV {
   take:
     read_pairs_ch
     key_areas
-    script
+    script1
+    script2
+    script3
   main:
     FASTQC(read_pairs_ch)
     TRIM_ADAPT(read_pairs_ch)
@@ -16,10 +19,11 @@ workflow VZV {
     SAMTOOLS_INDEX(BWA_MEM_BAM_SORT.out)
     SAMTOOLS_CONSENSUS(BWA_MEM_BAM_SORT.out)
     SAMTOOLS_STATS(BWA_MEM_BAM_SORT.out)
-    RENAME_FASTA_ID(SAMTOOLS_CONSENSUS.out, script)
+    RENAME_FASTA_ID(SAMTOOLS_CONSENSUS.out, script1)
+    IDENTIFY_CLADE(RENAME_FASTA_ID.out, script2, script3)
   emit: 
      //BWA_MEM_BAM_SORT.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | collect
-     FASTQC.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | collect
+     FASTQC.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | concat(IDENTIFY_CLADE.out) | collect
 }
 
 workflow VZV_CHECK {
