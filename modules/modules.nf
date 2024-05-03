@@ -233,7 +233,7 @@ process RENAME_FASTA_ID {
     
     input:
     tuple val(sample_id), path(consensus)
-    path(script)    
+    path(script1)    
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     //maxRetries 5
     
@@ -245,7 +245,7 @@ process RENAME_FASTA_ID {
     
     script:
     """
-    python3 ${script} -i ${consensus} -o ${sample_id}_renamed.fasta
+    python3 ${script1} -i ${consensus} -o ${sample_id}_renamed.fasta
     """
 }
 
