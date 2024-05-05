@@ -1,7 +1,7 @@
 results/*
 work/*
 check_raw_data/*
-.nextflow*
+.nextflow/*
 nextflow.config
 
 !.gitkeep
