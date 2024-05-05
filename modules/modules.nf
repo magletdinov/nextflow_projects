@@ -438,7 +438,8 @@ process MEGAHIT {
 
     output:
     path('*'), emit: report
-    tuple val(sample_id), path('${sample_id}/*.fa'), emit: id_contigs
+    tuple val(sample_id), path('*'), emit: id_contigs
+    //tuple val(sample_id), path('${sample_id}/*.fa'), emit: id_contigs
 
     script:
     """
