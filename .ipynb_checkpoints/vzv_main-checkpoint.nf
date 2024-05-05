@@ -2,6 +2,12 @@
 /*
  * pipeline input parameters
  */
+def myDict = [
+    '2': 'dva',
+    '4': 'cheture',
+]
+ 
+ 
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/VZV"
 params.reads = "${params.results_project}/fastq/25_04_24/*R{1,2}*.fastq.gz"
@@ -9,6 +15,8 @@ params.adapters = "${params.shared}/adapters/adapters.fasta"
 params.genome = "${params.shared}/genomes/vzv/NC_001348.1.fasta"
 params.primer_a = "${params.shared}/primers/vzv/aADAPTERX_v2.fasta"
 params.primer_g = "${params.shared}/primers/vzv/gXADAPTER_v2.fasta"
+params.methods = ["2", "4"]
+params.myDict = myDict
 params.key_areas = "${params.shared}/genomes/vzv/vzv_amplicons.fasta"
 params.script1 = "${projectDir}/bin/rename_fasta_id.py"
 params.script2 = "/export/home/agletdinov/work/git_projects/gitlab/vzv-classifier/vzv_analysis.py"
@@ -17,7 +25,6 @@ params.script4 = "${projectDir}/bin/clade_aggregate.py"
 params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
 params.outdir = "${params.results_project}/results/25_04_24"
 //params.outdir = "check_raw_data/"
-
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
 log.info """\
@@ -52,7 +59,8 @@ workflow vzv_full_run{
     script2 = params.script2
     script3 = params.script3
     script4 = params.script4
-    VZV(read_pairs_ch, key_areas, script1, script2, script3)
+    methods = params.methods
+    VZV(read_pairs_ch, key_areas, script1, script2, script3, methods)
     AGG_CLADES(script4, VZV.out)
     MULTIQC(VZV.out | concat(AGG_CLADES.out) | collect)
 }

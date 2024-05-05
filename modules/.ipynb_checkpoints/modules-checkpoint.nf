@@ -45,13 +45,14 @@ process TRIM_4_NUCL {
     conda = 'bioconda::cutadapt'
 
     tag "Cutadapt on ${sample_id}"
-    publishDir "${params.outdir}/cutadapt_trim_n", mode: "copy"
+    publishDir "${params.outdir}/cutadapt_trim/${mode}_n", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads)
+    each mode
 
     output:
-    tuple val(sample_id), path('*fastq.gz')
+    tuple val("${sample_id}_${mode}"), path('*fastq.gz')
     
     cpus 3
 
@@ -61,7 +62,7 @@ process TRIM_4_NUCL {
 
     script:
     """
-    cutadapt -u 4 -u -4 -U 4 -U -4 -o ${sample_id}_t_4_R1.fastq.gz -p ${sample_id}_t_4_R2.fastq.gz \
+    cutadapt -u ${mode} -u -${mode} -U ${mode} -U -${mode} -o ${sample_id}_t_${params.myDict[mode]}_R1.fastq.gz -p ${sample_id}_t_${params.myDict[mode]}_R2.fastq.gz \
         ${reads[0]} ${reads[1]} \
         -j ${task.cpus}
     """
@@ -118,7 +119,26 @@ process BWA_INDEX {
     """
 }
 
+process BWA_INDEX_FULL_GENOME {
+    conda = 'bioconda::bwa'
 
+    tag "Bwa index for ${genome}"
+    publishDir "${params.outdir}/bwa_index/${genome}", mode:'copy'
+    
+    input:
+    each genome
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    tuple val("${genome}"), path("${genome}.{ann,amb,sa,bwt,pac}")
+
+    """
+    bwa index \\
+        -p "${genome}" \\
+        "${params.genome_dict[genome]}"
+    """
+}
 
 process BWA_MEM_BAM_SORT {
     conda 'bioconda::bwa bioconda::samtools'
@@ -146,6 +166,34 @@ process BWA_MEM_BAM_SORT {
     samtools sort --threads ${task.cpus} -o "${sample_id}.aln.sorted.bam" 
     """
 }
+
+process BWA_MEM_BAM_SORT_FULL_GENOME {
+    conda 'bioconda::bwa bioconda::samtools'
+    
+    tag "Bwa mem on ${sample_id}_${idxbase}"
+    publishDir "${params.outdir}/bam", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads)
+    //tuple val(idxbase), path("bwa_index/${idxbase}/*")
+    each genome
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    tuple val("${sample_id}_${genome}"), path("${sample_id}_${genome}.aln.sorted.bam")
+   
+    cpus 5
+    //maxForks params.maxForks
+    
+    script:
+    """
+    bwa mem -t ${task.cpus} "${params.bwa_index}/${genome}/${genome}" ${reads[0]} ${reads[1]} |
+    samtools view --threads ${task.cpus} -1 |
+    samtools sort --threads ${task.cpus} -o "${sample_id}_${genome}.aln.sorted.bam" 
+    """
+}
+
 
 process SAMTOOLS_INDEX {
     conda 'bioconda::samtools'
@@ -175,7 +223,7 @@ process SAMTOOLS_CONSENSUS {
     conda 'bioconda::samtools'
     
     tag "Samtools consensus on ${sample_id}"
-    //publishDir "${params.outdir}/consensus", mode:'copy'
+    publishDir "${params.outdir}/consensus", mode:'copy'
     
     input:
     tuple val(sample_id), path(bam)
@@ -195,10 +243,34 @@ process SAMTOOLS_CONSENSUS {
     """
 }
 
-process SAMTOOLS_STATS {
+process SAMTOOLS_CONSENSUS_LITE {
     conda 'bioconda::samtools'
     
     tag "Samtools consensus on ${sample_id}"
+    publishDir "${params.outdir}/consensus", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(bam)
+    
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    tuple val(sample_id), path("*.fasta")
+   
+    cpus 3
+    //maxForks params.maxForks
+    
+    script:
+    """
+    samtools consensus -m simple -o ${sample_id}.fasta ${bam}
+    """
+}
+
+process SAMTOOLS_STATS {
+    conda 'bioconda::samtools'
+    
+    tag "Samtools stats on ${sample_id}"
     publishDir "${params.outdir}/statistics/${sample_id}", mode:'copy'
     
     input:
@@ -227,7 +299,8 @@ process SAMTOOLS_STATS {
 
 
 process RENAME_FASTA_ID {
-    conda 'conda-forge::biopython'
+    //conda 'conda-forge::biopython'
+    conda "/export/home/agletdinov/mambaforge/envs/reat"
      
     tag "Rename fasta id for ${sample_id}"
     publishDir "${params.outdir}/consensus_new_head", mode:'copy'
@@ -296,9 +369,6 @@ process BRACKEN {
     """
 }
 
-
-
-
 process IDENTIFY_CLADE {
     conda "/export/home/agletdinov/mambaforge/envs/reat"
      
@@ -324,5 +394,98 @@ process IDENTIFY_CLADE {
     mv ${consensus} temp_in_for_${sample_id}
     python3 ${script2} -i temp_in_for_${sample_id} -o temp_out_for_${sample_id}
     python3 ${script3} -i temp_out_for_${sample_id}/full_report.json -o ${sample_id}_clade.json
+    """
+}
+
+process UNICYCLER {
+    //conda 'bioconda::unicycler'
+    conda "/export/home/agletdinov/mambaforge/envs/unicycler"
+    //cpus 70
+    //memory 500.GB
+    //maxForks 2
+    tag "Unicycler on ${sample_id}"
+    publishDir "${params.outdir}/unicycler/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    path('*'), emit: report
+    tuple val(sample_id), path('*'), emit: id_report
+
+    script:
+    """
+    mkdir uni_res_for_${sample_id}
+    unicycler \
+        -1 ${reads[0]} \
+        -2 ${reads[1]} \
+        -o uni_res_for_${sample_id} \
+        -t ${task.cpus}
+    """
+}
+
+process MEGAHIT {
+    //conda 'bioconda::megahit'
+    conda "/export/home/agletdinov/mambaforge/envs/megahit"
+    cpus 100
+    //memory 500.GB
+    //maxForks 2
+    tag "Megahit on ${sample_id}"
+    publishDir "${params.outdir}/megahit", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    path('*'), emit: report
+    tuple val(sample_id), path('${sample_id}/*.fa'), emit: id_contigs
+
+    script:
+    """
+    megahit -1 ${reads[0]} -2 ${reads[1]} \
+        -o ${sample_id} --out-prefix ${sample_id} -t ${task.cpus}
+    """
+}
+
+process METAPHLAN {
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
+    cpus 100
+    //memory 500.GB
+    //maxForks 2
+    tag "Metaphlan on ${sample_id}"
+    publishDir "${params.outdir}/metaphlan/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs)
+
+    output:
+    tuple val(sample_id), path('*.txt'), emit: txt_report
+    tuple val(sample_id), path('*'), emit: id_report
+
+    script:
+    """
+    metaphlan ${contigs} --bowtie2db ${params.metaphlandb} --bowtie2out metagenome_${sample_id}.bowtie2.bz2 --nproc ${task.cpus} --input_type fasta -o profiled_metagenome_${sample_id}.txt
+    """
+}
+
+process METAPHLAN_AGG {
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
+    cpus 100
+    //memory 500.GB
+    //maxForks 2
+    tag "Metaphlan on ${sample_id}"
+    publishDir "${params.outdir}/metaphlan", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(metaphlan_txt)
+
+    output:
+    path('merged_abundance_table.txt')
+    
+    script:
+    """
+    merge_metaphlan_tables.py ${metaphlan_txt} > merged_abundance_table.txt
     """
 }
