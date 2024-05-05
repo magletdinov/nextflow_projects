@@ -1,5 +1,6 @@
 process FASTQC {
-    conda = 'bioconda::fastqc'
+    //conda = 'bioconda::fastqc'
+    conda "/export/home/agletdinov/mambaforge/envs/multiqc"
 
     tag "FastQC on ${sample_id}"
     publishDir "${params.outdir}/fastqc", mode: "copy"
@@ -8,12 +9,12 @@ process FASTQC {
     tuple val(sample_id), path(reads)
 
     output:
-    path("fastqc_${sample_id}_logs")
+    path("*")
 
     script:
     """
-    mkdir fastqc_${sample_id}_logs
-    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads}
+    fastqc ${reads}
+    multiqc . --filename ${sample_id}
     """
 }
 
@@ -263,13 +264,39 @@ process KRAKEN2 {
     tuple val(sample_id), path(reads)
     
     output:
-    path('*.kraken')
+    path('*.kraken'), emit: report
+    tuple val(sample_id), path('*.kraken'), emit: id_report
     
     script:
     """
     kraken2 --db ${params.kraken2db}  --threads ${task.cpus} --gzip-compressed --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
     """
 }
+
+
+process BRACKEN {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    cpus 100
+    memory 700.GB
+    maxForks 1
+    
+    tag "Bracken on ${sample_id}"
+    publishDir "${params.outdir}/bracken", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(kraken_report)
+    
+    output:
+    path('*.tsv')
+    
+    script:
+    """
+    bracken -l S -t ${task.cpus} -d ${params.kraken2db} -i ${kraken_report} -o ${sample_id}_bracken_S_mqc.tsv
+    """
+}
+
+
 
 
 process IDENTIFY_CLADE {
