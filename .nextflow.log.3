@@ -1,41 +1,41 @@
-May-06 02:45:17.119 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf -entry taxonomy_analysis -resume
-May-06 02:45:17.389 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
-May-06 02:45:17.463 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/export/home/agletdinov/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
-May-06 02:45:17.502 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
-May-06 02:45:17.504 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
-May-06 02:45:17.509 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
-May-06 02:45:17.523 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
-May-06 02:45:17.544 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
-May-06 02:45:17.545 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
-May-06 02:45:17.583 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
-May-06 02:45:18.376 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
-May-06 02:45:18.469 [main] INFO  nextflow.cli.CmdRun - Launching `/export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf` [irreverent_ampere] DSL2 - revision: fec96c5106
-May-06 02:45:18.497 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
-May-06 02:45:18.497 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
-May-06 02:45:18.538 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /export/home/agletdinov/.nextflow/secrets/store.json
-May-06 02:45:18.546 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@5d2828c9] - activable => nextflow.secret.LocalSecretsProvider@5d2828c9
-May-06 02:45:18.722 [main] DEBUG nextflow.Session - Session UUID: c4a79873-60a0-42d5-aee3-3bf27deb58bf
-May-06 02:45:18.722 [main] DEBUG nextflow.Session - Run name: irreverent_ampere
-May-06 02:45:18.722 [main] DEBUG nextflow.Session - Executor pool size: 48
-May-06 02:45:18.740 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
-May-06 02:45:18.748 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=144; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
-May-06 02:45:18.776 [main] DEBUG nextflow.cli.CmdRun - 
+May-06 11:46:26.021 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf -entry taxonomy_analysis --executor slurm
+May-06 11:46:26.177 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
+May-06 11:46:26.199 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/export/home/agletdinov/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
+May-06 11:46:26.210 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-06 11:46:26.211 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-06 11:46:26.214 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-06 11:46:26.226 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-06 11:46:26.246 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+May-06 11:46:26.247 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+May-06 11:46:26.270 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+May-06 11:46:26.903 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+May-06 11:46:26.922 [main] INFO  nextflow.cli.CmdRun - Launching `/export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf` [festering_bhaskara] DSL2 - revision: 4467283e1e
+May-06 11:46:26.923 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-06 11:46:26.923 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-06 11:46:26.934 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /export/home/agletdinov/.nextflow/secrets/store.json
+May-06 11:46:26.938 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@671d1157] - activable => nextflow.secret.LocalSecretsProvider@671d1157
+May-06 11:46:27.008 [main] DEBUG nextflow.Session - Session UUID: 244efa83-c463-4287-936d-590179c916a3
+May-06 11:46:27.009 [main] DEBUG nextflow.Session - Run name: festering_bhaskara
+May-06 11:46:27.009 [main] DEBUG nextflow.Session - Executor pool size: 48
+May-06 11:46:27.017 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-06 11:46:27.022 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=144; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-06 11:46:27.048 [main] DEBUG nextflow.cli.CmdRun - 
   Version: 23.10.1 build 5891
   Created: 12-01-2024 22:01 UTC (13-01-2024 01:01 MSD)
   System: Linux 5.15.0-100-generic
   Runtime: Groovy 3.0.19 on OpenJDK 64-Bit Server VM 15.0.1+9
   Encoding: UTF-8 (UTF-8)
-  Process: 3164214@node07 [10.10.33.37]
-  CPUs: 48 - Mem: 125.5 GB (40.5 GB) - Swap: 8 GB (5.8 GB)
-May-06 02:45:18.827 [main] DEBUG nextflow.Session - Work-dir: /export/home/agletdinov/work/git_projects/nextflow_projects/work [nfs]
-May-06 02:45:18.858 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
-May-06 02:45:18.869 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
-May-06 02:45:18.889 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
-May-06 02:45:18.928 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 49; maxThreads: 1000
-May-06 02:45:19.280 [main] DEBUG nextflow.Session - Session start
-May-06 02:45:19.629 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
-May-06 02:45:19.648 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `maxForks` -- Initialise it to a default value eg. `params.maxForks = some_value`
-May-06 02:45:19.650 [main] INFO  nextflow.Nextflow - R N A S E Q - N F   P I P E L I N E
+  Process: 3716483@node07 [10.10.33.37]
+  CPUs: 48 - Mem: 125.5 GB (30.4 GB) - Swap: 8 GB (5.9 GB)
+May-06 11:46:27.081 [main] DEBUG nextflow.Session - Work-dir: /export/home/agletdinov/work/git_projects/nextflow_projects/work [nfs]
+May-06 11:46:27.098 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-06 11:46:27.108 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-06 11:46:27.130 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-06 11:46:27.142 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 49; maxThreads: 1000
+May-06 11:46:27.410 [main] DEBUG nextflow.Session - Session start
+May-06 11:46:27.776 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-06 11:46:27.802 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `maxForks` -- Initialise it to a default value eg. `params.maxForks = some_value`
+May-06 11:46:27.804 [main] INFO  nextflow.Nextflow - R N A S E Q - N F   P I P E L I N E
 ===================================
 reads          : /export/home/agletdinov/work/nextflow_projects/total_seq/fastq/02_05_24/*R{1,2}*.fastq.gz
 adapters       : /export/home/public/agletdinov_shared/adapters/adapters.fasta
@@ -43,98 +43,175 @@ kraken2db      : /export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48
 outdir         : /export/home/agletdinov/work/nextflow_projects/total_seq/results/02_05_24
 maxForks       : null
 
-May-06 02:45:20.681 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.681 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.687 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
-May-06 02:45:20.729 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=48; memory=125.5 GB; capacity=48; pollInterval=100ms; dumpInterval=5m
-May-06 02:45:20.733 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
-May-06 02:45:20.825 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.825 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.839 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.839 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.841 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [1]
-May-06 02:45:20.851 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.851 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.853 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [0]
-May-06 02:45:20.858 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.858 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.860 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [1]
-May-06 02:45:20.864 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.864 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.868 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.868 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.874 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.874 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.884 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.884 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.891 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.891 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.895 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.895 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.901 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
-May-06 02:45:20.901 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
-May-06 02:45:20.948 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
-  Script_c45725f44caba9ca: /export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf
+May-06 11:46:28.888 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:28.888 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:28.895 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+May-06 11:46:28.901 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=48; memory=125.5 GB; capacity=48; pollInterval=100ms; dumpInterval=5m
+May-06 11:46:28.903 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+May-06 11:46:28.980 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:28.980 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:28.994 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:28.994 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:28.996 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [1]
+May-06 11:46:29.006 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.007 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.008 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [0]
+May-06 11:46:29.014 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.014 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.016 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [1]
+May-06 11:46:29.020 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.021 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.026 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.026 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.033 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.033 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.042 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.042 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.049 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.050 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.054 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.054 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.060 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.060 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.080 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: null
+May-06 11:46:29.080 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 11:46:29.084 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: FASTQC, TRIM_4_NUCL, IDENTIFY_CLADE, MEGAHIT, taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME, FQ2, FQ1, UNICYCLER, MULTIQC, taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT, BWA_MEM_BAM_SORT_FULL_GENOME, taxonomy_analysis:MULTIQC, taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN, METAPHLAN_AGG, taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2, taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL, taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT, BWA_MEM_BAM_SORT, taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE, BWA_INDEX, METAPHLAN, SAMTOOLS_CONSENSUS, SAMTOOLS_STATS, taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME, taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN, SAMTOOLS_CONSENSUS_LITE, TRIM_PRIMERS, taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS, TRIM_ADAPT, RENAME_FASTA_ID, KRAKEN2, taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX, BWA_INDEX_FULL_GENOME, taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1, SAMTOOLS_INDEX, BRACKEN
+May-06 11:46:29.085 [main] DEBUG nextflow.Session - Igniting dataflow network (17)
+May-06 11:46:29.090 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1
+May-06 11:46:29.090 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /export/home/agletdinov/work/nextflow_projects/total_seq/fastq/02_05_24/; pattern: *R{1,2}*.fastq.gz; options: [checkIfExists:true]
+May-06 11:46:29.091 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT
+May-06 11:46:29.091 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL
+May-06 11:46:29.092 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL
+May-06 11:46:29.092 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME
+May-06 11:46:29.092 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME
+May-06 11:46:29.092 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME
+May-06 11:46:29.093 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME
+May-06 11:46:29.093 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX
+May-06 11:46:29.093 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE
+May-06 11:46:29.093 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS
+May-06 11:46:29.094 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2
+May-06 11:46:29.094 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN
+May-06 11:46:29.094 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT
+May-06 11:46:29.094 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN
+May-06 11:46:29.095 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:MULTIQC
+May-06 11:46:29.095 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
   Script_dada2b62cb6bdef3: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/total_seq/../modules.nf
   Script_f07639bed1a18ae1: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/multiqc.nf
-  Script_fe7ee67b1a92a1a6: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/total_seq/total_modules.nf
-May-06 02:45:20.950 [main] DEBUG nextflow.Session - Session aborted -- Cause: No such property: report for class: nextflow.script.ProcessDef
-May-06 02:45:20.968 [main] DEBUG nextflow.Session - The following nodes are still active:
-  [operator] concat
-  [operator] concat
-  [operator] concat
+  Script_d80867634262c130: /export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf
+  Script_8419c282105dfb5d: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/total_seq/total_modules.nf
+May-06 11:46:29.095 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-06 11:46:29.095 [main] DEBUG nextflow.Session - Session await
+May-06 11:46:29.237 [Actor Thread 32] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::bwa; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-9d43a4c5a922ffe5b869963aea5a7998
+May-06 11:46:29.237 [Actor Thread 41] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::fastp; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-dca6929da757e10e0c2b13430d9bf94a
+May-06 11:46:29.238 [Actor Thread 38] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/multiqc; path=/export/home/agletdinov/mambaforge/envs/multiqc
+May-06 11:46:29.370 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.372 [Task submitter] INFO  nextflow.Session - [ce/b3279c] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0019_S5_L001)
+May-06 11:46:29.403 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.404 [Task submitter] INFO  nextflow.Session - [3f/e4be91] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME (Bwa index for sp)
+May-06 11:46:29.423 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.424 [Task submitter] INFO  nextflow.Session - [3c/c1e616] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T008_S3_L001)
+May-06 11:46:29.434 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.434 [Task submitter] INFO  nextflow.Session - [ab/12e3a7] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T0015_S4_L001)
+May-06 11:46:29.454 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.455 [Task submitter] INFO  nextflow.Session - [1a/0a2e2b] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T005_S1_L001)
+May-06 11:46:29.477 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.478 [Task submitter] INFO  nextflow.Session - [ba/56605a] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T0019_S5_L001)
+May-06 11:46:29.524 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.525 [Task submitter] INFO  nextflow.Session - [2a/6563fc] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0020_S6_L001)
+May-06 11:46:29.577 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.577 [Task submitter] INFO  nextflow.Session - [b5/ecf572] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T008_S3_L001)
+May-06 11:46:29.609 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.609 [Task submitter] INFO  nextflow.Session - [aa/94f1fc] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T007_S2_L001)
+May-06 11:46:29.639 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.640 [Task submitter] INFO  nextflow.Session - [74/1148cc] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T005_S1_L001)
+May-06 11:46:29.647 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.647 [Task submitter] INFO  nextflow.Session - [37/283737] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0015_S4_L001)
+May-06 11:46:29.653 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.653 [Task submitter] INFO  nextflow.Session - [4b/200628] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME (Bwa index for va)
+May-06 11:46:29.658 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.659 [Task submitter] INFO  nextflow.Session - [ed/26d828] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME (Bwa index for cp)
+May-06 11:46:29.665 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.665 [Task submitter] INFO  nextflow.Session - [eb/fdacac] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME (Bwa index for ec)
+May-06 11:46:29.672 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.672 [Task submitter] INFO  nextflow.Session - [a0/08b370] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T0020_S6_L001)
+May-06 11:46:29.679 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 11:46:29.680 [Task submitter] INFO  nextflow.Session - [ac/0b3832] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T007_S2_L001)
+May-06 11:46:32.060 [SIGINT handler] DEBUG nextflow.Session - Session aborted -- Cause: SIGINT
+May-06 11:46:32.061 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+May-06 11:46:32.075 [SIGINT handler] DEBUG nextflow.Session - The following nodes are still active:
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: __$eachinparam<1>
+  port 2: (cntrl) -     ; channel: $
 
-May-06 02:45:20.972 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
-May-06 02:45:20.973 [main] ERROR nextflow.cli.Launcher - @unknown
-groovy.lang.MissingPropertyException: No such property: report for class: nextflow.script.ProcessDef
-	at org.codehaus.groovy.runtime.ScriptBytecodeAdapter.unwrap(ScriptBytecodeAdapter.java:65)
-	at org.codehaus.groovy.runtime.callsite.GetEffectivePogoPropertySite.getProperty(GetEffectivePogoPropertySite.java:87)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callGetProperty(AbstractCallSite.java:329)
-	at Script_fe7ee67b1a92a1a6$_runScript_closure1$_closure2.doCall(Script_fe7ee67b1a92a1a6:31)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
-	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1030)
-	at groovy.lang.Closure.call(Closure.java:427)
-	at groovy.lang.Closure.call(Closure.java:406)
-	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:204)
-	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:188)
-	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
-	at nextflow.script.ComponentDef.invoke_o(ComponentDef.groovy:40)
-	at nextflow.script.WorkflowBinding.invokeMethod(WorkflowBinding.groovy:102)
-	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeOnDelegationObjects(ClosureMetaClass.java:408)
-	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:350)
-	at org.codehaus.groovy.runtime.callsite.PogoMetaClassSite.callCurrent(PogoMetaClassSite.java:61)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCallCurrent(CallSiteArray.java:51)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:171)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.callCurrent(AbstractCallSite.java:212)
-	at Script_c45725f44caba9ca$_runScript_closure1$_closure2.doCall(Script_c45725f44caba9ca:52)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64)
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.base/java.lang.reflect.Method.invoke(Method.java:564)
-	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:107)
-	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:323)
-	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:274)
-	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1030)
-	at groovy.lang.Closure.call(Closure.java:427)
-	at groovy.lang.Closure.call(Closure.java:406)
-	at nextflow.script.WorkflowDef.run0(WorkflowDef.groovy:204)
-	at nextflow.script.WorkflowDef.run(WorkflowDef.groovy:188)
-	at nextflow.script.BindableDef.invoke_a(BindableDef.groovy:51)
-	at nextflow.script.IterableDef$invoke_a.call(Unknown Source)
-	at org.codehaus.groovy.runtime.callsite.CallSiteArray.defaultCall(CallSiteArray.java:47)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:125)
-	at org.codehaus.groovy.runtime.callsite.AbstractCallSite.call(AbstractCallSite.java:139)
-	at nextflow.script.BaseScript.run0(BaseScript.groovy:183)
-	at nextflow.script.BaseScript.run(BaseScript.groovy:192)
-	at nextflow.script.ScriptParser.runScript(ScriptParser.groovy:236)
-	at nextflow.script.ScriptRunner.run(ScriptRunner.groovy:242)
-	at nextflow.script.ScriptRunner.execute(ScriptRunner.groovy:137)
-	at nextflow.cli.CmdRun.run(CmdRun.groovy:372)
-	at nextflow.cli.Launcher.run(Launcher.groovy:500)
-	at nextflow.cli.Launcher.main(Launcher.groovy:672)
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (value) bound ; channel: __$eachinparam<1>
+  port 2: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN
+  status=ACTIVE
+  port 0: (queue) OPEN  ; channel: -
+  port 1: (cntrl) -     ; channel: $
+
+[process] taxonomy_analysis:MULTIQC
+  status=ACTIVE
+  port 0: (value) OPEN  ; channel: *
+  port 1: (cntrl) -     ; channel: $
+
+May-06 11:46:32.076 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-06 11:46:32.077 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-06 11:46:32.085 [main] WARN  n.processor.TaskPollingMonitor - Killing running tasks (16)
+May-06 11:46:32.098 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0019_S5_L001) -- command: kill -TERM 3716679; exit: 1 
+ bash: line 0: kill: (3716679) - No such process
+
+May-06 11:46:32.113 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T008_S3_L001) -- command: kill -TERM 3716692; exit: 1 
+ bash: line 0: kill: (3716692) - No such process
+
+May-06 11:46:32.125 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T005_S1_L001) -- command: kill -TERM 3716706; exit: 1 
+ bash: line 0: kill: (3716706) - No such process
+
+May-06 11:46:32.138 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0020_S6_L001) -- command: kill -TERM 3716720; exit: 1 
+ bash: line 0: kill: (3716720) - No such process
+
+May-06 11:46:32.145 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T008_S3_L001) -- command: kill -TERM 3716727; exit: 1 
+ bash: line 0: kill: (3716727) - No such process
+
+May-06 11:46:32.151 [main] DEBUG n.executor.local.LocalTaskHandler - Unable to kill taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T007_S2_L001) -- command: kill -TERM 3716734; exit: 1 
+ bash: line 0: kill: (3716734) - No such process
+
+May-06 11:46:32.196 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=0; failedCount=0; ignoredCount=0; cachedCount=0; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=16; succeedDuration=0ms; failedDuration=0ms; cachedDuration=0ms;loadCpus=0; loadMemory=0; peakRunning=16; peakCpus=28; peakMemory=0; ]
+May-06 11:46:32.296 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-06 11:46:32.329 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
