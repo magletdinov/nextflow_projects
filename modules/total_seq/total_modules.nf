@@ -28,6 +28,6 @@ workflow TAXONOMY_ANALYSIS {
     //METAPHLAN_AGG(METAPHLAN.out.collect())
     
   emit: 
-     FQ1.out | concat(KRAKEN2.out.report) | concat(BRACKEN.out) | concat(SAMTOOLS_STATS.out) | concat(METAPHLAN.out) | collect
+     FQ1.out | concat(KRAKEN2.out.report) | concat(BRACKEN.out) | concat(SAMTOOLS_STATS.out) | concat(METAPHLAN.out.report) | collect
      //FASTQC.out | concat(KRAKEN2.out) | collect
 }

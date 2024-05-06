@@ -17,14 +17,15 @@ def myDict = [
 params.myDict = myDict
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
-params.genomes = ["cp", "sp"]
+params.genomes = ["cp", "sp", "va"]
 params.outdir = "${params.results_project}/results/02_05_24"
 params.bwa_index = "${params.outdir}/bwa_index"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
 def genome_dict = [
     'cp': "${params.bact_genome_dir}/chlamydia_pneumoniae/chlamydia_pneumoniae.fasta",
-    'sp': "${params.bact_genome_dir}/streptococcus_pneumoniae/streptococcus_pneumoniae.fasta"
+    'sp': "${params.bact_genome_dir}/streptococcus_pneumoniae/streptococcus_pneumoniae.fasta",
+    'va': "${params.bact_genome_dir}/veillonella_atypica/veillonella_atypica.fasta"
 ]
 params.genome_dict = genome_dict
 

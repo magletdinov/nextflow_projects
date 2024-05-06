@@ -326,8 +326,6 @@ process RENAME_FASTA_ID {
 process KRAKEN2 {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
-    cpus 100
-    memory 700.GB
     maxForks 1
     
     tag "Kraken2 on ${sample_id}"
@@ -350,8 +348,6 @@ process KRAKEN2 {
 process BRACKEN {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/bracken"
-    cpus 100
-    memory 700.GB
     maxForks 1
     
     tag "Bracken on ${sample_id}"
@@ -427,7 +423,6 @@ process UNICYCLER {
 process MEGAHIT {
     //conda 'bioconda::megahit'
     conda "/export/home/agletdinov/mambaforge/envs/megahit"
-    cpus 100
     //memory 500.GB
     //maxForks 2
     tag "Megahit on ${sample_id}"
@@ -439,7 +434,7 @@ process MEGAHIT {
     output:
     path('*'), emit: report
     //tuple val(sample_id), path('*'), emit: id_contigs
-    tuple val(sample_id), path('${sample_id}/*.fa'), emit: id_contigs
+    tuple val(sample_id), path("${sample_id}/*fa"), emit: id_contigs
 
     script:
     """
@@ -451,7 +446,6 @@ process MEGAHIT {
 process METAPHLAN {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
-    cpus 100
     //memory 500.GB
     //maxForks 2
     tag "Metaphlan on ${sample_id}"
@@ -463,6 +457,7 @@ process METAPHLAN {
     output:
     tuple val(sample_id), path('*.txt'), emit: txt_report
     tuple val(sample_id), path('*'), emit: id_report
+    path('*.txt'), emit: report
 
     script:
     """
@@ -473,7 +468,6 @@ process METAPHLAN {
 process METAPHLAN_AGG {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
-    cpus 100
     //memory 500.GB
     //maxForks 2
     tag "Metaphlan on ${sample_id}"

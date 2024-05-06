@@ -1,0 +1,374 @@
+May-06 01:48:04.015 [main] DEBUG nextflow.cli.Launcher - $> nextflow run /export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf -entry taxonomy_analysis -resume
+May-06 01:48:04.188 [main] INFO  nextflow.cli.CmdRun - N E X T F L O W  ~  version 23.10.1
+May-06 01:48:04.210 [main] DEBUG nextflow.plugin.PluginsFacade - Setting up plugin manager > mode=prod; embedded=false; plugins-dir=/export/home/agletdinov/.nextflow/plugins; core-plugins: nf-amazon@2.1.4,nf-azure@1.3.3,nf-cloudcache@0.3.0,nf-codecommit@0.1.5,nf-console@1.0.6,nf-ga4gh@1.1.0,nf-google@1.8.3,nf-tower@1.6.3,nf-wave@1.0.1
+May-06 01:48:04.221 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Enabled plugins: []
+May-06 01:48:04.222 [main] INFO  o.pf4j.DefaultPluginStatusProvider - Disabled plugins: []
+May-06 01:48:04.226 [main] INFO  org.pf4j.DefaultPluginManager - PF4J version 3.4.1 in 'deployment' mode
+May-06 01:48:04.238 [main] INFO  org.pf4j.AbstractPluginManager - No plugins
+May-06 01:48:04.258 [main] DEBUG nextflow.config.ConfigBuilder - Found config local: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+May-06 01:48:04.260 [main] DEBUG nextflow.config.ConfigBuilder - Parsing config file: /export/home/agletdinov/work/git_projects/nextflow_projects/nextflow.config
+May-06 01:48:04.284 [main] DEBUG nextflow.config.ConfigBuilder - Applying config profile: `standard`
+May-06 01:48:04.948 [main] DEBUG nextflow.cli.CmdRun - Applied DSL=2 by global default
+May-06 01:48:04.967 [main] INFO  nextflow.cli.CmdRun - Launching `/export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf` [gigantic_heisenberg] DSL2 - revision: fec96c5106
+May-06 01:48:04.968 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins default=[]
+May-06 01:48:04.968 [main] DEBUG nextflow.plugin.PluginsFacade - Plugins resolved requirement=[]
+May-06 01:48:04.979 [main] DEBUG n.secret.LocalSecretsProvider - Secrets store: /export/home/agletdinov/.nextflow/secrets/store.json
+May-06 01:48:04.984 [main] DEBUG nextflow.secret.SecretsLoader - Discovered secrets providers: [nextflow.secret.LocalSecretsProvider@5d2828c9] - activable => nextflow.secret.LocalSecretsProvider@5d2828c9
+May-06 01:48:05.056 [main] DEBUG nextflow.Session - Session UUID: c4a79873-60a0-42d5-aee3-3bf27deb58bf
+May-06 01:48:05.056 [main] DEBUG nextflow.Session - Run name: gigantic_heisenberg
+May-06 01:48:05.057 [main] DEBUG nextflow.Session - Executor pool size: 48
+May-06 01:48:05.065 [main] DEBUG nextflow.file.FilePorter - File porter settings maxRetries=3; maxTransfers=50; pollTimeout=null
+May-06 01:48:05.070 [main] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'FileTransfer' minSize=10; maxSize=144; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-06 01:48:05.097 [main] DEBUG nextflow.cli.CmdRun - 
+  Version: 23.10.1 build 5891
+  Created: 12-01-2024 22:01 UTC (13-01-2024 01:01 MSD)
+  System: Linux 5.15.0-100-generic
+  Runtime: Groovy 3.0.19 on OpenJDK 64-Bit Server VM 15.0.1+9
+  Encoding: UTF-8 (UTF-8)
+  Process: 3090246@node07 [10.10.33.37]
+  CPUs: 48 - Mem: 125.5 GB (11.2 GB) - Swap: 8 GB (6.1 GB)
+May-06 01:48:05.151 [main] DEBUG nextflow.Session - Work-dir: /export/home/agletdinov/work/git_projects/nextflow_projects/work [nfs]
+May-06 01:48:05.175 [main] DEBUG nextflow.executor.ExecutorFactory - Extension executors providers=[]
+May-06 01:48:05.186 [main] DEBUG nextflow.Session - Observer factory: DefaultObserverFactory
+May-06 01:48:05.211 [main] DEBUG nextflow.cache.CacheFactory - Using Nextflow cache factory: nextflow.cache.DefaultCacheFactory
+May-06 01:48:05.226 [main] DEBUG nextflow.util.CustomThreadPool - Creating default thread pool > poolSize: 49; maxThreads: 1000
+May-06 01:48:05.340 [main] DEBUG nextflow.Session - Session start
+May-06 01:48:05.699 [main] DEBUG nextflow.script.ScriptRunner - > Launching execution
+May-06 01:48:05.720 [main] WARN  nextflow.script.ScriptBinding - Access to undefined parameter `maxForks` -- Initialise it to a default value eg. `params.maxForks = some_value`
+May-06 01:48:05.722 [main] INFO  nextflow.Nextflow - R N A S E Q - N F   P I P E L I N E
+===================================
+reads          : /export/home/agletdinov/work/nextflow_projects/total_seq/fastq/02_05_24/*R{1,2}*.fastq.gz
+adapters       : /export/home/public/agletdinov_shared/adapters/adapters.fasta
+kraken2db      : /export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48
+outdir         : /export/home/agletdinov/work/nextflow_projects/total_seq/results/02_05_24
+maxForks       : null
+
+May-06 01:48:09.329 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:09.330 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:09.370 [main] DEBUG nextflow.executor.Executor - [warm up] executor > local
+May-06 01:48:09.396 [main] DEBUG n.processor.LocalPollingMonitor - Creating local task monitor for executor 'local' > cpus=48; memory=125.5 GB; capacity=48; pollInterval=100ms; dumpInterval=5m
+May-06 01:48:09.410 [main] DEBUG n.processor.TaskPollingMonitor - >>> barrier register (monitor: local)
+May-06 01:48:09.736 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:09.738 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:09.852 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:09.853 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:09.859 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [1]
+May-06 01:48:09.915 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:09.915 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:09.919 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [0]
+May-06 01:48:09.958 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:09.958 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:09.963 [main] DEBUG nextflow.processor.TaskProcessor - Creating *combiner* operator for each param(s) at index(es): [1]
+May-06 01:48:09.990 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:09.990 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.035 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.035 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.073 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.073 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.128 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.128 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.174 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.176 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.203 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.203 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.242 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.242 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.336 [main] DEBUG nextflow.executor.ExecutorFactory - << taskConfig executor: local
+May-06 01:48:10.339 [main] DEBUG nextflow.executor.ExecutorFactory - >> processorType: 'local'
+May-06 01:48:10.364 [main] DEBUG nextflow.Session - Workflow process names [dsl2]: FASTQC, TRIM_4_NUCL, IDENTIFY_CLADE, MEGAHIT, taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME, FQ2, FQ1, UNICYCLER, MULTIQC, taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT, BWA_MEM_BAM_SORT_FULL_GENOME, taxonomy_analysis:MULTIQC, taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN, METAPHLAN_AGG, taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2, taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL, taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT, BWA_MEM_BAM_SORT, taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE, METAPHLAN, BWA_INDEX, SAMTOOLS_CONSENSUS, SAMTOOLS_STATS, taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME, taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN, SAMTOOLS_CONSENSUS_LITE, TRIM_PRIMERS, taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS, TRIM_ADAPT, KRAKEN2, RENAME_FASTA_ID, taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX, BWA_INDEX_FULL_GENOME, taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1, SAMTOOLS_INDEX, BRACKEN
+May-06 01:48:10.367 [main] DEBUG nextflow.Session - Igniting dataflow network (17)
+May-06 01:48:10.387 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1
+May-06 01:48:10.391 [PathVisitor-1] DEBUG nextflow.file.PathVisitor - files for syntax: glob; folder: /export/home/agletdinov/work/nextflow_projects/total_seq/fastq/02_05_24/; pattern: *R{1,2}*.fastq.gz; options: [checkIfExists:true]
+May-06 01:48:10.393 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT
+May-06 01:48:10.405 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL
+May-06 01:48:10.412 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL
+May-06 01:48:10.425 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME
+May-06 01:48:10.429 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME
+May-06 01:48:10.457 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME
+May-06 01:48:10.463 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME
+May-06 01:48:10.470 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX
+May-06 01:48:10.489 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE
+May-06 01:48:10.497 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS
+May-06 01:48:10.513 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2
+May-06 01:48:10.521 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN
+May-06 01:48:10.533 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT
+May-06 01:48:10.582 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN
+May-06 01:48:10.665 [main] DEBUG nextflow.processor.TaskProcessor - Starting process > taxonomy_analysis:MULTIQC
+May-06 01:48:10.689 [main] DEBUG nextflow.script.ScriptRunner - Parsed script files:
+  Script_daea355f66749d48: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/total_seq/../modules.nf
+  Script_c45725f44caba9ca: /export/home/agletdinov/work/git_projects/nextflow_projects/total_main.nf
+  Script_1edd0f4b072dc8ec: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/total_seq/total_modules.nf
+  Script_f07639bed1a18ae1: /export/home/agletdinov/work/git_projects/nextflow_projects/./modules/multiqc.nf
+May-06 01:48:10.690 [main] DEBUG nextflow.script.ScriptRunner - > Awaiting termination 
+May-06 01:48:10.690 [main] DEBUG nextflow.Session - Session await
+May-06 01:48:10.883 [Actor Thread 49] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::fastp; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-dca6929da757e10e0c2b13430d9bf94a
+May-06 01:48:10.883 [Actor Thread 39] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/multiqc; path=/export/home/agletdinov/mambaforge/envs/multiqc
+May-06 01:48:10.883 [Actor Thread 33] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::bwa; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-9d43a4c5a922ffe5b869963aea5a7998
+May-06 01:48:11.169 [Actor Thread 48] INFO  nextflow.processor.TaskProcessor - [85/4a4d9a] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T007_S2_L001)
+May-06 01:48:11.169 [Actor Thread 47] INFO  nextflow.processor.TaskProcessor - [c8/3e273a] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T0020_S6_L001)
+May-06 01:48:11.170 [Actor Thread 38] INFO  nextflow.processor.TaskProcessor - [2b/421a13] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T008_S3_L001)
+May-06 01:48:11.170 [Actor Thread 43] INFO  nextflow.processor.TaskProcessor - [e8/fafb4c] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T005_S1_L001)
+May-06 01:48:11.171 [Actor Thread 46] INFO  nextflow.processor.TaskProcessor - [99/c7fd83] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T005_S1_L001)
+May-06 01:48:11.171 [Actor Thread 35] INFO  nextflow.processor.TaskProcessor - [78/a3be47] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0015_S4_L001)
+May-06 01:48:11.171 [Actor Thread 40] INFO  nextflow.processor.TaskProcessor - [e1/0232b1] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T007_S2_L001)
+May-06 01:48:11.171 [Actor Thread 42] INFO  nextflow.processor.TaskProcessor - [37/b4da44] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0019_S5_L001)
+May-06 01:48:11.171 [Actor Thread 44] INFO  nextflow.processor.TaskProcessor - [2f/0156e7] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T0019_S5_L001)
+May-06 01:48:11.171 [Actor Thread 45] INFO  nextflow.processor.TaskProcessor - [e9/336acc] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_ADAPT (Fastp on L231T0020_S6_L001)
+May-06 01:48:11.171 [Actor Thread 41] INFO  nextflow.processor.TaskProcessor - [4b/34366f] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T008_S3_L001)
+May-06 01:48:11.171 [Actor Thread 36] INFO  nextflow.processor.TaskProcessor - [cb/4675ba] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME (Bwa index for sp)
+May-06 01:48:11.170 [Actor Thread 25] INFO  nextflow.processor.TaskProcessor - [e5/120d84] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_INDEX_FULL_GENOME (Bwa index for cp)
+May-06 01:48:11.173 [Actor Thread 37] INFO  nextflow.processor.TaskProcessor - [f1/ee6b79] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:FQ1 (FastQC on L231T0015_S4_L001)
+May-06 01:48:11.227 [Actor Thread 42] DEBUG nextflow.util.ThreadPoolBuilder - Creating thread pool 'PublishDir' minSize=10; maxSize=144; workQueue=LinkedBlockingQueue[10000]; allowCoreThreadTimeout=false
+May-06 01:48:11.228 [Actor Thread 49] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::cutadapt; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-8ae3c5bb9bca6e534661f65a256fa68e
+May-06 01:48:11.241 [Actor Thread 33] INFO  nextflow.processor.TaskProcessor - [90/350b81] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL (Cutadapt on L231T005_S1_L001)
+May-06 01:48:11.247 [Actor Thread 47] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/megahit; path=/export/home/agletdinov/mambaforge/envs/megahit
+May-06 01:48:11.262 [Actor Thread 30] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/kraken2; path=/export/home/agletdinov/mambaforge/envs/kraken2
+May-06 01:48:11.263 [Actor Thread 43] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::bwa bioconda::samtools; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-cebcec85ba646e7781f852c7811ad0c5
+May-06 01:48:11.279 [Actor Thread 34] INFO  nextflow.processor.TaskProcessor - [64/3d92d6] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL (Cutadapt on L231T0020_S6_L001)
+May-06 01:48:11.279 [Actor Thread 46] INFO  nextflow.processor.TaskProcessor - [84/478d38] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T005_S1_L001_4)
+May-06 01:48:11.279 [Actor Thread 39] INFO  nextflow.processor.TaskProcessor - [b6/70f4f9] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL (Cutadapt on L231T0019_S5_L001)
+May-06 01:48:11.280 [Actor Thread 31] INFO  nextflow.processor.TaskProcessor - [8b/947e25] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL (Cutadapt on L231T007_S2_L001)
+May-06 01:48:11.281 [Actor Thread 29] INFO  nextflow.processor.TaskProcessor - [68/f96ecb] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL (Cutadapt on L231T008_S3_L001)
+May-06 01:48:11.295 [Actor Thread 36] INFO  nextflow.processor.TaskProcessor - [a0/757158] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T005_S1_L001_4)
+May-06 01:48:11.297 [Actor Thread 32] INFO  nextflow.processor.TaskProcessor - [f6/9e322d] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:TRIM_4_NUCL (Cutadapt on L231T0015_S4_L001)
+May-06 01:48:11.308 [Actor Thread 25] INFO  nextflow.processor.TaskProcessor - [26/26853d] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T0019_S5_L001_4_null)
+May-06 01:48:11.309 [Actor Thread 37] INFO  nextflow.processor.TaskProcessor - [61/993d25] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T005_S1_L001_4_null)
+May-06 01:48:11.311 [Actor Thread 45] INFO  nextflow.processor.TaskProcessor - [c0/de7371] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T0020_S6_L001_4_null)
+May-06 01:48:11.312 [Actor Thread 44] INFO  nextflow.processor.TaskProcessor - [7e/659678] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T008_S3_L001_4_null)
+May-06 01:48:11.312 [Actor Thread 39] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=bioconda::samtools; path=/export/home/agletdinov/work/git_projects/nextflow_projects/work/conda/env-d886792ff01fc93672c370108071bc30
+May-06 01:48:11.313 [Actor Thread 18] INFO  nextflow.processor.TaskProcessor - [19/0fefae] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T0020_S6_L001_4_null)
+May-06 01:48:11.311 [Actor Thread 17] INFO  nextflow.processor.TaskProcessor - [41/c885bd] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T008_S3_L001_4_null)
+May-06 01:48:11.314 [Actor Thread 38] INFO  nextflow.processor.TaskProcessor - [77/1bd78c] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T005_S1_L001_4_null)
+May-06 01:48:11.316 [Actor Thread 31] INFO  nextflow.processor.TaskProcessor - [11/0562f0] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T0015_S4_L001_4_null)
+May-06 01:48:11.319 [Actor Thread 23] INFO  nextflow.processor.TaskProcessor - [d8/1ccf9d] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T007_S2_L001_4_null)
+May-06 01:48:11.330 [Actor Thread 41] INFO  nextflow.processor.TaskProcessor - [95/9cdb6e] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T0019_S5_L001_4_null)
+May-06 01:48:11.332 [Actor Thread 12] INFO  nextflow.processor.TaskProcessor - [e4/941536] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T008_S3_L001_4_cp)
+May-06 01:48:11.335 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [a5/c57931] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T008_S3_L001_4_sp)
+May-06 01:48:11.336 [Actor Thread 8] INFO  nextflow.processor.TaskProcessor - [82/acb887] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0020_S6_L001_4_cp)
+May-06 01:48:11.334 [Actor Thread 16] INFO  nextflow.processor.TaskProcessor - [8f/4de23b] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T005_S1_L001_4_sp)
+May-06 01:48:11.336 [Actor Thread 15] INFO  nextflow.processor.TaskProcessor - [f2/a1819c] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T005_S1_L001_4_sp)
+May-06 01:48:11.337 [Actor Thread 43] INFO  nextflow.processor.TaskProcessor - [01/643713] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T005_S1_L001_4_cp)
+May-06 01:48:11.337 [Actor Thread 11] INFO  nextflow.processor.TaskProcessor - [b1/51fd7d] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T008_S3_L001_4_cp)
+May-06 01:48:11.335 [Actor Thread 13] INFO  nextflow.processor.TaskProcessor - [ad/f50a8e] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0020_S6_L001_4_sp)
+May-06 01:48:11.340 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [ea/3aba93] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0015_S4_L001_4_sp)
+May-06 01:48:11.340 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [6d/de0bb5] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T008_S3_L001_4_sp)
+May-06 01:48:11.340 [Actor Thread 20] INFO  nextflow.processor.TaskProcessor - [f3/e05d0a] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0020_S6_L001_4_sp)
+May-06 01:48:11.340 [Actor Thread 7] INFO  nextflow.processor.TaskProcessor - [a4/d6e0fb] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T007_S2_L001_4_sp)
+May-06 01:48:11.341 [Actor Thread 38] INFO  nextflow.processor.TaskProcessor - [4e/7f5aef] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0020_S6_L001_4_sp)
+May-06 01:48:11.341 [Actor Thread 36] INFO  nextflow.processor.TaskProcessor - [9b/f12835] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T0015_S4_L001_4_null)
+May-06 01:48:11.341 [Actor Thread 44] INFO  nextflow.processor.TaskProcessor - [03/746a7c] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T007_S2_L001_4_sp)
+May-06 01:48:11.341 [Actor Thread 29] INFO  nextflow.processor.TaskProcessor - [b1/f8e671] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T005_S1_L001_4_sp)
+May-06 01:48:11.343 [Actor Thread 25] INFO  nextflow.processor.TaskProcessor - [22/af03fb] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0020_S6_L001_4_cp)
+May-06 01:48:11.343 [Actor Thread 5] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/metaphlan; path=/export/home/agletdinov/mambaforge/envs/metaphlan
+May-06 01:48:11.348 [Actor Thread 34] INFO  nextflow.processor.TaskProcessor - [af/440103] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:BWA_MEM_BAM_SORT_FULL_GENOME (Bwa mem on L231T007_S2_L001_4_null)
+May-06 01:48:11.348 [Actor Thread 9] INFO  nextflow.processor.TaskProcessor - [93/095fc6] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0020_S6_L001_4_cp)
+May-06 01:48:11.350 [Actor Thread 10] INFO  nextflow.processor.TaskProcessor - [c3/353051] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0015_S4_L001_4_sp)
+May-06 01:48:11.351 [Actor Thread 8] INFO  nextflow.processor.TaskProcessor - [b9/1e1016] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0015_S4_L001_4_cp)
+May-06 01:48:11.352 [Actor Thread 54] INFO  nextflow.processor.TaskProcessor - [5a/c7c117] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0019_S5_L001_4_sp)
+May-06 01:48:11.353 [Actor Thread 37] INFO  nextflow.processor.TaskProcessor - [56/849852] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T005_S1_L001_4_cp)
+May-06 01:48:11.355 [Actor Thread 3] INFO  nextflow.processor.TaskProcessor - [ca/d4b987] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0015_S4_L001_4_sp)
+May-06 01:48:11.357 [Actor Thread 44] INFO  nextflow.processor.TaskProcessor - [48/b2423d] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T007_S2_L001_4_cp)
+May-06 01:48:11.358 [Actor Thread 17] INFO  nextflow.processor.TaskProcessor - [b3/90fbfe] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T008_S3_L001_4_cp)
+May-06 01:48:11.358 [Actor Thread 54] DEBUG nextflow.conda.CondaCache - mamba found local env for environment=/export/home/agletdinov/mambaforge/envs/bracken; path=/export/home/agletdinov/mambaforge/envs/bracken
+May-06 01:48:11.360 [Actor Thread 47] INFO  nextflow.processor.TaskProcessor - [99/10f130] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0015_S4_L001_4_cp)
+May-06 01:48:11.359 [Actor Thread 23] INFO  nextflow.processor.TaskProcessor - [4f/6b5b5e] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T005_S1_L001_4_cp)
+May-06 01:48:11.359 [Actor Thread 18] INFO  nextflow.processor.TaskProcessor - [91/0f40a2] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T008_S3_L001_4_sp)
+May-06 01:48:11.360 [Actor Thread 1] INFO  nextflow.processor.TaskProcessor - [28/ed28d1] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0019_S5_L001_4_sp)
+May-06 01:48:11.361 [Actor Thread 2] INFO  nextflow.processor.TaskProcessor - [3a/93b308] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0019_S5_L001_4_sp)
+May-06 01:48:11.361 [Actor Thread 31] INFO  nextflow.processor.TaskProcessor - [7e/6a786e] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T007_S2_L001_4_sp)
+May-06 01:48:11.362 [Actor Thread 6] INFO  nextflow.processor.TaskProcessor - [53/1ed73e] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T007_S2_L001_4_cp)
+May-06 01:48:11.363 [Actor Thread 53] INFO  nextflow.processor.TaskProcessor - [e1/a291bf] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0015_S4_L001_4_cp)
+May-06 01:48:11.365 [Actor Thread 5] INFO  nextflow.processor.TaskProcessor - [ce/c24c50] Cached process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T007_S2_L001_4_cp)
+May-06 01:48:11.427 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:48:11.430 [Task submitter] INFO  nextflow.Session - [f5/0dede8] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T007_S2_L001_4)
+May-06 01:48:52.814 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 37; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T007_S2_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/f5/0dede859c9588697b360297e56c94c]
+May-06 01:48:52.854 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:48:52.855 [Task submitter] INFO  nextflow.Session - [a8/261e8b] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0020_S6_L001_4)
+May-06 01:53:09.570 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 26; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0020_S6_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/a8/261e8bb4b036bd583ec049d1b6b474]
+May-06 01:53:12.002 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 14 -- tasks to be submitted are shown below
+~> TaskHandler[id: 41; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/95/f9b44c983496d2e1735dc9071210e5]
+~> TaskHandler[id: 34; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/38/eedf534158a54101ef6a34bf5f8dcf]
+~> TaskHandler[id: 33; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/53/5cc9e3c50210f9199a0c2a652404cc]
+~> TaskHandler[id: 25; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e1/4c7a23b18f86aa06924b27db94c350]
+~> TaskHandler[id: 47; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0019_S5_L001_4_cp); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/51/9e2f854d513ebe3defe0e02409a3da]
+~> TaskHandler[id: 29; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/71/28e8cc4ae75415e2beef69408515b7]
+~> TaskHandler[id: 30; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/38/d345d8e2901da903252ff9af6b0603]
+~> TaskHandler[id: 49; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0019_S5_L001_4_cp); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/1c5a1ef9be269d9588235cc0a657bb]
+~> TaskHandler[id: 48; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0019_S5_L001_4_cp); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/47/9e43a23d46284648194ac0a99a7174]
+~> TaskHandler[id: 40; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/77/09120fab8af5f2c22d005ff7f656f6]
+.. remaining tasks omitted.
+May-06 01:54:11.553 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 26; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0020_S6_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/a8/261e8bb4b036bd583ec049d1b6b474]
+May-06 01:54:11.569 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:54:11.570 [Task submitter] INFO  nextflow.Session - [95/f9b44c] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0015_S4_L001_4)
+May-06 01:54:38.732 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 41; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0015_S4_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/95/f9b44c983496d2e1735dc9071210e5]
+May-06 01:54:38.747 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:54:38.748 [Task submitter] INFO  nextflow.Session - [38/eedf53] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T008_S3_L001_4)
+May-06 01:55:04.290 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 34; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T008_S3_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/38/eedf534158a54101ef6a34bf5f8dcf]
+May-06 01:55:04.327 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:55:04.327 [Task submitter] INFO  nextflow.Session - [53/5cc9e3] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T008_S3_L001_4)
+May-06 01:58:09.656 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 33; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T008_S3_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/53/5cc9e3c50210f9199a0c2a652404cc]
+May-06 01:58:12.375 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 14 -- tasks to be submitted are shown below
+~> TaskHandler[id: 25; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e1/4c7a23b18f86aa06924b27db94c350]
+~> TaskHandler[id: 47; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0019_S5_L001_4_cp); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/51/9e2f854d513ebe3defe0e02409a3da]
+~> TaskHandler[id: 29; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/71/28e8cc4ae75415e2beef69408515b7]
+~> TaskHandler[id: 30; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/38/d345d8e2901da903252ff9af6b0603]
+~> TaskHandler[id: 49; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0019_S5_L001_4_cp); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/1c5a1ef9be269d9588235cc0a657bb]
+~> TaskHandler[id: 48; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0019_S5_L001_4_cp); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/47/9e43a23d46284648194ac0a99a7174]
+~> TaskHandler[id: 40; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/77/09120fab8af5f2c22d005ff7f656f6]
+~> TaskHandler[id: 35; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/b4/0e601d1c91484a935e099de9e4a63f]
+~> TaskHandler[id: 42; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T005_S1_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e4/0ba68a145e9ad60f17a8d58a915c12]
+~> TaskHandler[id: 39; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T005_S1_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3f/de028eb3c5e23fe5975c49d1682ca6]
+.. remaining tasks omitted.
+May-06 01:58:17.546 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 33; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T008_S3_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/53/5cc9e3c50210f9199a0c2a652404cc]
+May-06 01:58:17.584 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:58:17.585 [Task submitter] INFO  nextflow.Session - [e1/4c7a23] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0020_S6_L001_4)
+May-06 01:58:47.404 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 25; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0020_S6_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e1/4c7a23b18f86aa06924b27db94c350]
+May-06 01:58:47.433 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:58:47.433 [Task submitter] INFO  nextflow.Session - [51/9e2f85] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0019_S5_L001_4_cp)
+May-06 01:58:47.440 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:58:47.440 [Task submitter] INFO  nextflow.Session - [c0/1c5a1e] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0019_S5_L001_4_cp)
+May-06 01:58:47.446 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:58:47.447 [Task submitter] INFO  nextflow.Session - [47/9e43a2] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0019_S5_L001_4_cp)
+May-06 01:58:52.077 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 49; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_INDEX (Samtools index on L231T0019_S5_L001_4_cp); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/1c5a1ef9be269d9588235cc0a657bb]
+May-06 01:58:52.694 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 47; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_CONSENSUS_LITE (Samtools consensus on L231T0019_S5_L001_4_cp); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/51/9e2f854d513ebe3defe0e02409a3da]
+May-06 01:59:02.185 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 48; name: taxonomy_analysis:TAXONOMY_ANALYSIS:SAMTOOLS_STATS (Samtools stats on L231T0019_S5_L001_4_cp); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/47/9e43a23d46284648194ac0a99a7174]
+May-06 01:59:02.206 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:59:02.207 [Task submitter] INFO  nextflow.Session - [71/28e8cc] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0019_S5_L001_4)
+May-06 01:59:30.858 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 29; name: taxonomy_analysis:TAXONOMY_ANALYSIS:KRAKEN2 (Kraken2 on L231T0019_S5_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/71/28e8cc4ae75415e2beef69408515b7]
+May-06 01:59:30.878 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 01:59:30.878 [Task submitter] INFO  nextflow.Session - [38/d345d8] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0019_S5_L001_4)
+May-06 02:03:09.715 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 30; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0019_S5_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/38/d345d8e2901da903252ff9af6b0603]
+May-06 02:03:12.929 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 11 -- tasks to be submitted are shown below
+~> TaskHandler[id: 40; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/77/09120fab8af5f2c22d005ff7f656f6]
+~> TaskHandler[id: 35; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/b4/0e601d1c91484a935e099de9e4a63f]
+~> TaskHandler[id: 42; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T005_S1_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e4/0ba68a145e9ad60f17a8d58a915c12]
+~> TaskHandler[id: 39; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T005_S1_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3f/de028eb3c5e23fe5975c49d1682ca6]
+~> TaskHandler[id: 83; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/88/8c5339f96dcb5f56c306c421782250]
+~> TaskHandler[id: 84; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/43/a4d6607eb77c5fcab45592e791a246]
+~> TaskHandler[id: 85; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/0d/600252e781fbd0405046fdf157e659]
+~> TaskHandler[id: 86; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/140539ebc301c01517323320ec1580]
+~> TaskHandler[id: 87; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/d2/9c97337e69eb6ad36448cf36f521ee]
+~> TaskHandler[id: 88; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/45/e0936c6aa5f163b2e89b5cedca4f23]
+May-06 02:04:45.325 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 30; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0019_S5_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/38/d345d8e2901da903252ff9af6b0603]
+May-06 02:04:45.336 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:04:45.336 [Task submitter] INFO  nextflow.Session - [77/09120f] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0015_S4_L001_4)
+May-06 02:08:09.745 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 40; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0015_S4_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/77/09120fab8af5f2c22d005ff7f656f6]
+May-06 02:08:13.326 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 40; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T0015_S4_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/77/09120fab8af5f2c22d005ff7f656f6]
+May-06 02:08:13.335 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:08:13.335 [Task submitter] INFO  nextflow.Session - [b4/0e601d] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T007_S2_L001_4)
+May-06 02:08:13.336 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 10 -- tasks to be submitted are shown below
+~> TaskHandler[id: 42; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T005_S1_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e4/0ba68a145e9ad60f17a8d58a915c12]
+~> TaskHandler[id: 39; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T005_S1_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3f/de028eb3c5e23fe5975c49d1682ca6]
+~> TaskHandler[id: 83; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/88/8c5339f96dcb5f56c306c421782250]
+~> TaskHandler[id: 84; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/43/a4d6607eb77c5fcab45592e791a246]
+~> TaskHandler[id: 85; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/0d/600252e781fbd0405046fdf157e659]
+~> TaskHandler[id: 86; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/140539ebc301c01517323320ec1580]
+~> TaskHandler[id: 87; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/d2/9c97337e69eb6ad36448cf36f521ee]
+~> TaskHandler[id: 88; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/45/e0936c6aa5f163b2e89b5cedca4f23]
+~> TaskHandler[id: 89; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/8f/089011f168effa28e89e8cf9ec0c44]
+~> TaskHandler[id: 90; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/6d/cd06bcf4fb6210bee9cb8d9548cb06]
+May-06 02:11:28.701 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 35; name: taxonomy_analysis:TAXONOMY_ANALYSIS:MEGAHIT (Megahit on L231T007_S2_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/b4/0e601d1c91484a935e099de9e4a63f]
+May-06 02:11:28.720 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:11:28.721 [Task submitter] INFO  nextflow.Session - [e4/0ba68a] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T005_S1_L001_4)
+May-06 02:11:31.817 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 42; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T005_S1_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e4/0ba68a145e9ad60f17a8d58a915c12]
+May-06 02:11:31.847 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:11:31.848 [Task submitter] INFO  nextflow.Session - [3f/de028e] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T005_S1_L001_4)
+May-06 02:13:09.805 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 39; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T005_S1_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3f/de028eb3c5e23fe5975c49d1682ca6]
+May-06 02:13:13.868 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 10 -- tasks to be submitted are shown below
+~> TaskHandler[id: 83; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/88/8c5339f96dcb5f56c306c421782250]
+~> TaskHandler[id: 84; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/43/a4d6607eb77c5fcab45592e791a246]
+~> TaskHandler[id: 85; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/0d/600252e781fbd0405046fdf157e659]
+~> TaskHandler[id: 86; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/140539ebc301c01517323320ec1580]
+~> TaskHandler[id: 87; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/d2/9c97337e69eb6ad36448cf36f521ee]
+~> TaskHandler[id: 88; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/45/e0936c6aa5f163b2e89b5cedca4f23]
+~> TaskHandler[id: 89; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/8f/089011f168effa28e89e8cf9ec0c44]
+~> TaskHandler[id: 90; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/6d/cd06bcf4fb6210bee9cb8d9548cb06]
+~> TaskHandler[id: 91; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e2/9686af44ceea37b6ad9b0d2b92aab0]
+~> TaskHandler[id: 92; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/ad/340310cae154c62c17d16f467acfca]
+May-06 02:15:54.497 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 39; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T005_S1_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/3f/de028eb3c5e23fe5975c49d1682ca6]
+May-06 02:15:54.510 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:15:54.511 [Task submitter] INFO  nextflow.Session - [88/8c5339] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T007_S2_L001_4)
+May-06 02:15:58.202 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 83; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T007_S2_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/88/8c5339f96dcb5f56c306c421782250]
+May-06 02:15:58.214 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:15:58.215 [Task submitter] INFO  nextflow.Session - [43/a4d660] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0020_S6_L001_4)
+May-06 02:18:09.814 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 84; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0020_S6_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/43/a4d6607eb77c5fcab45592e791a246]
+May-06 02:18:14.241 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 8 -- tasks to be submitted are shown below
+~> TaskHandler[id: 85; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/0d/600252e781fbd0405046fdf157e659]
+~> TaskHandler[id: 86; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/140539ebc301c01517323320ec1580]
+~> TaskHandler[id: 87; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/d2/9c97337e69eb6ad36448cf36f521ee]
+~> TaskHandler[id: 88; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/45/e0936c6aa5f163b2e89b5cedca4f23]
+~> TaskHandler[id: 89; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/8f/089011f168effa28e89e8cf9ec0c44]
+~> TaskHandler[id: 90; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/6d/cd06bcf4fb6210bee9cb8d9548cb06]
+~> TaskHandler[id: 91; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e2/9686af44ceea37b6ad9b0d2b92aab0]
+~> TaskHandler[id: 92; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/ad/340310cae154c62c17d16f467acfca]
+May-06 02:19:56.824 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 84; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0020_S6_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/43/a4d6607eb77c5fcab45592e791a246]
+May-06 02:19:56.853 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:19:56.854 [Task submitter] INFO  nextflow.Session - [0d/600252] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0015_S4_L001_4)
+May-06 02:19:59.393 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 85; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0015_S4_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/0d/600252e781fbd0405046fdf157e659]
+May-06 02:19:59.419 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:19:59.421 [Task submitter] INFO  nextflow.Session - [c0/140539] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T008_S3_L001_4)
+May-06 02:20:01.733 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 86; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T008_S3_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/c0/140539ebc301c01517323320ec1580]
+May-06 02:20:01.760 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:20:01.761 [Task submitter] INFO  nextflow.Session - [d2/9c9733] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4)
+May-06 02:23:09.821 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 87; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/d2/9c97337e69eb6ad36448cf36f521ee]
+May-06 02:23:14.802 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 5 -- tasks to be submitted are shown below
+~> TaskHandler[id: 88; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/45/e0936c6aa5f163b2e89b5cedca4f23]
+~> TaskHandler[id: 89; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/8f/089011f168effa28e89e8cf9ec0c44]
+~> TaskHandler[id: 90; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0019_S5_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/6d/cd06bcf4fb6210bee9cb8d9548cb06]
+~> TaskHandler[id: 91; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0015_S4_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e2/9686af44ceea37b6ad9b0d2b92aab0]
+~> TaskHandler[id: 92; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/ad/340310cae154c62c17d16f467acfca]
+May-06 02:24:08.550 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 87; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T008_S3_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/d2/9c97337e69eb6ad36448cf36f521ee]
+May-06 02:24:08.601 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:24:08.601 [Task submitter] INFO  nextflow.Session - [45/e0936c] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4)
+May-06 02:24:11.322 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 88; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0020_S6_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/45/e0936c6aa5f163b2e89b5cedca4f23]
+May-06 02:24:11.348 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:24:11.349 [Task submitter] INFO  nextflow.Session - [8f/089011] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0019_S5_L001_4)
+May-06 02:24:13.594 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 89; name: taxonomy_analysis:TAXONOMY_ANALYSIS:BRACKEN (Bracken on L231T0019_S5_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/8f/089011f168effa28e89e8cf9ec0c44]
+May-06 02:24:13.621 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:24:13.623 [Task submitter] INFO  nextflow.Session - [6d/cd06bc] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0019_S5_L001_4)
+May-06 02:27:55.532 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 90; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0019_S5_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/6d/cd06bcf4fb6210bee9cb8d9548cb06]
+May-06 02:27:55.541 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:27:55.543 [Task submitter] INFO  nextflow.Session - [e2/9686af] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0015_S4_L001_4)
+May-06 02:28:09.845 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 91; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0015_S4_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e2/9686af44ceea37b6ad9b0d2b92aab0]
+May-06 02:28:15.547 [Task submitter] DEBUG n.processor.TaskPollingMonitor - %% executor local > tasks in the submission queue: 1 -- tasks to be submitted are shown below
+~> TaskHandler[id: 92; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4); status: NEW; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/ad/340310cae154c62c17d16f467acfca]
+May-06 02:31:07.874 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 91; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T0015_S4_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/e2/9686af44ceea37b6ad9b0d2b92aab0]
+May-06 02:31:07.907 [Task submitter] DEBUG n.executor.local.LocalTaskHandler - Launch cmd line: /bin/bash -ue .command.run
+May-06 02:31:07.911 [Task submitter] INFO  nextflow.Session - [ad/340310] Submitted process > taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4)
+May-06 02:33:09.866 [Task monitor] DEBUG n.processor.TaskPollingMonitor - !! executor local > tasks to be completed: 1 -- submitted tasks are shown below
+~> TaskHandler[id: 92; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4); status: RUNNING; exit: -; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/ad/340310cae154c62c17d16f467acfca]
+May-06 02:34:41.704 [Task monitor] DEBUG n.processor.TaskPollingMonitor - Task completed > TaskHandler[id: 92; name: taxonomy_analysis:TAXONOMY_ANALYSIS:METAPHLAN (Metaphlan on L231T007_S2_L001_4); status: COMPLETED; exit: 0; error: -; workDir: /export/home/agletdinov/work/git_projects/nextflow_projects/work/ad/340310cae154c62c17d16f467acfca]
+May-06 02:34:42.014 [Actor Thread 39] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=taxonomy_analysis:MULTIQC; work-dir=null
+  error [nextflow.exception.ProcessUnrecoverableException]: Not a valid path value: 'L231T005_S1_L001_4'
+May-06 02:34:42.152 [Actor Thread 39] ERROR nextflow.processor.TaskProcessor - Error executing process > 'taxonomy_analysis:MULTIQC'
+
+Caused by:
+  Not a valid path value: 'L231T005_S1_L001_4'
+
+
+Tip: when you have fixed the problem you can continue the execution adding the option `-resume` to the run command line
+May-06 02:34:42.183 [Actor Thread 39] DEBUG nextflow.Session - Session aborted -- Cause: Not a valid path value: 'L231T005_S1_L001_4'
+May-06 02:34:42.213 [Task monitor] DEBUG n.processor.TaskPollingMonitor - <<< barrier arrives (monitor: local) - terminating tasks monitor poll loop
+May-06 02:34:42.351 [Actor Thread 39] DEBUG nextflow.Session - The following nodes are still active:
+[process] taxonomy_analysis:MULTIQC
+  status=ACTIVE
+  port 0: (value) bound ; channel: *
+  port 1: (cntrl) -     ; channel: $
+
+May-06 02:34:42.361 [main] DEBUG nextflow.Session - Session await > all processes finished
+May-06 02:34:42.362 [main] DEBUG nextflow.Session - Session await > all barriers passed
+May-06 02:34:42.370 [Actor Thread 19] DEBUG nextflow.processor.TaskProcessor - Handling unexpected condition for
+  task: name=taxonomy_analysis:MULTIQC; work-dir=null
+  error [java.lang.InterruptedException]: java.lang.InterruptedException
+May-06 02:34:42.504 [main] DEBUG n.trace.WorkflowStatsObserver - Workflow completed > WorkflowStats[succeededCount=25; failedCount=0; ignoredCount=0; cachedCount=67; pendingCount=0; submittedCount=0; runningCount=0; retriesCount=0; abortedCount=0; succeedDuration=1d 12h 59m 42s; failedDuration=0ms; cachedDuration=4h 52m 47s;loadCpus=0; loadMemory=0; peakRunning=3; peakCpus=48; peakMemory=0; ]
+May-06 02:34:42.657 [main] DEBUG nextflow.cache.CacheDB - Closing CacheDB done
+May-06 02:34:42.832 [main] DEBUG nextflow.script.ScriptRunner - > Execution complete -- Goodbye
