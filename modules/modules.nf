@@ -30,7 +30,7 @@ process TRIM_ADAPT {
     output:
     tuple val(sample_id), path('*fastq.gz')
     
-    cpus 3
+    cpus 20
     //maxForks params.maxForks
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     //maxRetries 5
@@ -54,7 +54,7 @@ process TRIM_4_NUCL {
     output:
     tuple val("${sample_id}_${mode}"), path('*fastq.gz')
     
-    cpus 3
+    cpus 20
 
     //maxForks params.maxForks
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
@@ -81,7 +81,7 @@ process TRIM_PRIMERS {
     output:
     tuple val(sample_id), path('*fastq.gz')
     
-    cpus 3
+    cpus 20
     //maxForks params.maxForks
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     //maxRetries 5
@@ -156,7 +156,7 @@ process BWA_MEM_BAM_SORT {
     output:
     tuple val(sample_id), path("${sample_id}.aln.sorted.bam")
    
-    cpus 5
+    cpus 20
     //maxForks params.maxForks
     
     script:
@@ -183,7 +183,7 @@ process BWA_MEM_BAM_SORT_FULL_GENOME {
     output:
     tuple val("${sample_id}_${genome}"), path("${sample_id}_${genome}.aln.sorted.bam")
    
-    cpus 5
+    cpus 20
     //maxForks params.maxForks
     
     script:
@@ -210,7 +210,7 @@ process SAMTOOLS_INDEX {
     output:
     tuple val(sample_id), path("${sample_id}.aln.sorted.bam.bai")
    
-    cpus 1
+    cpus 5
     //maxForks params.maxForks
     
     script:
@@ -234,7 +234,7 @@ process SAMTOOLS_CONSENSUS {
     output:
     tuple val(sample_id), path("*.fasta")
    
-    cpus 3
+    cpus 20
     //maxForks params.maxForks
     
     script:
@@ -258,7 +258,7 @@ process SAMTOOLS_CONSENSUS_LITE {
     output:
     tuple val(sample_id), path("*.fasta")
    
-    cpus 3
+    cpus 20
     //maxForks params.maxForks
     
     script:
@@ -282,7 +282,7 @@ process SAMTOOLS_STATS {
     output:
     path("*")
    
-    cpus 3
+    cpus 20
     //maxForks params.maxForks
     
     
@@ -314,7 +314,7 @@ process RENAME_FASTA_ID {
     output:
     tuple val(sample_id), path("*.fasta")
    
-    cpus 1
+    cpus 3
     //maxForks params.maxForks
     
     script:
@@ -326,8 +326,9 @@ process RENAME_FASTA_ID {
 process KRAKEN2 {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
-    maxForks 1
-    
+    //maxForks 1
+    cpus 40
+
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2", mode: "copy"
     
@@ -348,8 +349,9 @@ process KRAKEN2 {
 process BRACKEN {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/bracken"
-    maxForks 1
-    
+    //maxForks 1
+    cpus 20
+
     tag "Bracken on ${sample_id}"
     publishDir "${params.outdir}/bracken", mode: "copy"
     
@@ -396,18 +398,18 @@ process IDENTIFY_CLADE {
 process UNICYCLER {
     //conda 'bioconda::unicycler'
     conda "/export/home/agletdinov/mambaforge/envs/unicycler"
-    //cpus 70
+    cpus 40
     //memory 500.GB
     //maxForks 2
     tag "Unicycler on ${sample_id}"
-    publishDir "${params.outdir}/unicycler/${sample_id}", mode:'copy'
+    publishDir "${params.outdir}/unicycler", mode:'copy'
     
     input:
     tuple val(sample_id), path(reads)
 
     output:
     path('*'), emit: report
-    tuple val(sample_id), path('*'), emit: id_report
+    tuple val("${sample_id}_unicycler"), path("${sample_id}/assembly.fasta"), emit: id_contigs
 
     script:
     """
@@ -415,7 +417,7 @@ process UNICYCLER {
     unicycler \
         -1 ${reads[0]} \
         -2 ${reads[1]} \
-        -o uni_res_for_${sample_id} \
+        -o ${sample_id} \
         -t ${task.cpus}
     """
 }
@@ -425,6 +427,8 @@ process MEGAHIT {
     conda "/export/home/agletdinov/mambaforge/envs/megahit"
     //memory 500.GB
     //maxForks 2
+    cpus 40
+
     tag "Megahit on ${sample_id}"
     publishDir "${params.outdir}/megahit", mode:'copy'
     
@@ -434,7 +438,7 @@ process MEGAHIT {
     output:
     path('*'), emit: report
     //tuple val(sample_id), path('*'), emit: id_contigs
-    tuple val(sample_id), path("${sample_id}/*fa"), emit: id_contigs
+    tuple val("${sample_id}_megahit"), path("${sample_id}/*fa"), emit: id_contigs
 
     script:
     """
@@ -448,6 +452,7 @@ process METAPHLAN {
     conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
     //memory 500.GB
     //maxForks 2
+    cpus 40
     tag "Metaphlan on ${sample_id}"
     publishDir "${params.outdir}/metaphlan/${sample_id}", mode:'copy'
     

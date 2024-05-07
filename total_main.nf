@@ -7,8 +7,8 @@ params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_s
 params.reads = "${params.results_project}/fastq/02_05_24/*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
 //params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/k2_pluspf_16gb"
-//params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
-params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48"
+params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
+//params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48"
 params.metaphlandb = "/export/home/public/agletdinov_shared/metaphlandb"
 def myDict = [
     '2': 'dva',
