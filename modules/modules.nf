@@ -45,14 +45,16 @@ process TRIM_4_NUCL {
     conda = 'bioconda::cutadapt'
 
     tag "Cutadapt on ${sample_id}"
-    publishDir "${params.outdir}/cutadapt_trim/${mode}_n", mode: "copy"
+    //publishDir "${params.outdir}/cutadapt_trim/${mode}_n", mode: "copy"
+    publishDir "${params.outdir}/cutadapt_trim", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads)
-    each mode
+    //each mode
 
     output:
-    tuple val("${sample_id}_${mode}"), path('*fastq.gz')
+    //tuple val("${sample_id}_${mode}"), path('*fastq.gz')
+    tuple val("${sample_id}"), path('*fastq.gz')
     
     cpus 20
 
@@ -62,7 +64,7 @@ process TRIM_4_NUCL {
 
     script:
     """
-    cutadapt -u ${mode} -u -${mode} -U ${mode} -U -${mode} -o ${sample_id}_t_${params.myDict[mode]}_R1.fastq.gz -p ${sample_id}_t_${params.myDict[mode]}_R2.fastq.gz \
+    cutadapt -u 4 -u -4 -U 4 -U -4 -o ${sample_id}_t_4_R1.fastq.gz -p ${sample_id}_t_4_R2.fastq.gz \
         ${reads[0]} ${reads[1]} \
         -j ${task.cpus}
     """

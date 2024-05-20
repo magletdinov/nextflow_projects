@@ -4,12 +4,12 @@
  */
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/resp_panel"
-params.reads = "${params.results_project}/fastq/25_04_24/*R{1,2}*.fastq.gz"
+params.reads = "${params.results_project}/fastq/16_05_24/*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
 params.primer_a = "${params.shared}/primers/resp_panel/resp_primers.fasta"
 params.primer_g = "${params.shared}/primers/resp_panel/resp_primers.fasta"
 params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
-params.outdir = "${params.results_project}/results_kraken2/25_04_24"
+params.outdir = "${params.results_project}/results_kraken2/16_05_24"
 
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
