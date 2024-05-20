@@ -24,7 +24,8 @@ workflow VZV {
     IDENTIFY_CLADE(RENAME_FASTA_ID.out, script2, script3)
   emit: 
      //BWA_MEM_BAM_SORT.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | collect
-     FASTQC.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | concat(IDENTIFY_CLADE.out) | collect
+     FASTQC.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out.report) | concat(IDENTIFY_CLADE.out) | collect
+     //SAMTOOLS_STATS.out | concat(KRAKEN2.out.report) | collect
 }
 
 workflow VZV_CHECK {
