@@ -59,8 +59,8 @@ workflow vzv_full_run{
     script2 = params.script2
     script3 = params.script3
     script4 = params.script4
-    methods = params.methods
-    VZV(read_pairs_ch, key_areas, script1, script2, script3, methods)
+    //methods = params.methods
+    VZV(read_pairs_ch, key_areas, script1, script2, script3)
     AGG_CLADES(script4, VZV.out)
     MULTIQC(VZV.out | concat(AGG_CLADES.out) | collect)
     //MULTIQC(VZV.out)

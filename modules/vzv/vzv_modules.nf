@@ -8,11 +8,11 @@ workflow VZV {
     script1
     script2
     script3
-    methods
+    //methods
   main:
     FASTQC(read_pairs_ch)
     TRIM_ADAPT(read_pairs_ch)
-    TRIM_4_NUCL(TRIM_ADAPT.out, methods)
+    TRIM_4_NUCL(TRIM_ADAPT.out)
     TRIM_PRIMERS(TRIM_4_NUCL.out)
     KRAKEN2(TRIM_PRIMERS.out)
     BWA_INDEX(key_areas, key_areas.name)
