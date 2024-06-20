@@ -452,7 +452,7 @@ process MEGAHIT {
 process METAPHLAN {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
-    //memory 500.GB
+    //memory = '1 MB'
     //maxForks 2
     cpus 40
     tag "Metaphlan on ${sample_id}"
@@ -489,5 +489,36 @@ process METAPHLAN_AGG {
     script:
     """
     merge_metaphlan_tables.py ${metaphlan_txt} > merged_abundance_table.txt
+    """
+}
+
+process DIAMOND {
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/diamond"
+    //memory = '1 MB'
+    //maxForks 2
+    cpus 20
+    tag "Diamond on ${sample_id}"
+    publishDir "${params.outdir}/diamond/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs)
+
+    output:
+    path('*.tsv')
+ 
+    script:
+    """
+    diamond blastx \
+        --very-sensitive \
+        -d /export/home/public/tools/database/virus_nr_diamond.dmnd \
+        --outfmt 6 qseqid sseqid pident evalue \
+        -p ${task.cpus} \
+        -q ${contigs} \
+        -o ${sample_id}_matches.tsv \
+        --max-target-seqs 10 \
+        --evalue 1e-05 \
+        -v \
+        --log
     """
 }
