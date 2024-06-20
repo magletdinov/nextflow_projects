@@ -3,7 +3,6 @@ work/*
 check_raw_data/*
 .nextflow/*
 .nextflow*
-nextflow.config
 .ipynb_checkpoints/*
 
 !.gitkeep
