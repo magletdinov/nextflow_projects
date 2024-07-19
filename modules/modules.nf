@@ -19,7 +19,7 @@ process FASTQC {
 }
 
 process TRIM_ADAPT {
-    conda = 'bioconda::fastp'
+    conda = '/export/home/agletdinov/mambaforge/envs/fastp'
 
     tag "Fastp on ${sample_id}"
     publishDir "${params.outdir}/fastp_adapt", mode: "copy"
