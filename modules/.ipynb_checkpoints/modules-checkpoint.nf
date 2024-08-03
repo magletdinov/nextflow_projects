@@ -122,7 +122,7 @@ process BWA_INDEX {
 }
 
 process BWA_INDEX_FULL_GENOME {
-    conda = 'bioconda::bwa'
+    conda = '/export/home/agletdinov/mambaforge/envs/bwa'
 
     tag "Bwa index for ${genome}"
     publishDir "${params.outdir}/bwa_index/${genome}", mode:'copy'
@@ -339,11 +339,12 @@ process KRAKEN2 {
     
     output:
     path('*.kraken'), emit: report
-    tuple val(sample_id), path('*.kraken'), emit: id_report
+    tuple val(sample_id), path('*report.kraken'), emit: id_report
+    tuple val(sample_id), path('*output.kraken'), emit: id_output
     
     script:
     """
-    kraken2 --db ${params.kraken2db}  --threads ${task.cpus} --gzip-compressed --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
+    kraken2 --db ${params.kraken2db}  --threads ${task.cpus} --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
     """
 }
 
@@ -366,6 +367,81 @@ process BRACKEN {
     script:
     """
     bracken -l S -t ${task.cpus} -d ${params.kraken2db} -i ${kraken_report} -o ${sample_id}_bracken_S_mqc.tsv
+    """
+}
+
+process BRACKEN_EACH {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    //maxForks 1
+    cpus 20
+    
+
+    tag "Bracken on ${sample_id}"
+    publishDir "${params.outdir}/bracken/${params.bracken_settings_dict[resolution]}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(kraken_report)
+    each resolution
+    
+    output:
+    path('*.tsv')
+
+    
+    script:
+    """
+    bracken -l ${resolution} -t ${task.cpus} -d ${params.kraken2db} -i ${kraken_report} -o ${sample_id}_bracken_${resolution}_mqc.tsv
+    """
+}
+
+process EXTRACT_KRAKEN_READS {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //maxForks 1
+    cpus 20
+    
+
+    tag "Extract kraken reads on ${sample_id}"
+    publishDir "${params.outdir}/krakentools/extract_${params.taxid}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    //each taxid
+    
+    output:
+    tuple val(sample_id), path('*fasta')
+
+    script:
+    """
+    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${params.taxid} \
+    -s ${reads[0]} -s2 ${reads[1]} \
+    -o ${sample_id}_${taxid}-withchildren_1.fasta -o2 ${sample_id}_${taxid}-withchildren_2.fasta --include-children
+    """
+}
+
+process EXTRACT_KRAKEN_READS_TEST {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //maxForks 1
+    cpus 20
+    
+
+    tag "Extract kraken reads on ${sample_id}"
+    publishDir "${params.outdir}/krakentools/extract_${params.taxid}", mode: "copy"
+    //publishDir "${params.outdir}/krakentools/extract_694014", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+    //each taxid
+    
+    output:
+    tuple val(sample_id), path('*fasta')
+
+    script:
+    """
+    extract_kraken_reads.py -k ${params.kraken2_res}/${sample_id}_output.kraken -r ${params.kraken2_res}/${sample_id}_report.kraken -t ${params.taxid}" \
+    -s ${reads[0]} -s2 ${reads[1]} \
+    -o ${sample_id}_${params.taxid}"-withchildren_1.fasta -o2 ${sample_id}_${params.taxid}"-withchildren_2.fasta --include-children
     """
 }
 
