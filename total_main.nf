@@ -15,7 +15,8 @@ def bracken_settings_dict = [
 ]
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
-params.taxid = ["694014"]
+params.taxid = ["3050337", "11958"]
+
 
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
