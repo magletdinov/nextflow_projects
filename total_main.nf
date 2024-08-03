@@ -5,8 +5,8 @@
 params.run = "20_07_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
-//params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
-params.reads = "${params.results_project}/fastq/${params.run}/k18*R{1,2}*.fastq.gz"
+params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
+//params.reads = "${params.results_project}/fastq/${params.run}/k18*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
 params.metaphlandb = "/export/home/public/agletdinov_shared/metaphlandb"
 def bracken_settings_dict = [
@@ -15,8 +15,13 @@ def bracken_settings_dict = [
 ]
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
-params.taxids = ["3050337", "11958"]
-
+//params.taxids = ["3050337", "11958"]
+def taxid_dict = [
+    '3050337': ["k10_bird_S5", "k25_bird_S20"],
+    '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
+]
+params.taxid_dict = taxid_dict
+params.taxid = ['3050337', '694014']
 
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
@@ -70,8 +75,8 @@ workflow taxonomy_analysis_simple{
         .set { read_pairs_ch }
     methods = params.methods
     bracken_settings = params.bracken_settings
-    taxids = params.taxids
-    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxids)
+    taxid = params.taxid
+    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxid)
     MULTIQC(TAXONOMY_ANALYSIS_SIMPLE.out)
 }
 

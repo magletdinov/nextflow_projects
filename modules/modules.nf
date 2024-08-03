@@ -408,9 +408,12 @@ process EXTRACT_KRAKEN_READS {
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
     each taxid
 
+    when:
+    params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid]
+
     output:
     tuple val(sample_id), path('*fasta')
-
+    
     script:
     """
     extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \

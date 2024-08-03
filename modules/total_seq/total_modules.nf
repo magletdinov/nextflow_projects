@@ -40,7 +40,7 @@ workflow TAXONOMY_ANALYSIS_SIMPLE {
     read_pairs_ch
     methods
     bracken_settings
-    taxids
+    taxid
   main:
     //FASTQC_1 = FASTQC(read_pairs_ch)
     FQ1(read_pairs_ch)
@@ -50,7 +50,7 @@ workflow TAXONOMY_ANALYSIS_SIMPLE {
     //FQ2(TRIM_PRIMERS.out)
     KRAKEN2(TRIM_4_NUCL.out)
     BRACKEN_EACH(KRAKEN2.out.id_report, bracken_settings)
-    EXTRACT_KRAKEN_READS(TRIM_4_NUCL.out.join(KRAKEN2.out.id_output).join(KRAKEN2.out.id_report), taxids)
+    EXTRACT_KRAKEN_READS(TRIM_4_NUCL.out.join(KRAKEN2.out.id_output).join(KRAKEN2.out.id_report), taxid)
     //MEGAHIT(TRIM_4_NUCL.out)
     //DIAMOND(MEGAHIT.out.id_contigs)
     //METAPHLAN1(MEGAHIT.out.id_contigs)
