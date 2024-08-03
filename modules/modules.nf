@@ -402,20 +402,20 @@ process EXTRACT_KRAKEN_READS {
     
 
     tag "Extract kraken reads on ${sample_id}"
-    publishDir "${params.outdir}/krakentools/extract_${params.taxid[0]}", mode: "copy"
+    publishDir "${params.outdir}/krakentools/extract_${taxid}", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
-    //each taxid
+    each taxid
 
     output:
     tuple val(sample_id), path('*fasta')
 
     script:
     """
-    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${params.taxid[0]} \
+    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
     -s ${reads[0]} -s2 ${reads[1]} \
-    -o ${sample_id}_${params.taxid[0]}-withchildren_1.fasta -o2 ${sample_id}_${params.taxid[0]}-withchildren_2.fasta --include-children
+    -o ${sample_id}_${taxid}-withchildren_1.fasta -o2 ${sample_id}_${taxid}-withchildren_2.fasta --include-children
     """
 }
 

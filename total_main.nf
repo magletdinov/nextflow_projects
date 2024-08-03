@@ -15,7 +15,7 @@ def bracken_settings_dict = [
 ]
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
-params.taxid = ["3050337", "11958"]
+params.taxids = ["3050337", "11958"]
 
 
 params.methods = ["4"]
@@ -70,7 +70,8 @@ workflow taxonomy_analysis_simple{
         .set { read_pairs_ch }
     methods = params.methods
     bracken_settings = params.bracken_settings
-    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings)
+    taxids = params.taxids
+    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxids)
     MULTIQC(TAXONOMY_ANALYSIS_SIMPLE.out)
 }
 
