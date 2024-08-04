@@ -409,7 +409,7 @@ process EXTRACT_KRAKEN_READS {
     each taxid
 
     when:
-    params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid]
+    params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid] && params.krakentools_flag == true
 
     output:
     tuple val(sample_id), path('*fasta')
@@ -422,31 +422,6 @@ process EXTRACT_KRAKEN_READS {
     """
 }
 
-process EXTRACT_KRAKEN_READS_TEST {
-    //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
-    //maxForks 1
-    cpus 20
-    
-
-    tag "Extract kraken reads on ${sample_id}"
-    publishDir "${params.outdir}/krakentools/extract_${params.taxid}", mode: "copy"
-    //publishDir "${params.outdir}/krakentools/extract_694014", mode: "copy"
-    
-    input:
-    tuple val(sample_id), path(reads)
-    //each taxid
-    
-    output:
-    tuple val(sample_id), path('*fasta')
-
-    script:
-    """
-    extract_kraken_reads.py -k ${params.kraken2_res}/${sample_id}_output.kraken -r ${params.kraken2_res}/${sample_id}_report.kraken -t ${params.taxid}" \
-    -s ${reads[0]} -s2 ${reads[1]} \
-    -o ${sample_id}_${params.taxid}"-withchildren_1.fasta -o2 ${sample_id}_${params.taxid}"-withchildren_2.fasta --include-children
-    """
-}
 
 process IDENTIFY_CLADE {
     conda "/export/home/agletdinov/mambaforge/envs/reat"

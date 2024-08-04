@@ -15,7 +15,7 @@ def bracken_settings_dict = [
 ]
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
-//params.taxids = ["3050337", "11958"]
+params.krakentools_flag = true
 def taxid_dict = [
     '3050337': ["k10_bird_S5", "k25_bird_S20"],
     '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],

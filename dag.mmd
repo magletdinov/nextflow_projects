@@ -1,0 +1,39 @@
+flowchart TB
+    subgraph " "
+    v0["Channel.fromFilePairs"]
+    v5[" "]
+    v9[" "]
+    end
+    subgraph taxonomy_analysis_simple
+    subgraph TAXONOMY_ANALYSIS_SIMPLE
+    v1([FQ1])
+    v2([TRIM_ADAPT])
+    v3([TRIM_4_NUCL])
+    v4([KRAKEN2])
+    v6([BRACKEN_EACH])
+    v10([EXTRACT_KRAKEN_READS])
+    v7(( ))
+    end
+    v15([MULTIQC])
+    v12(( ))
+    end
+    subgraph " "
+    v11[" "]
+    v16[" "]
+    end
+    v0 --> v1
+    v0 --> v2
+    v1 --> v12
+    v2 --> v3
+    v3 --> v4
+    v3 --> v7
+    v4 --> v6
+    v4 --> v7
+    v4 --> v12
+    v5 --> v6
+    v6 --> v12
+    v9 --> v10
+    v7 --> v10
+    v10 --> v11
+    v12 --> v15
+    v15 --> v16
