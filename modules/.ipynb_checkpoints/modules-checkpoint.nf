@@ -348,6 +348,29 @@ process KRAKEN2 {
     """
 }
 
+process KRAKEN2_FASTA {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //maxForks 1
+    cpus 40
+        
+    tag "Kraken2 on ${sample_id}"
+    publishDir "${params.outdir}/kraken2_temp", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+    
+    output:
+    path('*.kraken'), emit: report
+    tuple val(id_part), path('*report.kraken'), emit: id_report
+    tuple val(id_part), path('*output.kraken'), emit: id_output
+    
+    script:
+    """
+    def id_part = sample_id.split('-')[0]
+    kraken2 --quick --db ${params.kraken2db}  --threads ${task.cpus}  --output ${id_part}_output.kraken --report ${id_part}_report.kraken ${reads} > ${id_part}_kraken.txt
+    """
+}
 
 process BRACKEN {
     //conda 'kraken2'
@@ -400,9 +423,9 @@ process EXTRACT_KRAKEN_READS {
     //maxForks 1
     cpus 20
     
-
     tag "Extract kraken reads on ${sample_id}"
-    publishDir "${params.outdir}/krakentools/extract_${taxid}", mode: "copy"
+    //publishDir "${params.outdir}/krakentools/extract_${taxid}", mode: "copy"
+    publishDir "${params.outdir}/krakentools/extract_taxids/${sample_id}", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
@@ -412,16 +435,43 @@ process EXTRACT_KRAKEN_READS {
     params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid] && params.krakentools_flag == true
 
     output:
-    tuple val(sample_id), path('*fasta')
+    tuple val("${sample_id}-${taxid}"), path('*fasta')
     
     script:
     """
     extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
     -s ${reads[0]} -s2 ${reads[1]} \
-    -o ${sample_id}_${taxid}-withchildren_1.fasta -o2 ${sample_id}_${taxid}-withchildren_2.fasta --include-children
+    -o ${sample_id}-${taxid}-withchildren_1.fasta -o2 ${sample_id}-${taxid}-withchildren_2.fasta --include-children
     """
 }
 
+process EXTRACT_KRAKEN_READS_FASTA {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //maxForks 1
+    cpus 20
+    
+
+    tag "Extract kraken reads on ${sample_id}"
+    //publishDir "${params.outdir}/krakentools/extract_${taxid}", mode: "copy"
+    publishDir "${params.outdir}/krakentools/extract_taxids_contigs/${sample_id}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    each taxid
+
+    when:
+    params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid] && params.krakentools_flag == true
+
+    output:
+    tuple val("${sample_id}_${taxid}"), path('*fasta')
+    
+    script:
+    """
+    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
+    -s ${reads} -o ${sample_id}-withchildren-contigs.fasta --include-children
+    """
+}
 
 process IDENTIFY_CLADE {
     conda "/export/home/agletdinov/mambaforge/envs/reat"
@@ -481,8 +531,8 @@ process UNICYCLER {
 process MEGAHIT {
     //conda 'bioconda::megahit'
     conda "/export/home/agletdinov/mambaforge/envs/megahit"
-    //memory 500.GB
-    //maxForks 2
+    memory 300.GB
+    maxForks 3
     cpus 40
 
     tag "Megahit on ${sample_id}"
@@ -494,14 +544,17 @@ process MEGAHIT {
     output:
     path('*'), emit: report
     //tuple val(sample_id), path('*'), emit: id_contigs
-    tuple val("${sample_id}_megahit"), path("${sample_id}/*fa"), emit: id_contigs
+    tuple val("${sample_id}-megahit"), path("${sample_id}/*fa"), emit: id_contigs
 
     script:
     """
     megahit -1 ${reads[0]} -2 ${reads[1]} \
-        -o ${sample_id} --out-prefix ${sample_id} -t ${task.cpus}
+        -o ${sample_id} --out-prefix ${sample_id} --memory 0.3 -t ${task.cpus} \
+        --presets meta-sensitive
     """
 }
+
+
 
 process METAPHLAN {
     //conda 'bioconda::metaphlan'
