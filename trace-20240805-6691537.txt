@@ -1,0 +1,152 @@
+task_id	hash	native_id	name	status	exit	submit	duration	realtime	%cpu	peak_rss	peak_vmem	rchar	wchar
+17	9c/e7a178	53459	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k16_bird_S11)	CACHED	0	2024-08-04 01:41:32.543	6m 54s	6m 54s	-	-	-	-	-
+14	b4/fa3392	56335	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k14_bird_S9)	CACHED	0	2024-08-04 01:48:09.850	2m 27s	2m 27s	-	-	-	-	-
+25	57/b60006	55125	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k19_bird_S14)	CACHED	0	2024-08-04 01:43:04.759	2m 28s	2m 28s	-	-	-	-	-
+30	73/b9c9ff	53834	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k23_bird_S18)	CACHED	0	2024-08-04 01:41:34.779	6m 52s	6m 52s	-	-	-	-	-
+29	69/30a9dd	59187	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k21_bird_S16)	CACHED	0	2024-08-04 01:49:08.863	1m 37s	1m 37s	-	-	-	-	-
+9	d6/208265	53628	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k12_bird_S7)	CACHED	0	2024-08-04 01:41:34.027	7m 35s	7m 34s	-	-	-	-	-
+20	cd/548b5c	41277	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k18_bird_S13)	CACHED	0	2024-08-04 00:38:16.792	5m 50s	5m 50s	-	-	-	-	-
+32	dc/18dd2a	53479	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k24_bird_S19)	CACHED	0	2024-08-04 01:41:32.876	6m 54s	6m 54s	-	-	-	-	-
+45	31/5c8a95	56218	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k8_bird_S3)	CACHED	0	2024-08-04 01:47:52.810	2m 42s	2m 34s	-	-	-	-	-
+35	71/25df00	53472	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k24_bird_S19)	CACHED	0	2024-08-04 01:41:32.704	1m 32s	1m 32s	-	-	-	-	-
+15	3a/e08db4	53513	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k15_bird_S10)	CACHED	0	2024-08-04 01:41:33.483	6m 54s	6m 54s	-	-	-	-	-
+4	84/f2777a	53442	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on PLmix2_S2)	CACHED	0	2024-08-04 01:41:32.154	3m 51s	3m 51s	-	-	-	-	-
+33	85/3cdb24	55765	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k23_bird_S18)	CACHED	0	2024-08-04 01:45:23.627	2m 46s	2m 46s	-	-	-	-	-
+19	ab/8fc41c	53546	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k16_bird_S11)	CACHED	0	2024-08-04 01:41:33.693	2m 13s	2m 13s	-	-	-	-	-
+11	45/b2e325	53532	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k13_bird_S8)	CACHED	0	2024-08-04 01:41:33.603	7m 5s	7m 5s	-	-	-	-	-
+18	ce/8909e6	54051	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k17_bird_S12)	CACHED	0	2024-08-04 01:41:35.064	7m 3s	7m 3s	-	-	-	-	-
+2	b4/ea6f9b	53465	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on plasm2mix2_S1)	CACHED	0	2024-08-04 01:41:32.634	4m 24s	4m 24s	-	-	-	-	-
+24	91/2a1d39	54006	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k20_bird_S15)	CACHED	0	2024-08-04 01:41:35.028	7m 34s	7m 34s	-	-	-	-	-
+44	67/7cfc8e	53787	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k9_bird_S4)	CACHED	0	2024-08-04 01:41:34.596	6m 52s	6m 52s	-	-	-	-	-
+26	16/f96e84	53987	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k21_bird_S16)	CACHED	0	2024-08-04 01:41:34.975	6m 52s	6m 52s	-	-	-	-	-
+16	4b/aca67f	59389	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k15_bird_S10)	CACHED	0	2024-08-04 01:49:53.524	3m 22s	3m 10s	-	-	-	-	-
+34	d8/98852a	53495	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k25_bird_S20)	CACHED	0	2024-08-04 01:41:33.066	7m 3s	7m 3s	-	-	-	-	-
+31	47/a00c95	59487	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k22_bird_S17)	CACHED	0	2024-08-04 01:50:34.634	2m 37s	2m 32s	-	-	-	-	-
+41	04/eb9460	59279	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k28_bird_S22)	CACHED	0	2024-08-04 01:49:34.204	1m 52s	1m 52s	-	-	-	-	-
+6	e3/3970e1	55955	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k10_bird_S5)	CACHED	0	2024-08-04 01:45:57.578	4m 12s	2m 28s	-	-	-	-	-
+3	bb/fd7600	53555	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on PLmix2_S2)	CACHED	0	2024-08-04 01:41:33.785	15m 50s	15m 50s	-	-	-	-	-
+28	cf/7e254e	53578	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k22_bird_S17)	CACHED	0	2024-08-04 01:41:33.898	6m 54s	6m 53s	-	-	-	-	-
+42	45/d693d4	53748	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k8_bird_S3)	CACHED	0	2024-08-04 01:41:34.467	7m 4s	7m 4s	-	-	-	-	-
+7	8e/62a2bc	54069	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k11_bird_S6)	CACHED	0	2024-08-04 01:41:35.259	7m 3s	7m 3s	-	-	-	-	-
+21	d8/48208f	56203	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k17_bird_S12)	CACHED	0	2024-08-04 01:47:44.911	2m 8s	1m 52s	-	-	-	-	-
+8	c3/07683b	55225	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k11_bird_S6)	CACHED	0	2024-08-04 01:43:47.696	1m 44s	1m 44s	-	-	-	-	-
+46	b6/015278	55233	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k9_bird_S4)	CACHED	0	2024-08-04 01:43:48.275	1m 47s	1m 46s	-	-	-	-	-
+38	2b/d03582	54203	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k28_bird_S22)	CACHED	0	2024-08-04 01:41:35.659	7m 29s	7m 29s	-	-	-	-	-
+22	1c/a783fa	53691	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k19_bird_S14)	CACHED	0	2024-08-04 01:41:34.243	7m 11s	7m 11s	-	-	-	-	-
+37	48/649bf0	55148	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k25_bird_S20)	CACHED	0	2024-08-04 01:43:12.906	2m 45s	2m 14s	-	-	-	-	-
+43	b3/043e1e	53449	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k30_bird_S23)	CACHED	0	2024-08-04 01:41:32.360	1m 38s	1m 38s	-	-	-	-	-
+13	2d/ad4e28	54113	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k14_bird_S9)	CACHED	0	2024-08-04 01:41:35.442	7m 13s	7m 13s	-	-	-	-	-
+12	eb/4f4a2d	56041	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k13_bird_S8)	CACHED	0	2024-08-04 01:46:34.438	3m 25s	3m 16s	-	-	-	-	-
+36	7f/26c637	53715	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k26_bird_S21)	CACHED	0	2024-08-04 01:41:34.341	10m 28s	10m 28s	-	-	-	-	-
+5	8b/67d06e	53656	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k10_bird_S5)	CACHED	0	2024-08-04 01:41:34.127	7m 21s	7m 21s	-	-	-	-	-
+10	a5/e2916f	53502	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k12_bird_S7)	CACHED	0	2024-08-04 01:41:33.252	2m 15s	2m 15s	-	-	-	-	-
+27	c8/d1dbf9	59433	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k20_bird_S15)	CACHED	0	2024-08-04 01:50:08.565	3m 20s	2m 52s	-	-	-	-	-
+23	40/a9402f	41271	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k18_bird_S13)	CACHED	0	2024-08-04 00:38:16.696	1m 23s	1m 23s	-	-	-	-	-
+1	3e/bc0830	53817	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on plasm2mix2_S1)	CACHED	0	2024-08-04 01:41:34.734	15m 49s	15m 49s	-	-	-	-	-
+40	cf/e4f03e	53879	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:FQ1 (FastQC on k30_bird_S23)	CACHED	0	2024-08-04 01:41:34.827	6m 52s	6m 52s	-	-	-	-	-
+39	56/4b6670	55867	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_ADAPT (Fastp on k26_bird_S21)	CACHED	0	2024-08-04 01:45:32.942	4m 1s	3m 37s	-	-	-	-	-
+51	02/9505bc	63196	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k15_bird_S10)	CACHED	0	2024-08-04 02:02:25.882	3m 7s	3m 7s	-	-	-	-	-
+52	43/2f0769	62237	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k13_bird_S8)	CACHED	0	2024-08-04 01:58:37.479	3m 45s	3m 45s	-	-	-	-	-
+69	a2/7d338b	62530	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k14_bird_S9)	CACHED	0	2024-08-04 01:59:45.234	5m 18s	4m 10s	-	-	-	-	-
+55	25/a21411	59772	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k16_bird_S11)	CACHED	0	2024-08-04 01:51:43.867	2m 38s	2m 31s	-	-	-	-	-
+59	94/406736	60999	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k19_bird_S14)	CACHED	0	2024-08-04 01:54:13.250	2m 33s	2m 32s	-	-	-	-	-
+48	bd/c23a36	60855	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k11_bird_S6)	CACHED	0	2024-08-04 01:53:28.809	2m 26s	2m 26s	-	-	-	-	-
+47	8b/9390a1	61651	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k17_bird_S12)	CACHED	0	2024-08-04 01:56:46.394	2m 57s	2m 52s	-	-	-	-	-
+65	4e/8a713a	61497	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k23_bird_S18)	CACHED	0	2024-08-04 01:56:09.828	2m 37s	2m 37s	-	-	-	-	-
+53	a4/04c27d	59547	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k30_bird_S23)	CACHED	0	2024-08-04 01:50:55.784	3m 32s	2m 44s	-	-	-	-	-
+57	09/623ad8	41539	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k18_bird_S13)	CACHED	0	2024-08-04 00:39:40.307	2m 38s	2m 38s	-	-	-	-	-
+66	b7/e9fd69	62268	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k10_bird_S5)	CACHED	0	2024-08-04 01:58:47.693	4m 20s	4m 20s	-	-	-	-	-
+64	b4/457899	63286	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k20_bird_S15)	CACHED	0	2024-08-04 02:03:08.227	2m 51s	2m 51s	-	-	-	-	-
+62	a4/1ca88e	62519	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k8_bird_S3)	CACHED	0	2024-08-04 01:59:43.516	5m 13s	5m 13s	-	-	-	-	-
+58	cf/3d7045	61404	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k25_bird_S20)	CACHED	0	2024-08-04 01:55:55.064	2m 42s	2m 42s	-	-	-	-	-
+68	45/948174	62650	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k28_bird_S22)	CACHED	0	2024-08-04 02:00:49.625	4m 29s	3m 26s	-	-	-	-	-
+56	9b/d0d050	60671	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k12_bird_S7)	CACHED	0	2024-08-04 01:53:11.926	2m 58s	2m 58s	-	-	-	-	-
+60	9d/8363dc	62579	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k21_bird_S16)	CACHED	0	2024-08-04 02:00:15.310	4m 49s	4m 11s	-	-	-	-	-
+54	c0/62c6ec	61643	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k26_bird_S21)	CACHED	0	2024-08-04 01:56:46.195	3m 6s	3m 6s	-	-	-	-	-
+49	00/755f08	59522	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k24_bird_S19)	CACHED	0	2024-08-04 01:50:41.784	3m 31s	2m 29s	-	-	-	-	-
+67	8b/ecc0ba	63099	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k22_bird_S17)	CACHED	0	2024-08-04 02:02:06.584	2m 42s	2m 42s	-	-	-	-	-
+50	0b/598302	61018	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on k9_bird_S4)	CACHED	0	2024-08-04 01:54:21.528	2m 25s	2m 24s	-	-	-	-	-
+61	e0/2eaf77	60688	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on PLmix2_S2)	CACHED	0	2024-08-04 01:53:18.184	6m 26s	6m 26s	-	-	-	-	-
+63	d4/16a240	61126	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:TRIM_4_NUCL (Cutadapt on plasm2mix2_S1)	CACHED	0	2024-08-04 01:54:28.271	7m 38s	7m 38s	-	-	-	-	-
+86	e9/0a0507	63610	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k24_bird_S19)	CACHED	0	2024-08-04 02:05:04.974	9m 56s	9m 56s	-	-	-	-	-
+70	d1/fde2f8	76623	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k15_bird_S10)	CACHED	0	2024-08-04 03:35:28.388	11m 25s	11m 25s	-	-	-	-	-
+77	a2/32ef24	69225	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k17_bird_S12)	CACHED	0	2024-08-04 02:43:15.760	8m 56s	8m 56s	-	-	-	-	-
+78	2c/b8f762	64866	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k30_bird_S23)	CACHED	0	2024-08-04 02:15:01.244	9m 6s	9m 6s	-	-	-	-	-
+72	c9/952547	66462	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k19_bird_S14)	CACHED	0	2024-08-04 02:24:20.274	9m 14s	9m 14s	-	-	-	-	-
+73	06/45ceaa	72166	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k13_bird_S8)	CACHED	0	2024-08-04 03:03:32.474	6m 52s	6m 52s	-	-	-	-	-
+88	9a/dbf6f8	75463	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k21_bird_S16)	CACHED	0	2024-08-04 03:27:05.851	8m 22s	8m 22s	-	-	-	-	-
+90	2b/a272a1	71778	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on plasm2mix2_S1)	CACHED	0	2024-08-04 03:00:34.170	11m 7s	11m 7s	-	-	-	-	-
+89	04/a2de86	66419	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k12_bird_S7)	CACHED	0	2024-08-04 02:24:07.393	9m 44s	9m 44s	-	-	-	-	-
+79	29/efb6b7	41877	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k18_bird_S13)	CACHED	0	2024-08-04 00:42:18.726	6m 30s	6m 30s	-	-	-	-	-
+84	3e/e53747	75693	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k28_bird_S22)	CACHED	0	2024-08-04 03:28:06.112	8m 39s	8m 39s	-	-	-	-	-
+76	b7/eb17d3	69059	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k23_bird_S18)	CACHED	0	2024-08-04 02:42:25.180	8m 40s	8m 40s	-	-	-	-	-
+91	c5/8846ac	70393	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on PLmix2_S2)	CACHED	0	2024-08-04 02:51:04.939	12m 27s	12m 27s	-	-	-	-	-
+85	52/4b465e	70521	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k26_bird_S21)	CACHED	0	2024-08-04 02:52:11.717	8m 22s	8m 22s	-	-	-	-	-
+83	35/e2f0de	74187	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k8_bird_S3)	CACHED	0	2024-08-04 03:18:35.756	8m 30s	8m 30s	-	-	-	-	-
+74	5a/95f8ce	63676	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k16_bird_S11)	CACHED	0	2024-08-04 02:05:33.480	9m 47s	9m 47s	-	-	-	-	-
+92	13/2ed69f	73371	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k22_bird_S17)	CACHED	0	2024-08-04 03:11:41.556	7m 43s	7m 43s	-	-	-	-	-
+87	47/a52f4a	67648	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k9_bird_S4)	CACHED	0	2024-08-04 02:33:34.534	8m 50s	8m 50s	-	-	-	-	-
+71	e0/a6eb5c	65069	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k11_bird_S6)	CACHED	0	2024-08-04 02:15:20.857	8m 59s	8m 59s	-	-	-	-	-
+82	25/cc9ed6	67758	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k25_bird_S20)	CACHED	0	2024-08-04 02:33:51.576	9m 24s	9m 24s	-	-	-	-	-
+75	ba/b951ea	74424	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k14_bird_S9)	CACHED	0	2024-08-04 03:19:24.962	8m 41s	8m 41s	-	-	-	-	-
+81	8a/0941a9	76831	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k20_bird_S15)	CACHED	0	2024-08-04 03:36:46.022	11m 30s	11m 30s	-	-	-	-	-
+80	be/753eff	73146	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2 (Kraken2 on k10_bird_S5)	CACHED	0	2024-08-04 03:10:24.409	8m 11s	8m 11s	-	-	-	-	-
+96	63/d1d775	16089	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:EXTRACT_KRAKEN_READS (Extract kraken reads on k24_bird_S19)	CACHED	0	2024-08-04 12:59:00.307	7m 40s	7m 40s	-	-	-	-	-
+126	a1/721937	16083	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:EXTRACT_KRAKEN_READS (Extract kraken reads on k18_bird_S13)	CACHED	0	2024-08-04 12:59:00.115	7m 36s	7m 36s	-	-	-	-	-
+144	71/081bb0	76838	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k28_bird_S22)	CACHED	0	2024-08-04 03:36:46.361	35.6s	35.4s	-	-	-	-	-
+116	f8/9bf16f	76700	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k21_bird_S16)	CACHED	0	2024-08-04 03:35:35.124	2.6s	2.5s	-	-	-	-	-
+131	88/ff2633	73424	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on plasm2mix2_S1)	CACHED	0	2024-08-04 03:11:43.975	5.8s	5.2s	-	-	-	-	-
+145	89/cc9fbe	75755	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k8_bird_S3)	CACHED	0	2024-08-04 03:28:12.661	2.5s	2.3s	-	-	-	-	-
+142	58/1e16b1	76926	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k28_bird_S22)	CACHED	0	2024-08-04 03:37:22.225	4.5s	4.2s	-	-	-	-	-
+111	0b/90646f	73243	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k13_bird_S8)	CACHED	0	2024-08-04 03:10:33.783	4.2s	4.1s	-	-	-	-	-
+118	03/a045a3	67717	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k19_bird_S14)	CACHED	0	2024-08-04 02:33:43.073	2.4s	2.2s	-	-	-	-	-
+146	a0/a3fb18	75700	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k8_bird_S3)	CACHED	0	2024-08-04 03:28:06.660	5.4s	5.4s	-	-	-	-	-
+112	54/0a4568	73152	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k13_bird_S8)	CACHED	0	2024-08-04 03:10:24.640	9s	8.8s	-	-	-	-	-
+139	d7/009bae	70795	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k23_bird_S18)	CACHED	0	2024-08-04 02:52:28.559	2.2s	2.1s	-	-	-	-	-
+104	ff/bc91fd	70839	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k17_bird_S12)	CACHED	0	2024-08-04 02:52:30.933	2.2s	2s	-	-	-	-	-
+137	46/f344aa	72172	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on PLmix2_S2)	CACHED	0	2024-08-04 03:03:32.583	2.6s	2.4s	-	-	-	-	-
+158	9c/6b1fbe	67405	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k11_bird_S6)	CACHED	0	2024-08-04 02:31:21.515	3.6s	3.5s	-	-	-	-	-
+119	47/5188e5	67661	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k19_bird_S14)	CACHED	0	2024-08-04 02:33:35.713	7s	5.8s	-	-	-	-	-
+110	30/1633c6	67338	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k30_bird_S23)	CACHED	0	2024-08-04 02:31:15.178	3.6s	3.5s	-	-	-	-	-
+123	8e/507c08	67765	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k12_bird_S7)	CACHED	0	2024-08-04 02:33:51.817	4.5s	4.4s	-	-	-	-	-
+107	e7/2f438d	70886	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k17_bird_S12)	CACHED	0	2024-08-04 02:52:33.297	4.2s	4.1s	-	-	-	-	-
+134	4f/deb3a0	73378	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on plasm2mix2_S1)	CACHED	0	2024-08-04 03:11:41.780	1.9s	1.8s	-	-	-	-	-
+127	aa/7dfc3d	43788	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k18_bird_S13)	CACHED	0	2024-08-04 00:53:01.161	3.1s	2.9s	-	-	-	-	-
+97	c9/e238cf	78301	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k15_bird_S10)	CACHED	0	2024-08-04 03:46:53.608	8s	7.9s	-	-	-	-	-
+179	3b/b9f1e3	78509	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k20_bird_S15)	CACHED	0	2024-08-04 03:48:16.857	6.6s	6.5s	-	-	-	-	-
+180	ad/3aec79	75811	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k14_bird_S9)	CACHED	0	2024-08-04 03:28:17.811	4.2s	4.1s	-	-	-	-	-
+167	6d/508fb5	69067	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k9_bird_S4)	CACHED	0	2024-08-04 02:42:25.449	5.1s	4.4s	-	-	-	-	-
+149	2b/b73e13	71786	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k26_bird_S21)	CACHED	0	2024-08-04 03:00:34.376	11s	10.9s	-	-	-	-	-
+140	e8/97fb62	70657	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k23_bird_S18)	CACHED	0	2024-08-04 02:52:25.984	2.5s	2.4s	-	-	-	-	-
+169	d3/1a3552	75653	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k22_bird_S17)	CACHED	0	2024-08-04 03:28:03.034	3.4s	3.3s	-	-	-	-	-
+93	ab/221463	66085	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k24_bird_S19)	CACHED	0	2024-08-04 02:22:44.897	4.1s	4s	-	-	-	-	-
+138	d9/a13165	72218	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on PLmix2_S2)	CACHED	0	2024-08-04 03:03:35.441	4.6s	3.2s	-	-	-	-	-
+152	d5/57d552	67265	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k16_bird_S11)	CACHED	0	2024-08-04 02:31:08.417	2.6s	2.4s	-	-	-	-	-
+114	44/8b31b0	76629	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k21_bird_S16)	CACHED	0	2024-08-04 03:35:28.558	6.4s	6.3s	-	-	-	-	-
+155	3e/57d427	67236	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k16_bird_S11)	CACHED	0	2024-08-04 02:31:03.856	4.4s	4.3s	-	-	-	-	-
+164	ee/27bf44	69135	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k9_bird_S4)	CACHED	0	2024-08-04 02:42:30.706	3.5s	3.4s	-	-	-	-	-
+95	f3/28224d	66123	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k24_bird_S19)	CACHED	0	2024-08-04 02:22:49.027	2.4s	2.2s	-	-	-	-	-
+182	1f/ec55ba	75784	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k14_bird_S9)	CACHED	0	2024-08-04 03:28:15.357	2.3s	2.2s	-	-	-	-	-
+147	51/2cf19c	71852	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k26_bird_S21)	CACHED	0	2024-08-04 03:00:45.504	3.9s	3.7s	-	-	-	-	-
+102	34/0148e9	78307	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k15_bird_S10)	CACHED	0	2024-08-04 03:46:53.834	7.9s	7.8s	-	-	-	-	-
+183	64/2bd1eb	70560	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k25_bird_S20)	CACHED	0	2024-08-04 02:52:21.261	2.1s	2s	-	-	-	-	-
+175	9f/d71ffc	75593	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k10_bird_S5)	CACHED	0	2024-08-04 03:27:57.118	2.2s	2.1s	-	-	-	-	-
+109	05/6248d2	67297	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k30_bird_S23)	CACHED	0	2024-08-04 02:31:11.081	3.9s	3.8s	-	-	-	-	-
+161	f2/eb816a	67374	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k11_bird_S6)	CACHED	0	2024-08-04 02:31:19.036	2.2s	2.2s	-	-	-	-	-
+184	79/a11512	70590	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k25_bird_S20)	CACHED	0	2024-08-04 02:52:23.505	2.3s	2.2s	-	-	-	-	-
+177	49/f19923	75565	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k10_bird_S5)	CACHED	0	2024-08-04 03:27:54.193	2.8s	2.6s	-	-	-	-	-
+172	5c/7bc10e	75624	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k22_bird_S17)	CACHED	0	2024-08-04 03:27:59.551	3.2s	3.1s	-	-	-	-	-
+178	32/e6edf0	78503	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k20_bird_S15)	CACHED	0	2024-08-04 03:48:16.694	7s	6.9s	-	-	-	-	-
+125	85/08e824	67816	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k12_bird_S7)	CACHED	0	2024-08-04 02:33:57.222	2.8s	2.5s	-	-	-	-	-
+129	8f/78b77f	43796	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:BRACKEN_EACH (Bracken on k18_bird_S13)	CACHED	0	2024-08-04 00:53:01.324	2.9s	2.8s	-	-	-	-	-
+166	95/13721f	16096	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:EXTRACT_KRAKEN_READS (Extract kraken reads on k10_bird_S5)	CACHED	0	2024-08-04 12:59:00.465	8m 51s	8m 50s	-	-	-	-	-
+156	f6/cd420f	16111	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:EXTRACT_KRAKEN_READS (Extract kraken reads on k16_bird_S11)	CACHED	0	2024-08-04 12:59:00.828	8m 38s	8m 38s	-	-	-	-	-
+186	c3/e590af	81630	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:MEGAHIT (Megahit on k18_bird_S13-694014)	CACHED	0	2024-08-04 18:52:34.712	16.9s	16.9s	-	-	-	-	-
+185	5f/14351d	81646	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:MEGAHIT (Megahit on k24_bird_S19-694014)	CACHED	0	2024-08-04 18:52:34.835	53s	52.8s	-	-	-	-	-
+187	ce/a1fc0e	81639	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:MEGAHIT (Megahit on k10_bird_S5-3050337)	CACHED	0	2024-08-04 18:52:34.759	14.8s	14.7s	-	-	-	-	-
+188	37/2c6be1	69462	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:MEGAHIT (Megahit on k16_bird_S11-694014)	CACHED	0	2024-08-04 17:38:03.788	11.6s	11.6s	-	-	-	-	-
+192	62/c1eff1	99382	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2_FASTA (Kraken2 on k10_bird_S5-3050337-megahit)	CACHED	0	2024-08-04 20:14:49.544	8m 38s	8m 38s	-	-	-	-	-
+189	c8/535000	99396	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2_FASTA (Kraken2 on k18_bird_S13-694014-megahit)	CACHED	0	2024-08-04 20:14:49.816	8m 52s	8m 52s	-	-	-	-	-
+193	db/9cb46f	100521	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2_FASTA (Kraken2 on k16_bird_S11-694014-megahit)	CACHED	0	2024-08-04 20:23:28.140	5m 52s	5m 52s	-	-	-	-	-
+191	4c/8b95cf	99388	taxonomy_analysis_simple:TAXONOMY_ANALYSIS_SIMPLE:KRAKEN2_FASTA (Kraken2 on k24_bird_S19-694014-megahit)	CACHED	0	2024-08-04 20:14:49.617	8m 46s	8m 46s	-	-	-	-	-
+190	e6/776eac	78573	taxonomy_analysis_simple:MULTIQC (MultiQC)	CACHED	0	2024-08-04 03:48:28.219	58.5s	58.4s	-	-	-	-	-

@@ -138,7 +138,7 @@ process BWA_INDEX_FULL_GENOME {
     """
     bwa index \\
         -p "${genome}" \\
-        "${params.genome_dict[genome]}"
+        "${params.genome_dict_taxid[genome]}"
     """
 }
 
@@ -352,6 +352,7 @@ process KRAKEN2_FASTA {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     //maxForks 1
+    errorStrategy 'ignore'
     cpus 40
         
     tag "Kraken2 on ${sample_id}"
@@ -362,13 +363,12 @@ process KRAKEN2_FASTA {
     
     output:
     path('*.kraken'), emit: report
-    tuple val(id_part), path('*report.kraken'), emit: id_report
-    tuple val(id_part), path('*output.kraken'), emit: id_output
+    tuple val(sample_id), path('*report.kraken'), emit: id_report
+    tuple val(sample_id), path('*output.kraken'), emit: id_output
     
     script:
     """
-    def id_part = sample_id.split('-')[0]
-    kraken2 --quick --db ${params.kraken2db}  --threads ${task.cpus}  --output ${id_part}_output.kraken --report ${id_part}_report.kraken ${reads} > ${id_part}_kraken.txt
+    kraken2 --db ${params.kraken2db}  --threads ${task.cpus}  --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
     """
 }
 
@@ -459,17 +459,29 @@ process EXTRACT_KRAKEN_READS_FASTA {
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
     each taxid
-
+    
     when:
-    params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid] && params.krakentools_flag == true
-
+    //"${sample_id}".contains(taxid) && params.taxid_dict_v2[taxid].contains("${sample_id}-${taxid}")
+    "k16_bird_S11-694014-megahit-694014" in params.taxid_dict_v2[taxid]
+    //println "Checking ${sample_id}-${taxid} in ${params.taxid_dict_v2[taxid]}"
+    println "Sample ID: ${sample_id}"
+    //println "Reads file: ${reads}"
+    //println "Kraken output: ${kraken_output}"
+    //println "Kraken report: ${kraken_report}"
+    //println "Tax ID: ${taxid}"
+    //println "Tax ID dictionary: ${params.taxid_dict_v2}"    
+    
+    //println "Checking ${sample_id}-${taxid} in ${params.taxid_dict_v2[taxid]}"
+    //params.taxid_dict_v2[taxid].contains(sample_id) == true
+    //println "Checking ${sample_id} in ${params.taxid_dict_v2[taxid]}"
+    //params.taxid_dict_v2[taxid].contains(sample_id)
     output:
-    tuple val("${sample_id}_${taxid}"), path('*fasta')
+    tuple val(sample_id), path('*fasta')
     
     script:
     """
     extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
-    -s ${reads} -o ${sample_id}-withchildren-contigs.fasta --include-children
+    -s ${reads} -o ${sample_id}-${taxid}-withchildren-contigs.fasta --include-children
     """
 }
 
@@ -554,7 +566,28 @@ process MEGAHIT {
     """
 }
 
+process QUAST {
+    conda "/export/home/agletdinov/mambaforge/envs/quast"
+    cpus 40
 
+    tag "Quast for ${sample_id}"
+    publishDir "${params.outdir}/quast/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs)
+    each taxid
+    
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    tuple val(sample_id), path("*")
+
+    """
+    quast.py ${contigs} /
+          -t ${task.cpus} -r ${params.genome_dict_taxid[taxid]}
+    """
+}
 
 process METAPHLAN {
     //conda 'bioconda::metaphlan'

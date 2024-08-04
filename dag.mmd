@@ -3,6 +3,7 @@ flowchart TB
     v0["Channel.fromFilePairs"]
     v5[" "]
     v9[" "]
+    v17[" "]
     end
     subgraph taxonomy_analysis_simple
     subgraph TAXONOMY_ANALYSIS_SIMPLE
@@ -14,36 +15,42 @@ flowchart TB
     v10([EXTRACT_KRAKEN_READS])
     v11([MEGAHIT])
     v13([KRAKEN2_FASTA])
+    v18([EXTRACT_KRAKEN_READS_FASTA])
     v7(( ))
+    v15(( ))
+    v19(( ))
     end
-    v20([MULTIQC])
-    v17(( ))
+    v24([MULTIQC])
+    v21(( ))
     end
     subgraph " "
     v12[" "]
     v14[" "]
-    v15[" "]
-    v16[" "]
-    v21[" "]
+    v20[" "]
+    v25[" "]
     end
     v0 --> v1
     v0 --> v2
-    v1 --> v17
+    v1 --> v21
     v2 --> v3
     v3 --> v4
     v3 --> v7
     v4 --> v6
     v4 --> v7
-    v4 --> v17
+    v4 --> v21
     v5 --> v6
-    v6 --> v17
+    v6 --> v21
     v9 --> v10
     v7 --> v10
     v10 --> v11
     v11 --> v12
     v11 --> v13
-    v13 --> v16
-    v13 --> v15
+    v11 --> v15
     v13 --> v14
-    v17 --> v20
-    v20 --> v21
+    v13 --> v15
+    v17 --> v18
+    v15 --> v18
+    v18 --> v19
+    v19 --> v20
+    v21 --> v24
+    v24 --> v25
