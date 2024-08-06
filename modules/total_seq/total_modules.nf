@@ -40,6 +40,7 @@ workflow TAXONOMY_ANALYSIS_SIMPLE {
     read_pairs_ch
     methods
     bracken_settings
+    taxid_dict_v2
     taxid
   main:
     //FASTQC_1 = FASTQC(read_pairs_ch)
@@ -51,9 +52,9 @@ workflow TAXONOMY_ANALYSIS_SIMPLE {
     KRAKEN2(TRIM_4_NUCL.out)
     BRACKEN_EACH(KRAKEN2.out.id_report, bracken_settings)
     EXTRACT_KRAKEN_READS(TRIM_4_NUCL.out.join(KRAKEN2.out.id_output).join(KRAKEN2.out.id_report), taxid)
-    MEGAHIT(EXTRACT_KRAKEN_READS.out)
+    MEGAHIT(EXTRACT_KRAKEN_READS.out.id_fasta)
     KRAKEN2_FASTA(MEGAHIT.out.id_contigs)
-    EXTRACT_KRAKEN_READS_FASTA(MEGAHIT.out.id_contigs.join(KRAKEN2_FASTA.out.id_output).join(KRAKEN2_FASTA.out.id_report), taxid).view()
+    EXTRACT_KRAKEN_READS_FASTA(MEGAHIT.out.id_contigs.join(KRAKEN2_FASTA.out.id_output).join(KRAKEN2_FASTA.out.id_report), taxid_dict_v2, taxid).view()
     //QUAST(EXTRACT_KRAKEN_READS_FASTA.out)
     //DIAMOND(MEGAHIT.out.id_contigs)
     //METAPHLAN1(MEGAHIT.out.id_contigs)
@@ -84,5 +85,26 @@ workflow TAXONOMY_ANALYSIS_SARS {
     
   emit: 
      FQ1.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out.report) | concat(BRACKEN_EACH.out) | collect
+     //FASTQC.out | concat(KRAKEN2.out) | collect
+}
+
+workflow TAXONOMY_ANALYSIS_BAD_R2{
+  take:
+    read_pairs_ch
+    methods
+    bracken_settings
+    taxid
+  main:
+    //FASTQC_1 = FASTQC(read_pairs_ch)
+    FQ1(read_pairs_ch)
+    TRIM_ADAPT(read_pairs_ch)
+    TRIM_4_NUCL(TRIM_ADAPT.out)
+    //FASTQC_2 = FASTQC(TRIM_PRIMERS.out)
+    //FQ2(TRIM_PRIMERS.out)
+    KRAKEN2(TRIM_4_NUCL.out)
+    BRACKEN_EACH(KRAKEN2.out.id_report, bracken_settings)
+    EXTRACT_KRAKEN_READS(TRIM_4_NUCL.out.join(KRAKEN2.out.id_output).join(KRAKEN2.out.id_report), taxid)
+  emit: 
+     FQ1.out | concat(KRAKEN2.out.report) | concat(BRACKEN_EACH.out) | collect
      //FASTQC.out | concat(KRAKEN2.out) | collect
 }

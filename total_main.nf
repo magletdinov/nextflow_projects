@@ -6,6 +6,8 @@ params.run = "20_07_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
+params.singleEnd = false
+
 //params.reads = "${params.results_project}/fastq/${params.run}/k18*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
 params.metaphlandb = "/export/home/public/agletdinov_shared/metaphlandb"
@@ -21,6 +23,13 @@ def taxid_dict = [
     '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
 ]
 params.taxid_dict = taxid_dict
+
+//def taxid_dict = [
+//    '3049954': ["K_S2_L001", "L_S3_L001"],
+//    '40324'  : ["L_S3_L001"]
+//]
+//params.taxid_dict = taxid_dict
+
 //taxid_dict_v2 = params.taxid_dict.collectEntries{ taxid, names ->
 //  [taxid, names.collect{ name -> "${name}-${taxid}-megahit" }]
 //}
@@ -33,6 +42,7 @@ def taxid_dict_v2 = [
 params.taxid_dict_v2 = taxid_dict_v2
 
 params.taxid = ['3050337', '694014']
+//params.taxid = ['3049954', '40324']
 
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
@@ -70,6 +80,7 @@ log.info """\
 
 include { TAXONOMY_ANALYSIS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SIMPLE } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_BAD_R2 } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SARS } from './modules/total_seq/total_modules.nf'
 include { MULTIQC } from './modules/multiqc.nf'
 
@@ -93,10 +104,24 @@ workflow taxonomy_analysis_simple{
         .set { read_pairs_ch }
     methods = params.methods
     bracken_settings = params.bracken_settings
+    taxid_dict_v2 = params.taxid_dict_v2
     taxid = params.taxid
-    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxid)
+    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxid_dict_v2, taxid)
     MULTIQC(TAXONOMY_ANALYSIS_SIMPLE.out)
 }
+
+
+workflow taxonomy_analysis_bad_r2{
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    methods = params.methods
+    bracken_settings = params.bracken_settings
+    taxid = params.taxid
+    TAXONOMY_ANALYSIS_BAD_R2(read_pairs_ch, methods, bracken_settings, taxid)
+    MULTIQC(TAXONOMY_ANALYSIS_BAD_R2.out)
+}
+
 
 workflow taxonomy_analysis_sars{
     Channel

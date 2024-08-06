@@ -36,9 +36,15 @@ process TRIM_ADAPT {
     //maxRetries 5
     
     script:
-    """
-    fastp -i ${reads[0]} -I ${reads[1]} -o ${sample_id}_t_a_R1.fastq.gz -O  ${sample_id}_t_a_R2.fastq.gz --thread ${task.cpus} --adapter_fasta ${params.adapters}
-    """
+    if (params.singleEnd) {
+        """
+        fastp -i ${reads} -o ${sample_id}_t_a.fastq.gz --thread ${task.cpus} --adapter_fasta ${params.adapters}
+        """
+    } else {
+        """
+        fastp -i ${reads[0]} -I ${reads[1]} -o ${sample_id}_t_a_R1.fastq.gz -O  ${sample_id}_t_a_R2.fastq.gz --thread ${task.cpus} --adapter_fasta ${params.adapters}
+        """
+    }
 }
   
 process TRIM_4_NUCL {
@@ -63,11 +69,18 @@ process TRIM_4_NUCL {
     //maxRetries 5
 
     script:
-    """
-    cutadapt -u 4 -u -4 -U 4 -U -4 -o ${sample_id}_t_4_R1.fastq.gz -p ${sample_id}_t_4_R2.fastq.gz \
+    if (params.singleEnd) {
+        """
+        cutadapt -u 4 -u -4 -o ${sample_id}_t_4.fastq.gz \
+        ${reads} -j ${task.cpus}
+        """
+    } else {
+        """
+        cutadapt -u 4 -u -4 -U 4 -U -4 -o ${sample_id}_t_4_R1.fastq.gz -p ${sample_id}_t_4_R2.fastq.gz \
         ${reads[0]} ${reads[1]} \
         -j ${task.cpus}
-    """
+        """
+    }
 }
 
 
@@ -343,9 +356,17 @@ process KRAKEN2 {
     tuple val(sample_id), path('*output.kraken'), emit: id_output
     
     script:
-    """
-    kraken2 --db ${params.kraken2db}  --threads ${task.cpus} --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
-    """
+    if (params.singleEnd) {
+        """
+        kraken2 --db ${params.kraken2db}  --threads ${task.cpus} \
+        --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
+        """
+    } else {
+        """
+        kraken2 --db ${params.kraken2db}  --threads ${task.cpus} \
+        --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
+        """
+    }
 }
 
 process KRAKEN2_FASTA {
@@ -430,25 +451,38 @@ process EXTRACT_KRAKEN_READS {
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
     each taxid
-
+    //тут нельзя писать println!!! (ниже when)
     when:
     params.taxid_dict.containsKey(taxid) && sample_id in params.taxid_dict[taxid] && params.krakentools_flag == true
-
     output:
-    tuple val("${sample_id}-${taxid}"), path('*fasta')
+    tuple val("${sample_id}-${taxid}"), path('*fast*'), emit: id_files    
+    tuple val("${sample_id}-${taxid}"), path('*fasta'), emit: id_fasta
+    tuple val("${sample_id}-${taxid}"), path('*fastq*'), emit: id_fastq
     
     script:
-    """
-    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
-    -s ${reads[0]} -s2 ${reads[1]} \
-    -o ${sample_id}-${taxid}-withchildren_1.fasta -o2 ${sample_id}-${taxid}-withchildren_2.fasta --include-children
-    """
+    if (params.singleEnd) {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
+            -s ${reads} \
+            -o ${sample_id}-${taxid}-withchildren_1.fastq --include-children --fastq-output
+        seqtk seq -a ${sample_id}-${taxid}-withchildren_1.fastq > ${sample_id}-${taxid}-withchildren_1.fasta
+        """
+    } else {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
+            -s ${reads[0]} -s2 ${reads[1]} \
+            -o ${sample_id}-${taxid}-withchildren_1.fastq -o2 ${sample_id}-${taxid}-withchildren_2.fastq --include-children --fastq-output
+        seqtk seq -a ${sample_id}-${taxid}-withchildren_1.fastq > ${sample_id}-${taxid}-withchildren_1.fasta
+        seqtk seq -a ${sample_id}-${taxid}-withchildren_2.fastq > ${sample_id}-${taxid}-withchildren_2.fasta
+        """
+    }
 }
 
 process EXTRACT_KRAKEN_READS_FASTA {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     //maxForks 1
+    errorStrategy 'ignore'
     cpus 20
     
 
@@ -458,31 +492,46 @@ process EXTRACT_KRAKEN_READS_FASTA {
     
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    val(taxid_dict_v2)
     each taxid
-    
-    when:
     //"${sample_id}".contains(taxid) && params.taxid_dict_v2[taxid].contains("${sample_id}-${taxid}")
-    "k16_bird_S11-694014-megahit-694014" in params.taxid_dict_v2[taxid]
-    //println "Checking ${sample_id}-${taxid} in ${params.taxid_dict_v2[taxid]}"
-    println "Sample ID: ${sample_id}"
-    //println "Reads file: ${reads}"
-    //println "Kraken output: ${kraken_output}"
-    //println "Kraken report: ${kraken_report}"
-    //println "Tax ID: ${taxid}"
-    //println "Tax ID dictionary: ${params.taxid_dict_v2}"    
-    
-    //println "Checking ${sample_id}-${taxid} in ${params.taxid_dict_v2[taxid]}"
-    //params.taxid_dict_v2[taxid].contains(sample_id) == true
-    //println "Checking ${sample_id} in ${params.taxid_dict_v2[taxid]}"
-    //params.taxid_dict_v2[taxid].contains(sample_id)
+    //"${sample_id}-${taxid}" in params.taxid_dict_v2[taxid]
+    //println "${sample_id}-${taxid}"
+    //println params.taxid_dict_v2
+    //println "${params.taxid_dict_v2["3050337"]}"
+    //"${sample_id}-${taxid}" in params.taxid_dict_v2["${taxid}"]
+    //println "${sample_id}-${taxid}"
+
+    //when:
+    //println("Checking if ${sample_id}-${taxid} is in ${params.taxid_dict_v2[taxid]}")
+    //key in params.taxid_dict_v2[taxid]
+    //"k24_bird_S19-694014-megahit-694014" in params.taxid_dict_v2[taxid]
+    //"${sample_id}-${taxid}" in params.taxid_dict_v2[taxid]
+    //println "sample_id: ${sample_id}"
+    //println "taxid: ${taxid}"
+    //println "key: ${sample_id}-${taxid}"
+    //println "dict value: ${params.taxid_dict_v2[taxid]}"    
     output:
     tuple val(sample_id), path('*fasta')
     
     script:
+    if (params.taxid_dict_v2[taxid].contains("${sample_id}-${taxid}")) {   
     """
     extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
     -s ${reads} -o ${sample_id}-${taxid}-withchildren-contigs.fasta --include-children
     """
+    }
+    else {
+    """
+    #!/usr/bin/env python
+    x="$taxid_dict_v2"
+    sample_id="$sample_id"
+    taxid="$taxid"
+    print(f'{sample_id}-{taxid}' in x)
+    print(f'{sample_id}-{taxid}')
+    print(x)
+    """
+    }
 }
 
 process IDENTIFY_CLADE {
