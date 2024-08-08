@@ -341,7 +341,7 @@ process RENAME_FASTA_ID {
 process KRAKEN2 {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
-    //maxForks 1
+    maxForks 1
     cpus 40
 
     tag "Kraken2 on ${sample_id}"
@@ -358,12 +358,12 @@ process KRAKEN2 {
     script:
     if (params.singleEnd) {
         """
-        kraken2 --db ${params.kraken2db}  --threads ${task.cpus} \
+        kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus} \
         --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
         """
     } else {
         """
-        kraken2 --db ${params.kraken2db}  --threads ${task.cpus} \
+        kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus} \
         --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
         """
     }
@@ -482,7 +482,7 @@ process EXTRACT_KRAKEN_READS_FASTA {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     //maxForks 1
-    errorStrategy 'ignore'
+    //errorStrategy 'ignore'
     cpus 20
     
 
@@ -500,38 +500,16 @@ process EXTRACT_KRAKEN_READS_FASTA {
     //println params.taxid_dict_v2
     //println "${params.taxid_dict_v2["3050337"]}"
     //"${sample_id}-${taxid}" in params.taxid_dict_v2["${taxid}"]
-    //println "${sample_id}-${taxid}"
-
-    //when:
-    //println("Checking if ${sample_id}-${taxid} is in ${params.taxid_dict_v2[taxid]}")
-    //key in params.taxid_dict_v2[taxid]
-    //"k24_bird_S19-694014-megahit-694014" in params.taxid_dict_v2[taxid]
-    //"${sample_id}-${taxid}" in params.taxid_dict_v2[taxid]
-    //println "sample_id: ${sample_id}"
-    //println "taxid: ${taxid}"
-    //println "key: ${sample_id}-${taxid}"
-    //println "dict value: ${params.taxid_dict_v2[taxid]}"    
+    when:
+    sample_id + '-' + taxid in taxid_dict_v2[taxid]
     output:
-    tuple val(sample_id), path('*fasta')
+    tuple val("${sample_id}-${taxid}"), path('*fasta')
     
-    script:
-    if (params.taxid_dict_v2[taxid].contains("${sample_id}-${taxid}")) {   
+    script: 
     """
     extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid} \
     -s ${reads} -o ${sample_id}-${taxid}-withchildren-contigs.fasta --include-children
     """
-    }
-    else {
-    """
-    #!/usr/bin/env python
-    x="$taxid_dict_v2"
-    sample_id="$sample_id"
-    taxid="$taxid"
-    print(f'{sample_id}-{taxid}' in x)
-    print(f'{sample_id}-{taxid}')
-    print(x)
-    """
-    }
 }
 
 process IDENTIFY_CLADE {
@@ -604,7 +582,7 @@ process MEGAHIT {
 
     output:
     path('*'), emit: report
-    //tuple val(sample_id), path('*'), emit: id_contigs
+    tuple val(sample_id), path("${sample_id}/*fa"), emit: simple_id_contigs
     tuple val("${sample_id}-megahit"), path("${sample_id}/*fa"), emit: id_contigs
 
     script:
@@ -709,5 +687,98 @@ process DIAMOND {
         --evalue 1e-05 \
         -v \
         --log
+    """
+}
+
+process blastn {
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/blast"
+    //memory = '1 MB'
+    //maxForks 2
+    cpus 5
+    tag "Blastn on ${sample_id}"
+    publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
+
+    input:
+    tuple val(sample_id), path(contigs)
+    path db 
+
+    output:
+    tuple val(sample_id), path('*.blastn'), emit: id_report
+
+    script:
+    """
+    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    """
+}
+
+process BLASTN {
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/blastn"
+    //memory = '1 MB'
+    //maxForks 2
+    cpus 5
+    tag "Blastn on ${sample_id}"
+    publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs)
+    path(blastnDB) 
+
+    output:
+    path('*.blastn')
+ 
+    script:
+    println blastnDB
+    """
+    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    """
+}
+
+
+process blastn_parse{
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/reat"
+    //memory = '1 MB'
+    //maxForks 2
+    cpus 5
+    tag "Parse blastn result for ${sample_id}"
+    publishDir "${params.outdir}/blastn_parse/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(report)
+    path(to_nodes)
+
+    output:
+    path('*.tsv')
+ 
+    script:
+    kraken_taxid = sample_id.split('-')[-1]
+    """
+    #!/usr/bin/env python3
+    import pandas as pd
+    from pathlib import Path
+    from collections import Counter
+
+    nodes = pd.read_csv('${to_nodes}', sep="\t", header=None, usecols=[0, 2, 4], names=["tax_id", "parent tax_id", "tax_name"], index_col="tax_id")
+    df_blastn = pd.read_csv('${report}', sep="\t", header=None, usecols=[0, 5], names=["seq_name", "taxid"])
+
+    def create_path_to_root(taxid, nodes):
+        try:
+            path_to_root = []
+            path_to_root.append(taxid)
+            parent = nodes.loc[taxid]["parent tax_id"]
+            if parent != 1:
+                path_to_root.extend(create_path_to_root(parent, nodes))
+            return path_to_root
+        except:
+            return []
+
+    kraken_taxid = '${kraken_taxid}'
+    df_blastn["path_to_root"] = df_blastn["taxid"].apply(lambda x: create_path_to_root(int(x), nodes))
+    df_blastn["kraken_correct"] = df_blastn["taxid"].apply(lambda x: kraken_taxid in create_path_to_root(int(x), nodes))
+    final_result = df_blastn["kraken_correct"].value_counts().idxmax()
+    df_blastn.to_csv("extend_report.tsv", sep="\t")
+    print(final_result)
     """
 }

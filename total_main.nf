@@ -2,7 +2,7 @@
 /*
  * pipeline input parameters
  */
-params.run = "20_07_24"
+params.run = "05_08_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -18,11 +18,46 @@ def bracken_settings_dict = [
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
 params.krakentools_flag = true
+//def taxid_dict = [
+//    '3050337': ["k10_bird_S5"],
+//    '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
+//]
+
 def taxid_dict = [
-    '3050337': ["k10_bird_S5"],
-    '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
-]
+    '1286':   ["PL-02-08_S1_L001", "LR-02-08_S3_L001", "LL-02-08_S2_L001"], 
+    '649161': ["PL-02-08_S1_L001", "LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+    '28901':  ["PL-02-08_S1_L001", "LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+    '1767':   ["PL-02-08_S1_L001", "LR-02-08_S3_L001"],
+    '2267275':["PL-02-08_S1_L001", "LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+    '1764':   ["PL-02-08_S1_L001", "LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+    
+    '6035':   ["PL-02-08_S1_L001"],
+    
+    '3050299':["LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+    '2163996':["LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+    '68416'  :["LR-02-08_S3_L001", "LL-02-08_S2_L001"],
+] 
+
 params.taxid_dict = taxid_dict
+
+def taxid_dict_v2 = [
+    '1286':   ["PL-02-08_S1_L001-1286-megahit-1286", "LR-02-08_S3_L001-1286-megahit-1286", "LL-02-08_S2_L001-1286-megahit-1286"], 
+    '649161': ["PL-02-08_S1_L001-649161-megahit-649161", "LR-02-08_S3_L001-649161-megahit-649161", "LL-02-08_S2_L001-649161-megahit-649161"],
+    '28901':  ["PL-02-08_S1_L001-28901-megahit-28901", "LR-02-08_S3_L001-28901-megahit-28901", "LL-02-08_S2_L001-28901-megahit-28901"],
+    '1767':   ["PL-02-08_S1_L001-1767-megahit-1767", "LR-02-1767"],
+    '2267275':["PL-02-08_S1_L001-2267275-megahit-2267275", "LR-02-08_S3_L001-2267275-megahit-2267275", "LL-02-08_S2_L001-2267275-megahit-2267275"],
+    '1764':   ["PL-02-08_S1_L001-1767-megahit-1767", "LR-02-08_S3_L001-1767-megahit-1767", "LL-02-08_S2_L001-1767-megahit-1767"],
+    
+    '6035':   ["PL-02-08_S1_L001-6035-megahit-6035"],
+    
+    '3050299':["LR-02-08_S3_L001-3050299-megahit-3050299", "LL-02-08_S2_L001-3050299-megahit-3050299"],
+    '2163996':["LR-02-08_S3_L001-2163996-megahit-2163996", "LL-02-08_S2_L001-2163996-megahit-2163996"],
+    '68416'  :["LR-02-08_S3_L001-68416-megahit-68416", "LL-02-08_S2_L001-68416-megahit-68416"],
+] 
+
+params.taxid_dict_v2 = taxid_dict_v2
+
+
 
 //def taxid_dict = [
 //    '3049954': ["K_S2_L001", "L_S3_L001"],
@@ -31,17 +66,17 @@ params.taxid_dict = taxid_dict
 //params.taxid_dict = taxid_dict
 
 //taxid_dict_v2 = params.taxid_dict.collectEntries{ taxid, names ->
-//  [taxid, names.collect{ name -> "${name}-${taxid}-megahit" }]
+//  [taxid, names.collect{ name -> "${name}-${taxid}-megahit-${taxid}" }]
 //}
 //params.taxid_dict_v2 = taxid_dict_v2
 
-def taxid_dict_v2 = [
-    '3050337': ["k10_bird_S5-3050337-megahit-3050337"],
-    '694014':   ["k18_bird_S13-694014-megahit-694014", "k16_bird_S11-694014-megahit-694014", "k24_bird_S19-694014-megahit-694014"],
-]
-params.taxid_dict_v2 = taxid_dict_v2
+//def taxid_dict_v2 = [
+//    '3050337': ['k10_bird_S5-3050337-megahit-3050337'],
+//    '694014':   ['k18_bird_S13-694014-megahit-694014', 'k16_bird_S11-694014-megahit-694014', 'k24_bird_S19-694014-megahit-694014'],
+//]
+//params.taxid_dict_v2 = taxid_dict_v2
 
-params.taxid = ['3050337', '694014']
+params.taxid = ['1286', '649161', '28901', '1767', '2267275', '1764', '6035', '3050299', '2163996', '68416']
 //params.taxid = ['3049954', '40324']
 
 params.methods = ["4"]
@@ -49,7 +84,8 @@ params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacteria
 params.vir_genome_dir = "/export/home/public/agletdinov_shared/genomes/vir"
 params.genomes = ["cp", "sp", "va", "ec"]
 params.genome = "${params.shared}/genomes/sars_cov_2/NC_045512.2.fasta"
-params.outdir = "${params.results_project}/results/${params.run}"
+//params.outdir = "${params.results_project}/results/${params.run}"
+params.outdir = "${params.results_project}/results/05_08_24_kraken2_nt"
 params.bwa_index = "${params.outdir}/bwa_index"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
@@ -65,6 +101,10 @@ def genome_dict_taxid = [
     '694014': "${params.vir_genome_dir}/infectious_bronchitis_virus.fasta",
 ]
 params.genome_dict_taxid = genome_dict_taxid
+
+params.blastnDB = "/export/home/public/tools/database/nt"
+params.db = "/export/home/public/tools/database/nt"
+params.to_nodes = "/export/home/agletdinov/work/git_projects/ncbi_taxonomy/nodes.dmp"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
     ===================================
@@ -73,14 +113,14 @@ log.info """\
     kraken2db      : ${params.kraken2db}
     outdir         : ${params.outdir}
     maxForks       : ${params.maxForks}
-    taxid_dict     :${params.taxid_dict}
-    taxid_dict_v2  :${params.taxid_dict_v2}
+    blastnDB       : ${params.blastnDB}
     """
     .stripIndent()
 
 include { TAXONOMY_ANALYSIS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SIMPLE } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_BAD_R2 } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_COMPARE_KRAKEN } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SARS } from './modules/total_seq/total_modules.nf'
 include { MULTIQC } from './modules/multiqc.nf'
 
@@ -106,7 +146,10 @@ workflow taxonomy_analysis_simple{
     bracken_settings = params.bracken_settings
     taxid_dict_v2 = params.taxid_dict_v2
     taxid = params.taxid
-    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxid_dict_v2, taxid)
+    //blastnDB = file(params.blastnDB)
+    db = file( params.db )
+    to_nodes = params.to_nodes
+    TAXONOMY_ANALYSIS_SIMPLE(read_pairs_ch, methods, bracken_settings, taxid_dict_v2, taxid, db, to_nodes)
     MULTIQC(TAXONOMY_ANALYSIS_SIMPLE.out)
 }
 
@@ -122,7 +165,15 @@ workflow taxonomy_analysis_bad_r2{
     MULTIQC(TAXONOMY_ANALYSIS_BAD_R2.out)
 }
 
-
+workflow taxonomy_analysis_kraken{
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    methods = params.methods
+    bracken_settings = params.bracken_settings
+    TAXONOMY_ANALYSIS_COMPARE_KRAKEN(read_pairs_ch, methods, bracken_settings)
+    MULTIQC(TAXONOMY_ANALYSIS_COMPARE_KRAKEN.out)
+}
 workflow taxonomy_analysis_sars{
     Channel
         .fromFilePairs(params.reads, checkIfExists: true)
