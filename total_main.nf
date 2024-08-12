@@ -2,7 +2,7 @@
 /*
  * pipeline input parameters
  */
-params.run = "05_08_24"
+params.run = "18_06_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -18,6 +18,7 @@ def bracken_settings_dict = [
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
 params.krakentools_flag = true
+params.extract_taxid = false
 //def taxid_dict = [
 //    '3050337': ["k10_bird_S5"],
 //    '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
@@ -76,7 +77,7 @@ params.taxid_dict_v2 = taxid_dict_v2
 //]
 //params.taxid_dict_v2 = taxid_dict_v2
 
-params.taxid = ['1286', '649161', '28901', '1767', '2267275', '1764', '6035', '3050299', '2163996', '68416']
+//params.taxid = ['1286', '649161', '28901', '1767', '2267275', '1764', '6035', '3050299', '2163996', '68416']
 //params.taxid = ['3049954', '40324']
 
 params.methods = ["4"]
@@ -85,7 +86,7 @@ params.vir_genome_dir = "/export/home/public/agletdinov_shared/genomes/vir"
 params.genomes = ["cp", "sp", "va", "ec"]
 params.genome = "${params.shared}/genomes/sars_cov_2/NC_045512.2.fasta"
 //params.outdir = "${params.results_project}/results/${params.run}"
-params.outdir = "${params.results_project}/results/05_08_24_kraken2_nt"
+params.outdir = "${params.results_project}/results/18_06_24_tysia"
 params.bwa_index = "${params.outdir}/bwa_index"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
@@ -102,9 +103,16 @@ def genome_dict_taxid = [
 ]
 params.genome_dict_taxid = genome_dict_taxid
 
+params.taxid_list = file('/export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48/list_of_eupath_taxid.tsv')
+    .text
+    .split('\t')
+    .findAll { it } // Убираем пустые строки
+    .join(',')
+
 params.blastnDB = "/export/home/public/tools/database/nt"
 params.db = "/export/home/public/tools/database/nt"
 params.to_nodes = "/export/home/agletdinov/work/git_projects/ncbi_taxonomy/nodes.dmp"
+params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
     ===================================
@@ -114,14 +122,19 @@ log.info """\
     outdir         : ${params.outdir}
     maxForks       : ${params.maxForks}
     blastnDB       : ${params.blastnDB}
+    bowtie2db      : ${params.bowtie2db}
     """
     .stripIndent()
 
 include { TAXONOMY_ANALYSIS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SIMPLE } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_BAD_R2 } from './modules/total_seq/total_modules.nf'
-include { TAXONOMY_ANALYSIS_COMPARE_KRAKEN } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_CONTIGS } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_READS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SARS } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
+
 include { MULTIQC } from './modules/multiqc.nf'
 
 workflow taxonomy_analysis{
@@ -165,15 +178,53 @@ workflow taxonomy_analysis_bad_r2{
     MULTIQC(TAXONOMY_ANALYSIS_BAD_R2.out)
 }
 
-workflow taxonomy_analysis_kraken{
+workflow taxonomy_analysis_contigs{
     Channel
         .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
         .set { read_pairs_ch }
     methods = params.methods
     bracken_settings = params.bracken_settings
-    TAXONOMY_ANALYSIS_COMPARE_KRAKEN(read_pairs_ch, methods, bracken_settings)
-    MULTIQC(TAXONOMY_ANALYSIS_COMPARE_KRAKEN.out)
+    TAXONOMY_ANALYSIS_CONTIGS(read_pairs_ch, methods, bracken_settings)
+    MULTIQC(TAXONOMY_ANALYSIS_CONTIGS.out)
 }
+
+
+workflow taxonomy_analysis_reads{
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    methods = params.methods
+    bracken_settings = params.bracken_settings
+    db = file( params.db )
+    TAXONOMY_ANALYSIS_READS_EUPATH(read_pairs_ch, methods, bracken_settings, db)
+    MULTIQC(TAXONOMY_ANALYSIS_READS_EUPATH.out)
+}
+
+
+workflow taxonomy_analysis_reads_eupath{
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    bowtie2db = params.bowtie2db
+    taxid_list = params.taxid_list
+    bracken_settings = params.bracken_settings
+    taxid = "5833"
+    TAXONOMY_ANALYSIS_READS_EUPATH(read_pairs_ch, bowtie2db, taxid_list, bracken_settings, taxid)
+    MULTIQC(TAXONOMY_ANALYSIS_READS_EUPATH.out)
+}
+
+workflow taxonomy_analysis_reads_tysia{
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    bowtie2db = params.bowtie2db
+    bracken_settings = params.bracken_settings
+    db = file( params.db )
+    TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db)
+    MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out)
+}
+
+
 workflow taxonomy_analysis_sars{
     Channel
         .fromFilePairs(params.reads, checkIfExists: true)

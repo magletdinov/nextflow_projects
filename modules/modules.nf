@@ -110,6 +110,41 @@ process TRIM_PRIMERS {
     """
 }
 
+process REMOVE_HOST {
+    conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
+
+    tag "Remove host from ${sample_id}"
+    publishDir "${params.outdir}/remove_host", mode:'copy'
+    cpus 40
+    
+    input:
+    tuple val(sample_id), path(reads)
+    path(db)
+
+    output:
+    tuple val(sample_id), path('*fastq.gz')
+    
+    script:
+    """
+    idx_base=\$(find ${db}/ -name '*.bt2' | awk -F \".\" '{print \$1 | \"sort -u\"}')
+
+    bowtie2 -p ${task.cpus} -x \${idx_base} \
+        -1 ${reads[0]} \
+        -2 ${reads[1]} \
+        -S ${sample_id}_mapped_and_unmapped.sam
+    samtools view -bS --threads ${task.cpus} ${sample_id}_mapped_and_unmapped.sam > ${sample_id}_mapped_and_unmapped.bam
+
+    samtools view -b -f 12 -F 256 ${sample_id}_mapped_and_unmapped.bam > ${sample_id}_bothReadsUnmapped.bam
+
+    samtools sort -n -m 10G -@ 2 ${sample_id}_bothReadsUnmapped.bam -o ${sample_id}_bothReadsUnmapped_sorted.bam
+
+    samtools fastq -@ 10 ${sample_id}_bothReadsUnmapped_sorted.bam \
+                    -1 ${sample_id}_host_removed_R1.fastq.gz \
+                    -2 ${sample_id}_host_removed_R2.fastq.gz \
+                    -0 /dev/null -s /dev/null -n
+    """
+}
+
 
 process BWA_INDEX {
     conda = 'bioconda::bwa'
@@ -342,13 +377,14 @@ process KRAKEN2 {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     maxForks 1
-    cpus 40
+    cpus 45
 
     tag "Kraken2 on ${sample_id}"
-    publishDir "${params.outdir}/kraken2", mode: "copy"
+    publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads)
+    val (dir_name)
     
     output:
     path('*.kraken'), emit: report
@@ -358,30 +394,31 @@ process KRAKEN2 {
     script:
     if (params.singleEnd) {
         """
-        kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus} \
-        --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
+        kraken2 --db ${params.kraken2db} --threads ${task.cpus} --memory-mapping\
+         --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
         """
     } else {
         """
-        kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus} \
-        --gzip-compressed --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
+        kraken2 --db ${params.kraken2db} --threads ${task.cpus} --memory-mapping\
+         --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
         """
     }
 }
+
 
 process KRAKEN2_FASTA {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     //maxForks 1
     errorStrategy 'ignore'
-    cpus 40
+    cpus 45
         
     tag "Kraken2 on ${sample_id}"
-    publishDir "${params.outdir}/kraken2_temp", mode: "copy"
+    publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads)
-    
+    val (dir_name)
     output:
     path('*.kraken'), emit: report
     tuple val(sample_id), path('*report.kraken'), emit: id_report
@@ -389,7 +426,7 @@ process KRAKEN2_FASTA {
     
     script:
     """
-    kraken2 --db ${params.kraken2db}  --threads ${task.cpus}  --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
+    kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus}  --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
     """
 }
 
@@ -511,6 +548,106 @@ process EXTRACT_KRAKEN_READS_FASTA {
     -s ${reads} -o ${sample_id}-${taxid}-withchildren-contigs.fasta --include-children
     """
 }
+
+process EXTRACT_KRAKEN_READS_TAXID_LIST {
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    cpus 20
+    
+    tag "Extract kraken reads on ${sample_id}"
+    publishDir "${params.outdir}/krakentools/extract_taxids_eupath/${sample_id}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    val taxid_list
+    
+    output:
+    tuple val(sample_id), path('*fast*'), emit: id_files    
+    //tuple val(sample_id), path('*[12].fasta*'), emit: id_fasta
+    tuple val(sample_id), path('*[12].fastq'), emit: id_fastq
+    //tuple val(sample_id), path('*eupath-withchildren.fastq*'), emit: id_onefastq
+    
+    
+    script:
+    if (params.singleEnd) {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid_list} \
+            -s ${reads} -fastq-output\
+            -o ${sample_id}-eupath-withchildren_1.fastq --include-children -
+        seqtk seq -a ${sample_id}-eupath-withchildren_1.fastq > ${sample_id}-eupath-withchildren_1.fasta
+        """
+    } else {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t 885310 5759 885312 885313 885314 414452 665079 27973 333668 36329 5858 864141 85471 5855 383379 5811 65658 5755 43142 29196 61605 196912 65661 211522 32599 65662 32600 5757 28015 294381 41668 5763 27987 237895 756076 1169474 1169540 911350 5057 5059 451804 330879 1033177 890382 28583 89421 113399 227321 380704 425011 5061 510516 166112 332648 403673 237561 294748 367775 284593 404692 454286 569365 235443 214684 178876 578454 469472 490068 490069 490065 490066 469470 469471 264361 215243 1279085 5518 1089452 426428 1089451 660027 660029 334819 559515 5037 747725 318829 76775 100951 1231661 367110 510953 1223555 1223556 763407 763924 273507 1048749 588596 1223558 639000 164328 500485 1223559 431595 1223560 559292 402676 483514 284812 999809 37727 28564 284591 4952 336722 941442 5741 1394984 2049356 723287 986730 989654 989655 284813 907965 876142 1178016 657448 1485682 5866 5865 32595 1133968 83556 353154 5874 1537102 869250 880535 5823 720590 880536 31271 208452 1120755 1274352 57266 5833 57267 137071 647221 5849 5851 5850 880534 5854 73239 88456 5801 51314 84963 5804 44415 51315 51316 5802 572307 42890 1074873 507601 508771 943120 432359 1463230 5659 420245 5661 981087 435258 347515 929439 5679 157538 5684 5689 1470209 679716 5691 185431 1068625 5693 353153 85056 5697 1055687 1257118 370354 885318 885319 885315 885311 370355 1076696 117008 93969 441375 353152 1603071 857276 110365 690307 112090 767769 1392248 602072 344612 331117 332952 1160497 157072 1137211 578462 1353008 1392255 1392256 1392250 1036612 341663 767770 1036611 1073089 1073090 498019 86049 240176 294750 1231522 1220924 1296111 1296103 1296105 1296108 794803 45357 396776 246410 306902 283643 222929 454284 443226 294747 212818 1229664 2502994 1442368 1227346 948311 447093 544712 544711 2059318 1296100 1296121 1296119 41688 1220926 425265 747676 242507 510951 482561 502780 403677 42068 502779 611791 761204 67593 246409 747089 563466 1398154 1156394 771870 695850 645134 1397361 441960 578456 431241 441959 413071 237631 336963 184922 598745 658858 5742 348837 1240240 1288291 1866961 1003232 481877 1081671 1355160 646526 1081669 1913371 578461 578460 40302 1805483 881290 935791 1354746 146866 1358809 72359 993615 948595 189622 5857 1237626 138298 54757 483139 99158 1074872 943122 1194599 943167 1130820 943118 943119 935652 943121 1130821 933077 412133 75058 1416333 85057 71804 429131 67003\
+            -s ${reads[0]} -s2 ${reads[1]} --fastq-output\
+            -o ${sample_id}-eupath-withchildren_1.fastq -o2 ${sample_id}-eupath-withchildren_2.fastq --include-children
+
+        
+        """
+        //seqfu interleave -1 ${sample_id}-eupath-withchildren_1.fastq.gz -2 ${sample_id}-eupath-withchildren_2.fastq.gz > ${sample_id}-eupath-withchildren.fastq.gz
+        //seqtk seq -a ${sample_id}-eupath-withchildren_1.fastq > ${sample_id}-eupath-withchildren_1.fasta
+        //seqtk seq -a ${sample_id}-eupath-withchildren_2.fastq > ${sample_id}-eupath-withchildren_2.fasta
+        //cat ${sample_id}-eupath-withchildren_1.fasta ${sample_id}-eupath-withchildren_2.fasta > ${sample_id}-eupath-withchildren.fasta
+        //gzip ${sample_id}-eupath-withchildren_1.fastq ${sample_id}-eupath-withchildren_1.fastq
+    }
+}
+
+
+process EXTRACT_KRAKEN_READS_TAXID {
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    cpus 20
+    
+    tag "Extract kraken reads on ${sample_id}"
+    publishDir "${params.outdir}/krakentools/extract_taxids_eupath/${sample_id}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    val taxid
+    
+    output:
+    tuple val(sample_id), path('*fast*'), emit: id_files    
+    tuple val(sample_id), path('*[12].fasta*'), emit: id_fasta
+
+    when:
+    params.extract_taxid == true   
+    
+    script:
+    """
+    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid}\
+        -s ${reads[0]} -s2 ${reads[1]} \
+        -o ${sample_id}-${taxid}-eupath-withchildren_1.fasta -o2 ${sample_id}-${taxid}-eupath-withchildren_2.fasta --include-children
+    """
+}
+
+
+process REMOVE_HUMAN {
+    //conda 'kraken2'
+    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //maxForks 1
+    cpus 20
+    
+    tag "Remove human reads from ${sample_id} by kraken2"
+    publishDir "${params.outdir}/krakentools/remove_human", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    
+    output:
+    tuple val(sample_id), path('*fast*'), emit: id_files    
+    tuple val(sample_id), path('*fasta'), emit: id_fasta
+    tuple val(sample_id), path('*without_human.fasta'), emit: id_onefasta
+    tuple val(sample_id), path('*fastq*'), emit: id_fastq
+    
+    script:
+    """
+    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t 9606 \
+        -s ${reads[0]} -s2 ${reads[1]} \
+        -o ${sample_id}-without_human-1.fastq -o2 ${sample_id}-without_human-2.fastq --include-children --fastq-output --exclude
+    seqtk seq -a ${sample_id}-without_human-1.fastq > ${sample_id}-without_human-1.fasta
+    seqtk seq -a ${sample_id}-without_human-2.fastq > ${sample_id}-without_human-2.fasta
+    cat ${sample_id}-without_human-1.fasta ${sample_id}-without_human-2.fasta > ${sample_id}-without_human.fasta
+    """
+}
+
 
 process IDENTIFY_CLADE {
     conda "/export/home/agletdinov/mambaforge/envs/reat"
@@ -695,7 +832,7 @@ process blastn {
     conda "/export/home/agletdinov/mambaforge/envs/blast"
     //memory = '1 MB'
     //maxForks 2
-    cpus 5
+    cpus 140
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
@@ -717,7 +854,7 @@ process BLASTN {
     conda "/export/home/agletdinov/mambaforge/envs/blastn"
     //memory = '1 MB'
     //maxForks 2
-    cpus 5
+    cpus 45
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
     
@@ -729,7 +866,6 @@ process BLASTN {
     path('*.blastn')
  
     script:
-    println blastnDB
     """
     blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
@@ -780,5 +916,27 @@ process blastn_parse{
     final_result = df_blastn["kraken_correct"].value_counts().idxmax()
     df_blastn.to_csv("extend_report.tsv", sep="\t")
     print(final_result)
+    """
+}
+
+
+process metaSPAdes {
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/spades"
+    //maxForks 2
+    cpus 40
+    tag "MetaSPAdes on ${sample_id}"
+    publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads)
+    
+    output:
+    tuple val(sample_id), path('*'), emit: id_all
+    tuple val(sample_id), path('scaffolds.fasta'), emit: id_scaffolds
+ 
+    script:
+    """
+    spades.py -1 ${reads[0]} -2  ${reads[1]} -o .
     """
 }
