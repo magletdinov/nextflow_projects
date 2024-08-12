@@ -832,7 +832,7 @@ process blastn {
     conda "/export/home/agletdinov/mambaforge/envs/blast"
     //memory = '1 MB'
     //maxForks 2
-    cpus 140
+    cpus 144
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
@@ -845,7 +845,7 @@ process blastn {
 
     script:
     """
-    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 
@@ -867,7 +867,7 @@ process BLASTN {
  
     script:
     """
-    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 
