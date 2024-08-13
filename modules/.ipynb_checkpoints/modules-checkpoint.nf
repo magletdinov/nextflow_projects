@@ -832,7 +832,7 @@ process blastn {
     conda "/export/home/agletdinov/mambaforge/envs/blast"
     //memory = '1 MB'
     //maxForks 2
-    cpus 144
+    cpus 45
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
@@ -921,11 +921,7 @@ process blastn_parse_1_hit{
 
 
 process blastn_parse_50_hits{
-    //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/reat"
-    //memory = '1 MB'
-    //maxForks 2
-    cpus 5
     tag "Parse blastn result for ${sample_id} (50 hits)"
     publishDir "${params.outdir}/blastn_parse/${sample_id}", mode:'copy'
     
@@ -942,14 +938,15 @@ process blastn_parse_50_hits{
     #!/usr/bin/env python3
     import pandas as pd
     from pathlib import Path
+    print("$to_nodes")
     contaminants = {12814    : "Respiratory syncytial virus", 
                     3049954  : "Orthopneumovirus hominis", 
-                    10407    :"Hepatitis B virus", 
-                    3052345  :"Morbillivirus hominis", 
-                    1513264  :"Gammapapillomavirus 19", 
-                    3050294  :"Human alphaherpesvirus 3", 
-                    694009   :"Severe acute respiratory syndrome-related coronavirus", 
-                    11786    :"Murine leukemia virus"}
+                    10407    : "Hepatitis B virus", 
+                    3052345  : "Morbillivirus hominis", 
+                    1513264  : "Gammapapillomavirus 19", 
+                    3050294  : "Human alphaherpesvirus 3", 
+                    694009   : "Severe acute respiratory syndrome-related coronavirus", 
+                    11786    : "Murine leukemia virus"}
 
     def create_path_to_root(taxid, nodes):
         try:
@@ -962,7 +959,7 @@ process blastn_parse_50_hits{
         except:
             return []
             
-    def iscontaminant(x):
+    def iscontaminant(x, nodes):
         path_to_root = create_path_to_root(x, nodes)
         for i in contaminants:
             if i in path_to_root:
@@ -1008,14 +1005,16 @@ process blastn_parse_50_hits{
         filt_end.sort_values(by="number_of_scaffolds", ascending=False, inplace=True)
 
         filt_end.reset_index(inplace=True)
-        filt_end["maybe_contaminant"] = filt_end["taxid"].apply(lambda x: iscontaminant(x))
+        filt_end["maybe_contaminant"] = filt_end["taxid"].apply(lambda x: iscontaminant(x, nodes))
         filt_end.set_index("taxid", inplace=True)
         return filt_end
-    
-    filt_end = blast_parser(to_names=${to_names}, to_nodes=${to_nodes}, to_blastn_report=${report})
+    to_names = Path('${to_names}')
+    to_nodes = Path('${to_nodes}')
+    to_blastn_report = Path('${report}')
+    filt_end = blast_parser(to_names=to_names, to_nodes=to_nodes, to_blastn_report=to_blastn_report)
     filt_end.to_csv(f"{to_blastn_report.stem}_blastn_50_hits_mqc.tsv", sep="\t")
-    ""
-
+    """
+}
 
 process metaSPAdes {
     //conda 'bioconda::metaphlan'

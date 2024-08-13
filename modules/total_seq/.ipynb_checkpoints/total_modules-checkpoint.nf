@@ -161,7 +161,7 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     blastn_parse_50_hits(blastn.out.id_report, to_nodes, to_names)
 
   emit: 
-     FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | concat(blastn_parse_50_hits.out.id_report) | collect
+     FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | concat(blastn_parse_50_hits.out) | collect
      //FASTQC.out | concat(KRAKEN2_FASTA_2.out) | collect
 }
 

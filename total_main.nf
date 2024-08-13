@@ -2,7 +2,7 @@
 /*
  * pipeline input parameters
  */
-params.run = "18_06_24"
+params.run = "07_08_24_rerun_02_08_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -85,8 +85,8 @@ params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacteria
 params.vir_genome_dir = "/export/home/public/agletdinov_shared/genomes/vir"
 params.genomes = ["cp", "sp", "va", "ec"]
 params.genome = "${params.shared}/genomes/sars_cov_2/NC_045512.2.fasta"
-//params.outdir = "${params.results_project}/results/${params.run}"
-params.outdir = "${params.results_project}/results/18_06_24_tysia"
+params.outdir = "${params.results_project}/results/${params.run}"
+//params.outdir = "${params.results_project}/results/18_06_24_tysia"
 params.bwa_index = "${params.outdir}/bwa_index"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
@@ -111,8 +111,8 @@ params.taxid_list = file('/export/home/public/agletdinov_shared/kraken2db/k2_eup
 
 params.blastnDB = "/export/home/public/tools/database/nt"
 params.db = "/export/home/public/tools/database/nt"
-params.to_nodes = "/export/home/agletdinov/work/git_projects/ncbi_taxonomy/nodes.dmp"
-params.to_names = "/export/home/agletdinov/work/git_projects/ncbi_taxonomy/names.dmp"
+params.to_nodes = "/export/home/public/agletdinov_shared/taxonomy/nodes.dmp"
+params.to_names = "/export/home/public/agletdinov_shared/taxonomy/names.dmp"
 params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
@@ -124,6 +124,8 @@ log.info """\
     maxForks       : ${params.maxForks}
     blastnDB       : ${params.blastnDB}
     bowtie2db      : ${params.bowtie2db}
+    to_nodes       : ${params.to_nodes}
+    to_names       : ${params.to_names}
     """
     .stripIndent()
 
@@ -223,7 +225,7 @@ workflow taxonomy_analysis_reads_tysia{
     db = file( params.db )
     to_nodes = params.to_nodes
     to_names = params.to_names
-    TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db)
+    TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db, to_nodes, to_names)
     MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out)
 }
 
