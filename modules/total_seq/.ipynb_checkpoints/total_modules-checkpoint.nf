@@ -1,6 +1,6 @@
 include { FASTQC as FQ1 ; FASTQC as FQ2 } from '../modules.nf'
 include { METAPHLAN as METAPHLAN1 ; METAPHLAN as METAPHLAN2 } from '../modules.nf'
-include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; KRAKEN2_FASTA; BRACKEN; BRACKEN_EACH; EXTRACT_KRAKEN_READS; EXTRACT_KRAKEN_READS_FASTA; EXTRACT_KRAKEN_READS_TAXID_LIST; EXTRACT_KRAKEN_READS_TAXID; BWA_INDEX; BWA_INDEX_FULL_GENOME; BWA_MEM_BAM_SORT; BWA_MEM_BAM_SORT_FULL_GENOME; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS_LITE; SAMTOOLS_STATS; MEGAHIT; QUAST; UNICYCLER; BLASTN; blastn; blastn_parse; DIAMOND; REMOVE_HOST; REMOVE_HUMAN; metaSPAdes; } from '../modules.nf'
+include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; KRAKEN2_FASTA; BRACKEN; BRACKEN_EACH; EXTRACT_KRAKEN_READS; EXTRACT_KRAKEN_READS_FASTA; EXTRACT_KRAKEN_READS_TAXID_LIST; EXTRACT_KRAKEN_READS_TAXID; BWA_INDEX; BWA_INDEX_FULL_GENOME; BWA_MEM_BAM_SORT; BWA_MEM_BAM_SORT_FULL_GENOME; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS_LITE; SAMTOOLS_STATS; MEGAHIT; QUAST; UNICYCLER; BLASTN; blastn; blastn_parse_1_hit; blastn_parse_50_hits; DIAMOND; REMOVE_HOST; REMOVE_HUMAN; metaSPAdes; } from '../modules.nf'
 //include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 
@@ -60,7 +60,7 @@ workflow TAXONOMY_ANALYSIS_SIMPLE {
     KRAKEN2_FASTA(MEGAHIT.out.id_contigs)
     EXTRACT_KRAKEN_READS_FASTA(MEGAHIT.out.id_contigs.join(KRAKEN2_FASTA.out.id_output).join(KRAKEN2_FASTA.out.id_report), taxid_dict_v2, taxid)
     blastn(MEGAHIT.out.simple_id_contigs, db)
-    blastn_parse(blastn.out.id_report, to_nodes).view()
+    blastn_parse_1_hit(blastn.out.id_report, to_nodes).view()
     //BLASTN(MEGAHIT.out.simple_id_contigs, blastnDB)
     
     //def (value1, value2) = '1128-2'.tokenize( '-' )
@@ -146,6 +146,8 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     bowtie2_db
     bracken_settings
     db
+    to_nodes
+    to_names
   main:
     FQ1(read_pairs_ch)
     TRIM_ADAPT(read_pairs_ch)
@@ -156,9 +158,10 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
     metaSPAdes(REMOVE_HOST.out)
     blastn(metaSPAdes.out.id_scaffolds, db)
+    blastn_parse_50_hits(blastn.out.id_report, to_nodes, to_names)
 
   emit: 
-     FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | collect
+     FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | concat(blastn_parse_50_hits.out.id_report) | collect
      //FASTQC.out | concat(KRAKEN2_FASTA_2.out) | collect
 }
 

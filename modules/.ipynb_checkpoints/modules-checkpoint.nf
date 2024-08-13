@@ -115,8 +115,7 @@ process REMOVE_HOST {
 
     tag "Remove host from ${sample_id}"
     publishDir "${params.outdir}/remove_host", mode:'copy'
-    //maxForks 3
-    cpus 45
+    cpus 40
     
     input:
     tuple val(sample_id), path(reads)
@@ -377,8 +376,8 @@ process RENAME_FASTA_ID {
 process KRAKEN2 {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
-    //maxForks 1
-    //cpus 20
+    maxForks 1
+    cpus 45
 
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
@@ -411,8 +410,8 @@ process KRAKEN2_FASTA {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     //maxForks 1
-    //errorStrategy 'ignore'
-    //cpus 45
+    errorStrategy 'ignore'
+    cpus 45
         
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
@@ -435,7 +434,7 @@ process BRACKEN {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/bracken"
     //maxForks 1
-    cpus 4
+    cpus 20
 
     tag "Bracken on ${sample_id}"
     publishDir "${params.outdir}/bracken", mode: "copy"
@@ -832,8 +831,8 @@ process blastn {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/blast"
     //memory = '1 MB'
-    //maxForks 1
-    cpus 40
+    //maxForks 2
+    cpus 144
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
@@ -868,12 +867,12 @@ process BLASTN {
  
     script:
     """
-    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 
 
-process blastn_parse{
+process blastn_parse_1_hit{
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/reat"
     //memory = '1 MB'
@@ -921,10 +920,107 @@ process blastn_parse{
 }
 
 
+process blastn_parse_50_hits{
+    //conda 'bioconda::metaphlan'
+    conda "/export/home/agletdinov/mambaforge/envs/reat"
+    //memory = '1 MB'
+    //maxForks 2
+    cpus 5
+    tag "Parse blastn result for ${sample_id} (50 hits)"
+    publishDir "${params.outdir}/blastn_parse/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(report)
+    path(to_nodes)
+    path(to_names)
+
+    output:
+    path('*.tsv')
+ 
+    script:
+    """
+    #!/usr/bin/env python3
+    import pandas as pd
+    from pathlib import Path
+    contaminants = {12814    : "Respiratory syncytial virus", 
+                    3049954  : "Orthopneumovirus hominis", 
+                    10407    :"Hepatitis B virus", 
+                    3052345  :"Morbillivirus hominis", 
+                    1513264  :"Gammapapillomavirus 19", 
+                    3050294  :"Human alphaherpesvirus 3", 
+                    694009   :"Severe acute respiratory syndrome-related coronavirus", 
+                    11786    :"Murine leukemia virus"}
+
+    def create_path_to_root(taxid, nodes):
+        try:
+            path_to_root = []
+            path_to_root.append(taxid)
+            parent = nodes.loc[taxid]["parent tax_id"]
+            if parent != 1:
+                path_to_root.extend(create_path_to_root(parent, nodes))
+            return path_to_root
+        except:
+            return []
+            
+    def iscontaminant(x):
+        path_to_root = create_path_to_root(x, nodes)
+        for i in contaminants:
+            if i in path_to_root:
+                return True
+        return False
+        
+    def blast_parser(to_names, to_nodes, to_blastn_report):
+        names = pd.read_csv(to_names, sep="\t", header=None, usecols=[0, 2, 6], names=["tax_id", "name", "type"], index_col="tax_id")
+        names = names[names["type"] == "scientific name"]
+        nodes = pd.read_csv(to_nodes, sep="\t", header=None, usecols=[0, 2, 4], names=["tax_id", "parent tax_id", "tax_name"], index_col="tax_id")
+        df_blast = pd.read_csv(to_blastn_report, sep="\t", header=None)
+        list_of_scaffolds = []
+        list_of_best_taxid = []
+        for (scaffold_name, subdf) in df_blast.groupby(by=0):
+            try:
+                mask = subdf[5].apply(lambda x: 40674 in create_path_to_root(int(x), nodes))
+            except ValueError:
+                continue
+            if mask.sum() / len(mask) > 0.1:
+                continue
+            res_df = subdf\
+                    .sort_values(by=[7,6], ascending=[True, False])\
+                    .groupby(by=5).aggregate({0:"count"})
+            max_hits = res_df[0].max()
+            max_hits_df = res_df[res_df[0] == max_hits]
+            taxid_max_hits = max_hits_df.index.to_list()
+            for taxid in taxid_max_hits:
+                list_of_scaffolds.append(scaffold_name)
+                list_of_best_taxid.append(taxid)
+
+        results = pd.DataFrame({"scaffold_name":list_of_scaffolds,"taxid":list_of_best_taxid})
+        results_agg = results.groupby(by="taxid").aggregate({"scaffold_name":"count"})
+        results_agg.index = results_agg.index.astype(int)
+        results_agg.index.name = 'taxid'
+        names.index.name = 'taxid'
+        nodes.index.name = 'taxid'
+        end = results_agg.join(names).join(nodes)
+        end = end[["scaffold_name", "name", "tax_name"]]
+        end.rename(columns={"scaffold_name":"number_of_scaffolds"}, inplace=True)
+
+        mask = end["name"].isin(contaminants)
+        filt_end = end[~mask]
+        filt_end.sort_values(by="number_of_scaffolds", ascending=False, inplace=True)
+
+        filt_end.reset_index(inplace=True)
+        filt_end["maybe_contaminant"] = filt_end["taxid"].apply(lambda x: iscontaminant(x))
+        filt_end.set_index("taxid", inplace=True)
+        return filt_end
+    
+    filt_end = blast_parser(to_names=${to_names}, to_nodes=${to_nodes}, to_blastn_report=${report})
+    filt_end.to_csv(f"{to_blastn_report.stem}_blastn_50_hits_mqc.tsv", sep="\t")
+    ""
+
+
 process metaSPAdes {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/spades"
-    //maxForks 1
+    //maxForks 2
     cpus 40
     tag "MetaSPAdes on ${sample_id}"
     publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
