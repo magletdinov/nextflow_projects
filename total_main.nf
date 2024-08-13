@@ -2,7 +2,7 @@
 /*
  * pipeline input parameters
  */
-params.run = "18_06_24"
+params.run = "07_08_24_rerun_02_08_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -86,7 +86,7 @@ params.vir_genome_dir = "/export/home/public/agletdinov_shared/genomes/vir"
 params.genomes = ["cp", "sp", "va", "ec"]
 params.genome = "${params.shared}/genomes/sars_cov_2/NC_045512.2.fasta"
 //params.outdir = "${params.results_project}/results/${params.run}"
-params.outdir = "${params.results_project}/results/18_06_24_tysia"
+params.outdir = "${params.results_project}/results/07_08_24_rerun_02_08_24"
 params.bwa_index = "${params.outdir}/bwa_index"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
@@ -113,7 +113,7 @@ params.blastnDB = "/export/home/public/tools/database/nt"
 params.db = "/export/home/public/tools/database/nt"
 params.to_nodes = "/export/home/agletdinov/work/git_projects/ncbi_taxonomy/nodes.dmp"
 params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
-log.info """\
+log.info """
     R N A S E Q - N F   P I P E L I N E
     ===================================
     reads          : ${params.reads}

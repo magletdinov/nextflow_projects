@@ -115,7 +115,8 @@ process REMOVE_HOST {
 
     tag "Remove host from ${sample_id}"
     publishDir "${params.outdir}/remove_host", mode:'copy'
-    cpus 40
+    //maxForks 3
+    cpus 45
     
     input:
     tuple val(sample_id), path(reads)
@@ -376,8 +377,8 @@ process RENAME_FASTA_ID {
 process KRAKEN2 {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
-    maxForks 1
-    cpus 45
+    //maxForks 1
+    //cpus 20
 
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
@@ -410,8 +411,8 @@ process KRAKEN2_FASTA {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     //maxForks 1
-    errorStrategy 'ignore'
-    cpus 45
+    //errorStrategy 'ignore'
+    //cpus 45
         
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
@@ -434,7 +435,7 @@ process BRACKEN {
     //conda 'kraken2'
     conda "/export/home/agletdinov/mambaforge/envs/bracken"
     //maxForks 1
-    cpus 20
+    cpus 4
 
     tag "Bracken on ${sample_id}"
     publishDir "${params.outdir}/bracken", mode: "copy"
@@ -831,8 +832,8 @@ process blastn {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/blast"
     //memory = '1 MB'
-    //maxForks 2
-    cpus 144
+    //maxForks 1
+    cpus 40
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
@@ -867,7 +868,7 @@ process BLASTN {
  
     script:
     """
-    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.blastnDB}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 1 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 
@@ -923,7 +924,7 @@ process blastn_parse{
 process metaSPAdes {
     //conda 'bioconda::metaphlan'
     conda "/export/home/agletdinov/mambaforge/envs/spades"
-    //maxForks 2
+    //maxForks 1
     cpus 40
     tag "MetaSPAdes on ${sample_id}"
     publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
