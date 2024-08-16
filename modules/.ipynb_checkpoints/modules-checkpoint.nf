@@ -970,7 +970,7 @@ process blastn_parse_50_hits{
         names = pd.read_csv(to_names, sep="\t", header=None, usecols=[0, 2, 6], names=["tax_id", "name", "type"], index_col="tax_id")
         names = names[names["type"] == "scientific name"]
         nodes = pd.read_csv(to_nodes, sep="\t", header=None, usecols=[0, 2, 4], names=["tax_id", "parent tax_id", "tax_name"], index_col="tax_id")
-        df_blast = pd.read_csv(to_blastn_report, sep="\t", header=None)
+        df_blast = pd.read_csv(to_blastn_report, sep="\t", header=None, dtype={5:"str"})
         list_of_scaffolds = []
         list_of_best_taxid = []
         for (scaffold_name, subdf) in df_blast.groupby(by=0):
@@ -1005,7 +1005,7 @@ process blastn_parse_50_hits{
         filt_end.sort_values(by="number_of_scaffolds", ascending=False, inplace=True)
 
         filt_end.reset_index(inplace=True)
-        filt_end["maybe_contaminant"] = filt_end["taxid"].apply(lambda x: iscontaminant(x, nodes))
+        filt_end["no_contaminant"] = filt_end["taxid"].apply(lambda x: not iscontaminant(x, nodes))
         filt_end.set_index("taxid", inplace=True)
         return filt_end
     to_names = Path('${to_names}')

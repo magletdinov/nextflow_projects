@@ -2,7 +2,8 @@
 /*
  * pipeline input parameters
  */
-params.run = "07_08_24_rerun_02_08_24"
+//params.run = "07_08_24_rerun_02_08_24"
+params.run = "15_08_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -139,6 +140,7 @@ include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modul
 include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
 
 include { MULTIQC } from './modules/multiqc.nf'
+include { SENDMAIL } from './modules/sendMail.nf'
 
 workflow taxonomy_analysis{
     Channel
@@ -226,7 +228,21 @@ workflow taxonomy_analysis_reads_tysia{
     to_nodes = params.to_nodes
     to_names = params.to_names
     TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db, to_nodes, to_names)
-    MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out)
+    MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out).view()
+    //SENDMAIL(MULTIQC.out)
+    //report = MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out).view
+    //println report
+    //mail = [
+    //    to: 'agletdinov@cmd.su',
+    //    subject: 'Catch up',
+    //    body: 'Report',
+    //    attach: params.outdir + '/multiqc' + "/multiqc_report.html"
+    //]
+
+    //sendMail(mail)
+
+
+    
 }
 
 
