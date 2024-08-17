@@ -143,7 +143,8 @@ workflow TAXONOMY_ANALYSIS_READS_EUPATH {
 workflow TAXONOMY_ANALYSIS_TYSIA {
   take:
     read_pairs_ch
-    bowtie2_db
+    bowtie2db
+    bowtie2_index
     bracken_settings
     db
     to_nodes
@@ -152,7 +153,7 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     FQ1(read_pairs_ch)
     TRIM_ADAPT(read_pairs_ch)
     TRIM_4_NUCL(TRIM_ADAPT.out)
-    REMOVE_HOST(TRIM_ADAPT.out, bowtie2_db)
+    REMOVE_HOST(TRIM_ADAPT.out, bowtie2db, bowtie2_index)
     dir_name = "all_data"
     KRAKEN2_1(REMOVE_HOST.out, dir_name)
     BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)

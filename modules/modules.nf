@@ -119,15 +119,16 @@ process REMOVE_HOST {
     
     input:
     tuple val(sample_id), path(reads)
-    path(db)
+    path(bowtie2db)
+    val(bowtie2_index)
 
     output:
     tuple val(sample_id), path('*fastq.gz')
-    
+
+    //idx_base=\$(find ${params.bowtie2db}/${params.bowtie2_index[sample_id]} -name '*.bt2' | sed 's|${params.bowtie2db}|.|'  | sort -u)
     script:
     """
-    idx_base=\$(find ${db}/ -name '*.bt2' | awk -F \".\" '{print \$1 | \"sort -u\"}')
-
+    idx_base=\$(find ${params.bowtie2db}/ -name '${params.bowtie2_index[sample_id]}*.bt2' | awk -F \".\" '{print \$1 | \"sort -u\"}')
     bowtie2 -p ${task.cpus} -x \${idx_base} \
         -1 ${reads[0]} \
         -2 ${reads[1]} \
