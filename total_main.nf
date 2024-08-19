@@ -144,6 +144,7 @@ include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modul
 include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
 
 include { MULTIQC } from './modules/multiqc.nf'
+include { SENDMAIL; SENDMAIL_PY } from './modules/sendMail.nf'
 
 workflow taxonomy_analysis{
     Channel
@@ -233,6 +234,7 @@ workflow taxonomy_analysis_reads_tysia{
     to_names = params.to_names
     TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db, to_nodes, to_names)
     MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out)
+    SENDMAIL_PY(MULTIQC.out)
 }
 
 

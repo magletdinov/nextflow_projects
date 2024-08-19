@@ -4,6 +4,7 @@ include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; KRAKEN2_FASTA; BRACKEN; BRACKEN_EACH
 //include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 
+
 workflow TAXONOMY_ANALYSIS {
   take:
     read_pairs_ch
@@ -160,7 +161,6 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     metaSPAdes(REMOVE_HOST.out)
     blastn(metaSPAdes.out.id_scaffolds, db)
     blastn_parse_50_hits(blastn.out.id_report, to_nodes, to_names)
-
   emit: 
      FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | concat(blastn_parse_50_hits.out) | collect
      //FASTQC.out | concat(KRAKEN2_FASTA_2.out) | collect
