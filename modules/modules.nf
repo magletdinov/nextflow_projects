@@ -120,7 +120,7 @@ process REMOVE_HOST {
     input:
     tuple val(sample_id), path(reads)
     path(bowtie2db)
-    val(bowtie2_index)
+    //val(bowtie2_index)
 
     output:
     tuple val(sample_id), path('*fastq.gz')
@@ -939,6 +939,7 @@ process blastn_parse_50_hits{
     #!/usr/bin/env python3
     import pandas as pd
     from pathlib import Path
+    import sys
     print("$to_nodes")
     contaminants = {12814    : "Respiratory syncytial virus", 
                     3049954  : "Orthopneumovirus hominis", 
@@ -947,7 +948,10 @@ process blastn_parse_50_hits{
                     1513264  : "Gammapapillomavirus 19", 
                     3050294  : "Human alphaherpesvirus 3", 
                     694009   : "Severe acute respiratory syndrome-related coronavirus", 
-                    11786    : "Murine leukemia virus"}
+                    11786    : "Murine leukemia virus",
+
+                    #7898     : "Actinopterygii"
+                    }
 
     def create_path_to_root(taxid, nodes):
         try:
@@ -967,19 +971,25 @@ process blastn_parse_50_hits{
                 return True
         return False
         
-    def blast_parser(to_names, to_nodes, to_blastn_report):
+    def blast_parser(to_names, to_nodes, to_blastn_report, to_eupath_df):
         names = pd.read_csv(to_names, sep="\t", header=None, usecols=[0, 2, 6], names=["tax_id", "name", "type"], index_col="tax_id")
         names = names[names["type"] == "scientific name"]
         nodes = pd.read_csv(to_nodes, sep="\t", header=None, usecols=[0, 2, 4], names=["tax_id", "parent tax_id", "tax_name"], index_col="tax_id")
+        eupath_df = pd.read_csv(to_eupath_df, sep="\t", header=None)
         df_blast = pd.read_csv(to_blastn_report, sep="\t", header=None, dtype={5:"str"})
+        df_blast = df_blast[df_blast[7] <= 10**-10]
         list_of_scaffolds = []
         list_of_best_taxid = []
         for (scaffold_name, subdf) in df_blast.groupby(by=0):
             try:
-                mask = subdf[5].apply(lambda x: 40674 in create_path_to_root(int(x), nodes))
+                mask_1 = subdf[5].apply(lambda x: 40674 in create_path_to_root(int(x), nodes))
+                mask_2 = subdf[5].apply(lambda x: 7898 in create_path_to_root(int(x), nodes))
+
             except ValueError:
                 continue
-            if mask.sum() / len(mask) > 0.1:
+            if mask_1.sum() / len(mask_1) > 0.1:
+                continue
+            if mask_2.sum() / len(mask_2) > 0.1:
                 continue
             res_df = subdf\
                     .sort_values(by=[7,6], ascending=[True, False])\
@@ -998,22 +1008,27 @@ process blastn_parse_50_hits{
         names.index.name = 'taxid'
         nodes.index.name = 'taxid'
         end = results_agg.join(names).join(nodes)
-        end = end[["scaffold_name", "name", "tax_name"]]
-        end.rename(columns={"scaffold_name":"number_of_scaffolds"}, inplace=True)
+        filt_end = end[["scaffold_name", "name", "tax_name"]]
+        filt_end.rename(columns={"scaffold_name":"number_of_scaffolds"}, inplace=True)
 
-        mask = end["name"].isin(contaminants)
-        filt_end = end[~mask]
+
         filt_end.sort_values(by="number_of_scaffolds", ascending=False, inplace=True)
 
         filt_end.reset_index(inplace=True)
         filt_end["no_contaminant"] = filt_end["taxid"].apply(lambda x: not iscontaminant(x, nodes))
+        
+        list_of_eupath = eupath_df[1].unique()
+        mask = filt_end["taxid"].apply(lambda x: len(set(create_path_to_root(x, nodes)) & set(list_of_eupath)) > 0)
+        filt_end["is_eupath"] = mask
         filt_end.set_index("taxid", inplace=True)
         return filt_end
     to_names = Path('${to_names}')
     to_nodes = Path('${to_nodes}')
     to_blastn_report = Path('${report}')
-    filt_end = blast_parser(to_names=to_names, to_nodes=to_nodes, to_blastn_report=to_blastn_report)
+    to_eupath_df = Path("/export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48/seqid2taxid.map")
+    filt_end = blast_parser(to_names=to_names, to_nodes=to_nodes, to_blastn_report=to_blastn_report, to_eupath_df=to_eupath_df)
     filt_end.to_csv(f"{to_blastn_report.stem}_blastn_50_hits_mqc.tsv", sep="\t")
+    sys.exit()
     """
 }
 

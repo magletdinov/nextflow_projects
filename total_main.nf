@@ -3,20 +3,11 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "15_08_24"
+params.run = "18_06_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
 params.singleEnd = false
-//params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db"
-params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
-def bowtie2_index = [
-    'Rodionova-0908-DNA_S3_L001': 'GRCh38_noalt_as',
-    'Rodionova-0908-cDNA_S4_L001': 'GRCh38_noalt_as', 
-    '1_S1_L001': 'common_bream',
-    '11_S2_L001': 'common_bream'
-] 
-params.bowtie2_index = bowtie2_index
 
 //params.reads = "${params.results_project}/fastq/${params.run}/k18*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
@@ -119,11 +110,15 @@ params.taxid_list = file('/export/home/public/agletdinov_shared/kraken2db/k2_eup
     .findAll { it } // Убираем пустые строки
     .join(',')
 
-
 params.blastnDB = "/export/home/public/tools/database/nt"
 params.db = "/export/home/public/tools/database/nt"
 params.to_nodes = "/export/home/public/agletdinov_shared/taxonomy/nodes.dmp"
 params.to_names = "/export/home/public/agletdinov_shared/taxonomy/names.dmp"
+params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
+def bowtie2_index = [
+    'HERP_001_S9': 'GRCh38_noalt_as',
+]
+params.bowtie2_index = bowtie2_index
 log.info """\
     R N A S E Q - N F   P I P E L I N E
     ===================================
@@ -149,7 +144,6 @@ include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modul
 include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
 
 include { MULTIQC } from './modules/multiqc.nf'
-include { SENDMAIL } from './modules/sendMail.nf'
 
 workflow taxonomy_analysis{
     Channel
@@ -237,22 +231,8 @@ workflow taxonomy_analysis_reads_tysia{
     db = file( params.db )
     to_nodes = params.to_nodes
     to_names = params.to_names
-    TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bowtie2_index, bracken_settings, db, to_nodes, to_names)
-    MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out).view()
-    //SENDMAIL(MULTIQC.out)
-    //report = MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out).view
-    //println report
-    //mail = [
-    //    to: 'agletdinov@cmd.su',
-    //    subject: 'Catch up',
-    //    body: 'Report',
-    //    attach: params.outdir + '/multiqc' + "/multiqc_report.html"
-    //]
-
-    //sendMail(mail)
-
-
-    
+    TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db, to_nodes, to_names)
+    MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out)
 }
 
 
