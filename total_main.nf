@@ -119,6 +119,8 @@ def bowtie2_index = [
     'HERP_001_S9': 'GRCh38_noalt_as',
 ]
 params.bowtie2_index = bowtie2_index
+params.chunkSize = 1000
+params.out = "result.txt"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
     ===================================

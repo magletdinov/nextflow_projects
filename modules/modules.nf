@@ -846,7 +846,7 @@ process blastn {
 
     script:
     """
-    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task blastn -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 

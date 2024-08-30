@@ -159,11 +159,16 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     KRAKEN2_1(REMOVE_HOST.out, dir_name)
     BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
     metaSPAdes(REMOVE_HOST.out)
-    blastn(metaSPAdes.out.id_scaffolds, db)
-    blastn_parse_50_hits(blastn.out.id_report, to_nodes, to_names)
+    ch_fasta = metaSPAdes.out.id_scaffolds.splitFasta(by: params.chunkSize, file:true)
+    ch_fasta.view()
+    ch_hits = blastn(ch_fasta, db).id_report
+    ch_hits.view()
+    ch_collected = ch_hits.collectFile(name: 'res').map{ [it.name, it] }
+    ch_collected.view()
+    blastn_parse_50_hits(ch_collected, to_nodes, to_names)
   emit: 
      FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | concat(blastn_parse_50_hits.out) | collect
-     //FASTQC.out | concat(KRAKEN2_FASTA_2.out) | collect
+     //FQ1.out | concat(KRAKEN2_1.out.report) | collect
 }
 
 
