@@ -1,6 +1,6 @@
 include { FASTQC as FQ1 ; FASTQC as FQ2 } from '../modules.nf'
 include { METAPHLAN as METAPHLAN1 ; METAPHLAN as METAPHLAN2 } from '../modules.nf'
-include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; KRAKEN2_FASTA; BRACKEN; BRACKEN_EACH; EXTRACT_KRAKEN_READS; EXTRACT_KRAKEN_READS_FASTA; EXTRACT_KRAKEN_READS_TAXID_LIST; EXTRACT_KRAKEN_READS_TAXID; BWA_INDEX; BWA_INDEX_FULL_GENOME; BWA_MEM_BAM_SORT; BWA_MEM_BAM_SORT_FULL_GENOME; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS_LITE; SAMTOOLS_STATS; MEGAHIT; QUAST; UNICYCLER; BLASTN; blastn; blastn_parse_1_hit; blastn_parse_50_hits; DIAMOND; REMOVE_HOST; REMOVE_HUMAN; metaSPAdes; } from '../modules.nf'
+include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; KRAKEN2_FASTA; BRACKEN; BRACKEN_EACH; EXTRACT_KRAKEN_READS; EXTRACT_KRAKEN_READS_FASTA; EXTRACT_KRAKEN_READS_TAXID_LIST; EXTRACT_KRAKEN_READS_TAXID; BWA_INDEX; BWA_INDEX_FULL_GENOME; BWA_MEM_BAM_SORT; BWA_MEM_BAM_SORT_FULL_GENOME; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS_LITE; SAMTOOLS_STATS; MEGAHIT; QUAST; UNICYCLER; BLASTN; blastn; blastn_parse_1_hit; blastn_parse_50_hits; DIAMOND; REMOVE_HOST; REMOVE_HUMAN; metaSPAdes; shuffling_fasta } from '../modules.nf'
 //include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 
@@ -159,7 +159,8 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     KRAKEN2_1(REMOVE_HOST.out, dir_name)
     BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
     metaSPAdes(REMOVE_HOST.out)
-    ch_fasta = metaSPAdes.out.id_scaffolds.splitFasta(by: params.chunkSize, file:true)
+    shuffling_fasta(metaSPAdes.out.id_scaffolds)
+    ch_fasta = shuffling_fasta.out.splitFasta(by: params.chunkSize, file:true)
     ch_fasta.view()
     ch_hits = blastn(ch_fasta, db).id_report
     ch_hits.view()

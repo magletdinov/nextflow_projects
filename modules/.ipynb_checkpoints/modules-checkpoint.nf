@@ -1052,3 +1052,28 @@ process metaSPAdes {
     spades.py -1 ${reads[0]} -2  ${reads[1]} -o .
     """
 }
+
+process shuffling_fasta {
+    conda "/export/home/agletdinov/mambaforge/envs/reat"
+    tag "MetaSPAdes on ${sample_id}"
+    publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs)
+    
+    output:
+    tuple val(sample_id), path('shuffled_scaffolds.fasta'), emit: id_all
+ 
+    script:
+    """
+    #!/usr/bin/env python3
+    from pathlib import Path
+    from Bio import SeqIO
+    from Bio.SeqRecord import SeqRecord
+    from Bio.Seq import Seq
+    from random import shuffle
+    fasta_list = [seq_record for seq_record in SeqIO.parse("${contigs}", "fasta")]
+    shuffled_fasta_list = shuffle(fasta_list)
+    SeqIO.write(shuffled_fasta_list, "shuffled_scaffolds.fasta", "fasta")
+    """
+}
