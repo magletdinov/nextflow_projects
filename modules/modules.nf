@@ -1049,7 +1049,7 @@ process metaSPAdes {
  
     script:
     """
-    spades.py -1 ${reads[0]} -2  ${reads[1]} -o .
+    spades.py --meta -1 ${reads[0]} -2  ${reads[1]} -o .
     """
 }
 

@@ -236,7 +236,7 @@ workflow taxonomy_analysis_reads_tysia{
     to_names = params.to_names
     TAXONOMY_ANALYSIS_TYSIA(read_pairs_ch, bowtie2db, bracken_settings, db, to_nodes, to_names)
     MULTIQC(TAXONOMY_ANALYSIS_TYSIA.out)
-    SENDMAIL_PY(MULTIQC.out)
+    //SENDMAIL_PY(MULTIQC.out)
 }
 
 
