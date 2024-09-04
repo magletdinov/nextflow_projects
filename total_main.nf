@@ -3,7 +3,7 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "18_06_24"
+params.run = "29_08_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -112,15 +112,17 @@ params.taxid_list = file('/export/home/public/agletdinov_shared/kraken2db/k2_eup
 
 params.blastnDB = "/export/home/public/tools/database/nt"
 params.db = "/export/home/public/tools/database/nt"
-params.to_nodes = "/export/home/public/agletdinov_shared/taxonomy/nodes.dmp"
-params.to_names = "/export/home/public/agletdinov_shared/taxonomy/names.dmp"
+params.to_nodes = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/nodes.dmp"
+params.to_names = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/names.dmp"
 params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 def bowtie2_index = [
-    'HERP_001_S9': 'GRCh38_noalt_as',
+    'Titov-syvorotka_S1_L001': 'GRCh38_noalt_as',
+    'Titov-likvor_S2_L001': 'GRCh38_noalt_as',
+    'Negative-control_S3_L001': 'GRCh38_noalt_as',
 ]
 params.bowtie2_index = bowtie2_index
 params.chunkSize = 100
-params.out = "result.txt"
+params.blastn_report = "${params.outdir}/blastn/files"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
     ===================================

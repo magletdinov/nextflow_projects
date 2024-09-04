@@ -833,7 +833,7 @@ process blastn {
     conda "/export/home/agletdinov/mambaforge/envs/blast"
     //memory = '1 MB'
     //maxForks 2
-    cpus 45
+    cpus 10
     tag "Blastn on ${sample_id}"
     publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
@@ -846,7 +846,7 @@ process blastn {
 
     script:
     """
-    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-03 -max_target_seqs 50 -max_hsps 1 -task blastn -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-10 -max_target_seqs 50 -max_hsps 1 -task blastn -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 
@@ -938,20 +938,46 @@ process blastn_parse_50_hits{
     """
     #!/usr/bin/env python3
     import pandas as pd
+    import numpy as np
     from pathlib import Path
     import sys
-    print("$to_nodes")
-    contaminants = {12814    : "Respiratory syncytial virus", 
+    labs_contaminants = {12814    : "Respiratory syncytial virus", 
                     3049954  : "Orthopneumovirus hominis", 
                     10407    : "Hepatitis B virus", 
                     3052345  : "Morbillivirus hominis", 
                     1513264  : "Gammapapillomavirus 19", 
                     3050294  : "Human alphaherpesvirus 3", 
                     694009   : "Severe acute respiratory syndrome-related coronavirus", 
-                    11786    : "Murine leukemia virus",
-
-                    #7898     : "Actinopterygii"
-                    }
+                    11786    : "Murine leukemia virus"}
+    bacteria_list = [
+    "Afipia", "Aquabacterium", "Asticcacaulis", "Aurantimonas", "Beijerinckia", 
+    "Bosea", "Bradyrhizobium", "Brevundimonas", "Caulobacter", "Craurococcus", 
+    "Devosia", "Hoeflea", "Mesorhizobium", "Methylobacterium", "Novosphingobium", 
+    "Ochrobactrum", "Paracoccus", "Pedomicrobium", "Phyllobacterium", "Rhizobium", 
+    "Roseomonas", "Sphingobium", "Sphingomonas", "Sphingopyxis",
+    "Acidovorax", "Azoarcus", "Azospira", "Burkholderia", "Comamonas", 
+    "Cupriavidus", "Curvibacter", "Delftia", "Duganella", "Herbaspirillum", 
+    "Janthinobacterium", "Kingella", "Leptothrix", "Limnobacter", "Massilia", 
+    "Methylophilus", "Methyloversatilis", "Oxalobacter", "Pelomonas", 
+    "Polaromonas", "Ralstonia", "Schlegelella", "Sulfuritalea", 
+    "Undibacterium", "Variovorax",
+    "Acinetobacter", "Enhydrobacter", "Enterobacter", "Escherichia", 
+    "Nevskia", "Pseudomonas", "Pseudoxanthomonas", "Psychrobacter", 
+    "Stenotrophomonas", "Xanthomonas",
+    "Aeromicrobium", "Arthrobacter", "Beutenbergia", "Brevibacterium", 
+    "Corynebacterium", "Curtobacterium", "Dietzia", "Geodermatophilus", 
+    "Janibacter", "Kocuria", "Microbacterium", "Micrococcus", 
+    "Microlunatus", "Patulibacter", "Propionibacterium", 
+    "Rhodococcus", "Tsukamurella",
+    "Abiotrophia", "Bacillus", "Brevibacillus", "Brochothrix", 
+    "Facklamia", "Paenibacillus", "Streptococcus",
+    "Chryseobacterium", "Dyadobacter", "Flavobacterium", 
+    "Hydrotalea", "Niastella", "Olivibacter", 
+    "Pedobacter", "Wautersiella",
+    "Deinococcus",
+    "Acidobacteria"
+                    ]
+    
 
     def create_path_to_root(taxid, nodes):
         try:
@@ -963,14 +989,43 @@ process blastn_parse_50_hits{
             return path_to_root
         except:
             return []
-            
-    def iscontaminant(x, nodes):
+
+    def iscontaminant(x, nodes, names):
         path_to_root = create_path_to_root(x, nodes)
+        mask = names["name"].isin(bacteria_list)
+        bacteria_dict = names[mask]["name"].to_dict()
+        contaminants = {**labs_contaminants, **bacteria_dict}
         for i in contaminants:
             if i in path_to_root:
                 return True
         return False
-        
+
+    def find_common_ancestor(tax_ids, taxonomy_df):
+        tax_ids = [int(i) for i in tax_ids]
+        # Функция для получения пути до корня для каждого tax_id
+        def get_path_to_root(tax_id, taxonomy_df):
+            path = []
+            while tax_id != 1:
+                path.append(tax_id)
+                tax_id = taxonomy_df.loc[tax_id, 'parent tax_id']
+            path.append(1)  # Добавляем корневой элемент
+            return path
+
+        # Получаем пути до корня для каждого tax_id
+        paths = [get_path_to_root(tax_id, taxonomy_df) for tax_id in tax_ids]
+
+        # Переворачиваем пути, чтобы начать сравнение с корня
+        paths = [list(reversed(path)) for path in paths]
+
+        # Ищем ближайшего общего предка
+        common_ancestor = 1
+        for ancestors in zip(*paths):
+            if all(x == ancestors[0] for x in ancestors):
+                common_ancestor = ancestors[0]
+            else:
+                break
+        return common_ancestor
+
     def blast_parser(to_names, to_nodes, to_blastn_report, to_eupath_df):
         names = pd.read_csv(to_names, sep="\t", header=None, usecols=[0, 2, 6], names=["tax_id", "name", "type"], index_col="tax_id")
         names = names[names["type"] == "scientific name"]
@@ -978,49 +1033,50 @@ process blastn_parse_50_hits{
         eupath_df = pd.read_csv(to_eupath_df, sep="\t", header=None)
         df_blast = pd.read_csv(to_blastn_report, sep="\t", header=None, dtype={5:"str"})
         df_blast = df_blast[df_blast[7] <= 10**-10]
+        mask = df_blast[5].str.contains(";")
+        df_blast = df_blast[~mask]
         list_of_scaffolds = []
         list_of_best_taxid = []
         for (scaffold_name, subdf) in df_blast.groupby(by=0):
-            try:
-                mask_1 = subdf[5].apply(lambda x: 40674 in create_path_to_root(int(x), nodes))
-                mask_2 = subdf[5].apply(lambda x: 7898 in create_path_to_root(int(x), nodes))
+            min_eval_degree = round(np.log10(subdf.iloc[0,7] + 1e-100))
+            max_eval_degree = min_eval_degree + 10
+            subdf_filt = subdf[np.log10(subdf[7]) < max_eval_degree]
 
-            except ValueError:
+            tax_ids = subdf_filt[5].values
+            try:
+                common_ancestor = find_common_ancestor(tax_ids=tax_ids, taxonomy_df=nodes)
+            except KeyError: 
                 continue
-            if mask_1.sum() / len(mask_1) > 0.1:
-                continue
-            if mask_2.sum() / len(mask_2) > 0.1:
-                continue
-            res_df = subdf\
-                    .sort_values(by=[7,6], ascending=[True, False])\
-                    .groupby(by=5).aggregate({0:"count"})
-            max_hits = res_df[0].max()
-            max_hits_df = res_df[res_df[0] == max_hits]
-            taxid_max_hits = max_hits_df.index.to_list()
-            for taxid in taxid_max_hits:
-                list_of_scaffolds.append(scaffold_name)
-                list_of_best_taxid.append(taxid)
+            list_of_scaffolds.append(scaffold_name)
+            list_of_best_taxid.append(common_ancestor)
 
         results = pd.DataFrame({"scaffold_name":list_of_scaffolds,"taxid":list_of_best_taxid})
-        results_agg = results.groupby(by="taxid").aggregate({"scaffold_name":"count"})
+        results['length'] = results['scaffold_name'].apply(lambda x: int(x.split("_")[3]))
+
+        # Группируем и агрегируем данные
+        results_agg = results.groupby(by="taxid").agg(
+            scaffold_count=("scaffold_name", "count"),
+            average_length=("length", "mean"),
+            max_length=("length", "max")
+        )
+        results_agg["average_length"] = np.round(results_agg["average_length"], 0)
         results_agg.index = results_agg.index.astype(int)
         results_agg.index.name = 'taxid'
         names.index.name = 'taxid'
         nodes.index.name = 'taxid'
         end = results_agg.join(names).join(nodes)
-        filt_end = end[["scaffold_name", "name", "tax_name"]]
-        filt_end.rename(columns={"scaffold_name":"number_of_scaffolds"}, inplace=True)
+        filt_end = end[["scaffold_count", "average_length", "max_length", "name", "tax_name"]]
 
-
-        filt_end.sort_values(by="number_of_scaffolds", ascending=False, inplace=True)
+        filt_end.sort_values(by="scaffold_count", ascending=False, inplace=True)
 
         filt_end.reset_index(inplace=True)
-        filt_end["no_contaminant"] = filt_end["taxid"].apply(lambda x: not iscontaminant(x, nodes))
-        
+        filt_end["no_contaminant"] = filt_end["taxid"].apply(lambda x: not iscontaminant(x, nodes, names))
+
         list_of_eupath = eupath_df[1].unique()
         mask = filt_end["taxid"].apply(lambda x: len(set(create_path_to_root(x, nodes)) & set(list_of_eupath)) > 0)
         filt_end["is_eupath"] = mask
         filt_end.set_index("taxid", inplace=True)
+
         return filt_end
     to_names = Path('${to_names}')
     to_nodes = Path('${to_nodes}')
@@ -1073,7 +1129,7 @@ process shuffling_fasta {
     from Bio.Seq import Seq
     from random import shuffle
     fasta_list = [seq_record for seq_record in SeqIO.parse("${contigs}", "fasta")]
-    shuffled_fasta_list = shuffle(fasta_list)
-    SeqIO.write(shuffled_fasta_list, "shuffled_scaffolds.fasta", "fasta")
+    shuffle(fasta_list)
+    SeqIO.write(fasta_list, "shuffled_scaffolds.fasta", "fasta")
     """
 }
