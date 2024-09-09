@@ -86,8 +86,8 @@ params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacteria
 params.vir_genome_dir = "/export/home/public/agletdinov_shared/genomes/vir"
 params.genomes = ["cp", "sp", "va", "ec"]
 params.genome = "${params.shared}/genomes/sars_cov_2/NC_045512.2.fasta"
-params.outdir = "${params.results_project}/results/${params.run}"
-//params.outdir = "${params.results_project}/results/18_06_24_tysia"
+//params.outdir = "${params.results_project}/results/${params.run}"
+params.outdir = "${params.shared}/nextflow_projects/total_seq/results/${params.run}"
 params.bwa_index = "${params.outdir}/bwa_index"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
 
