@@ -122,7 +122,7 @@ def bowtie2_index = [
 ]
 params.bowtie2_index = bowtie2_index
 params.chunkSize = 100
-params.blastn_report = "${params.outdir}/blastn/files"
+params.blastn_report = "${params.outdir}/blastn"
 log.info """\
     R N A S E Q - N F   P I P E L I N E
     ===================================

@@ -835,7 +835,7 @@ process blastn {
     //maxForks 2
     cpus 10
     tag "Blastn on ${sample_id}"
-    publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
+    //publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
 
     input:
     tuple val(sample_id), path(contigs)
