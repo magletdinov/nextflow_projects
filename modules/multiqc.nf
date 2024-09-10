@@ -1,6 +1,6 @@
 process MULTIQC {
     //conda 'multiqc'
-    conda "/export/home/agletdinov/mambaforge/envs/multiqc"
+    conda "${CONDA_PREFIX_1}/envs/multiqc"
     
     tag "MultiQC"
     publishDir "${params.outdir}/multiqc", mode:'copy'

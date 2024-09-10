@@ -1,6 +1,6 @@
 process FASTQC {
     //conda = 'bioconda::fastqc'
-    conda "/export/home/agletdinov/mambaforge/envs/multiqc"
+    conda "${CONDA_PREFIX_1}/envs/multiqc"
 
     tag "FastQC on ${sample_id}"
     publishDir "${params.outdir}/fastqc", mode: "copy"
@@ -1131,5 +1131,27 @@ process shuffling_fasta {
     fasta_list = [seq_record for seq_record in SeqIO.parse("${contigs}", "fasta")]
     shuffle(fasta_list)
     SeqIO.write(fasta_list, "shuffled_scaffolds.fasta", "fasta")
+    """
+}
+
+
+process DORADO_GPU {
+    conda "${CONDA_PREFIX_1}/envs/dorado"
+    maxForks 1
+    tag "Dorado basecaller on ${sample_id}"
+    publishDir "${params.outdir}/dorado_basecaller", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    tuple val(sample_id), path('*fastq')
+    
+    cpus 20
+
+    script:
+    """
+    export PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+    dorado basecaller --emit-fastq --device cuda:all hac ${reads} > ${sample_id}.fastq
     """
 }
