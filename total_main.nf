@@ -3,7 +3,7 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "29_08_24"
+params.run = "09_09_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -118,7 +118,8 @@ params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 def bowtie2_index = [
     'Titov-syvorotka_S1_L001': 'GRCh38_noalt_as',
     'Titov-likvor_S2_L001': 'GRCh38_noalt_as',
-    'Negative-control_S3_L001': 'GRCh38_noalt_as',
+    'Negative-control-extracted_S3_L001': 'GRCh38_noalt_as',
+    'Negative-control-OT_S4_L001': 'GRCh38_noalt_as'
 ]
 params.bowtie2_index = bowtie2_index
 params.chunkSize = 100
