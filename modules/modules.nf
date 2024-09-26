@@ -1155,3 +1155,46 @@ process DORADO_GPU {
     dorado basecaller --emit-fastq --device cuda:all hac ${reads} > ${sample_id}.fastq
     """
 }
+
+process DORADO_CORRECTION_GPU {
+    conda "${CONDA_PREFIX_1}/envs/dorado"
+    maxForks 1
+    tag "Dorado correction on ${sample_id}"
+    publishDir "${params.outdir}/dorado_correction", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    tuple val(sample_id), path('*_corrected.fasta')
+    
+    cpus 20
+
+    script:
+    """
+    dorado correct ${reads} > ${sample_id}_corrected.fasta
+    """
+}
+process MEDAKA {
+    conda "${CONDA_PREFIX_1}/envs/dorado"
+    //maxForks 1
+    tag "Medaka assembler on ${sample_id}"
+    publishDir "${params.outdir}/medaka assembler", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    tuple val(sample_id), path('*fasta')
+    
+    cpus 2
+
+    script:
+    """
+    NPROC=${cpus}
+    BASECALLS=${reads}
+    DRAFT=draft_assm/assm_final.fa
+    OUTDIR=medaka_consensus
+    medaka_consensus -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR} -t ${NPROC} -m r1041_e82_400bps_hac_g632
+    """
+}
