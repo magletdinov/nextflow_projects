@@ -146,6 +146,7 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     read_pairs_ch
     bowtie2_db
     //bowtie2_index
+    taxid
     bracken_settings
     db
     to_nodes
@@ -157,6 +158,7 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
     REMOVE_HOST(TRIM_4_NUCL.out, bowtie2_db)
     dir_name = "all_data"
     KRAKEN2_1(TRIM_4_NUCL.out, dir_name)
+    EXTRACT_KRAKEN_READS_TAXID(TRIM_4_NUCL.out.join(KRAKEN2_1.out.id_output).join(KRAKEN2_1.out.id_report), taxid)
     BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
     metaSPAdes(REMOVE_HOST.out)
     shuffling_fasta(metaSPAdes.out.id_scaffolds)

@@ -598,7 +598,7 @@ process EXTRACT_KRAKEN_READS_TAXID {
     cpus 20
     
     tag "Extract kraken reads on ${sample_id}"
-    publishDir "${params.outdir}/krakentools/extract_taxids_eupath/${sample_id}", mode: "copy"
+    publishDir "${params.outdir}/krakentools/extract_taxids/${sample_id}", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
