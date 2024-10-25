@@ -9,10 +9,10 @@ process MULTIQC {
     path("*")
 
     output:
-    path("multiqc_report.html")
+    path("multiqc_report_${params.run}.html")
 
     script:
     """
-    multiqc . --cl-config "{max_table_rows: 2000}"
+    multiqc . --cl-config "{max_table_rows: 2000}" -n multiqc_report_${params.run}.html
     """
 }

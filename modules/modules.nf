@@ -1105,7 +1105,7 @@ process metaSPAdes {
  
     script:
     """
-    spades.py --meta -1 ${reads[0]} -2  ${reads[1]} -o .
+    spades.py --meta -1 ${reads[0]} -2  ${reads[1]} -t ${task.cpus} -o .
     """
 }
 
