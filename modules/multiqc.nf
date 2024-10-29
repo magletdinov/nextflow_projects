@@ -13,6 +13,6 @@ process MULTIQC {
 
     script:
     """
-    multiqc . --cl-config "{max_table_rows: 2000}" -n multiqc_report_${params.run}.html
+    multiqc . --cl-config "{max_table_rows: 2000, report_table_units: ''}" -n multiqc_report_${params.run}.html
     """
 }

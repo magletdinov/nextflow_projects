@@ -174,6 +174,30 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
      //FQ1.out | concat(KRAKEN2_1.out.report) | collect
 }
 
+workflow TAXONOMY_ANALYSIS_TICKS {
+  take:
+    read_pairs_ch
+    genome
+    //genomes
+    bracken_settings
+  main:
+    FQ1(read_pairs_ch)
+    TRIM_ADAPT(read_pairs_ch)
+    TRIM_4_NUCL(TRIM_ADAPT.out)
+    BWA_INDEX(genome, genome.name)
+    //BWA_INDEX_FULL_GENOME(genomes)
+    BWA_MEM_BAM_SORT(TRIM_4_NUCL.out, BWA_INDEX.out)
+    SAMTOOLS_INDEX(BWA_MEM_BAM_SORT.out)
+    SAMTOOLS_STATS(BWA_MEM_BAM_SORT.out)  
+    dir_name = "all_data"
+    KRAKEN2_1(TRIM_4_NUCL.out, dir_name)
+    BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
+    
+  emit: 
+     FQ1.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | collect
+     //FQ1.out | concat(KRAKEN2_1.out.report) | collect
+}
+
 
 workflow TAXONOMY_ANALYSIS_SARS {
   take:

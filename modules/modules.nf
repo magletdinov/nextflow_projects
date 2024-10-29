@@ -19,8 +19,8 @@ process FASTQC {
 }
 
 process TRIM_ADAPT {
-    conda = '/export/home/agletdinov/mambaforge/envs/fastp'
-
+    //conda = '/export/home/agletdinov/mambaforge/envs/fastp'
+    conda "${CONDA_PREFIX_1}/envs/fastp"
     tag "Fastp on ${sample_id}"
     publishDir "${params.outdir}/fastp_adapt", mode: "copy"
     
@@ -48,8 +48,8 @@ process TRIM_ADAPT {
 }
   
 process TRIM_4_NUCL {
-    conda = 'bioconda::cutadapt'
-
+    //conda = 'bioconda::cutadapt'
+    conda "${CONDA_PREFIX_1}/envs/cutadapt"
     tag "Cutadapt on ${sample_id}"
     //publishDir "${params.outdir}/cutadapt_trim/${mode}_n", mode: "copy"
     publishDir "${params.outdir}/cutadapt_trim", mode: "copy"
@@ -85,8 +85,8 @@ process TRIM_4_NUCL {
 
 
 process TRIM_PRIMERS {
-    conda = 'bioconda::cutadapt'
-    
+    //conda = 'bioconda::cutadapt'
+    conda "${CONDA_PREFIX_1}/envs/cutadapt"
     tag "Cutadapt (primers) on ${sample_id}"
     publishDir "${params.outdir}/cutadapt_primers", mode: "copy"
     
@@ -111,8 +111,8 @@ process TRIM_PRIMERS {
 }
 
 process REMOVE_HOST {
-    conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
-
+    //conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
+    conda "${CONDA_PREFIX_1}/envs/bowtie2"
     tag "Remove host from ${sample_id}"
     publishDir "${params.outdir}/remove_host", mode:'copy'
     cpus 40
@@ -148,9 +148,9 @@ process REMOVE_HOST {
 
 
 process BWA_INDEX {
-    conda = 'bioconda::bwa'
-
-    tag "Bwa index for ${params.key_areas}"
+    //conda = 'bioconda::bwa'
+    conda "${CONDA_PREFIX_1}/envs/bwa"
+    tag "Bwa index for ${prefix}"
     publishDir "${params.outdir}/bwa_index", mode:'copy'
     
     input:
@@ -164,6 +164,7 @@ process BWA_INDEX {
     tuple val(prefix), path("${prefix}.{ann,amb,sa,bwt,pac}")
 
     """
+    echo "Building BWA index for file: ${ref_fasta}"
     bwa index \\
         -p "${prefix}" \\
         "${ref_fasta}"
@@ -171,8 +172,8 @@ process BWA_INDEX {
 }
 
 process BWA_INDEX_FULL_GENOME {
-    conda = '/export/home/agletdinov/mambaforge/envs/bwa'
-
+    //conda = '/export/home/agletdinov/mambaforge/envs/bwa'
+    conda "${CONDA_PREFIX_1}/envs/bwa"
     tag "Bwa index for ${genome}"
     publishDir "${params.outdir}/bwa_index/${genome}", mode:'copy'
     
@@ -247,8 +248,8 @@ process BWA_MEM_BAM_SORT_FULL_GENOME {
 
 
 process SAMTOOLS_INDEX {
-    conda 'bioconda::samtools'
-    
+    //conda 'bioconda::samtools'
+    conda "${CONDA_PREFIX_1}/envs/samtools"
     tag "Samtools index on ${sample_id}"
     publishDir "${params.outdir}/bam", mode:'copy'
     
@@ -271,8 +272,8 @@ process SAMTOOLS_INDEX {
 }
 
 process SAMTOOLS_CONSENSUS {
-    conda 'bioconda::samtools'
-    
+    //conda 'bioconda::samtools'
+    conda "${CONDA_PREFIX_1}/envs/samtools"
     tag "Samtools consensus on ${sample_id}"
     publishDir "${params.outdir}/consensus", mode:'copy'
     
@@ -319,8 +320,8 @@ process SAMTOOLS_CONSENSUS_LITE {
 }
 
 process SAMTOOLS_STATS {
-    conda 'bioconda::samtools'
-    
+    //conda 'bioconda::samtools'
+    conda "${CONDA_PREFIX_1}/envs/samtools"
     tag "Samtools stats on ${sample_id}"
     publishDir "${params.outdir}/statistics/${sample_id}", mode:'copy'
     

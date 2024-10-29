@@ -3,7 +3,7 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "24_10_24"
+params.run = "24_10_24_nextseq"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -20,7 +20,7 @@ def bracken_settings_dict = [
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
 params.krakentools_flag = false
-params.extract_taxid = true
+params.extract_taxid = false
 //def taxid_dict = [
 //    '3050337': ["k10_bird_S5"],
 //    '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
@@ -86,8 +86,8 @@ params.taxid = 1491
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
 params.vir_genome_dir = "/export/home/public/agletdinov_shared/genomes/vir"
-params.genomes = ["cp", "sp", "va", "ec"]
-params.genome = "${params.shared}/genomes/sars_cov_2/NC_045512.2.fasta"
+params.genomes = ["ticks"]
+params.genome = "${params.shared}/genomes/ticks2/ticks.fasta"
 params.outdir = "${params.results_project}/results/${params.run}"
 //params.outdir = "${params.shared}/nextflow_projects/total_seq/results/${params.run}"
 params.bwa_index = "${params.outdir}/bwa_index"
@@ -101,8 +101,7 @@ def genome_dict = [
 ]
 params.genome_dict = genome_dict
 def genome_dict_taxid = [
-    '3050337': "${params.vir_genome_dir}/papiine_betaherpesvirus_3.fasta",
-    '694014': "${params.vir_genome_dir}/infectious_bronchitis_virus.fasta",
+    'ticks': "${params.shared}/genomes/ticks2/ticks.fasta",
 ]
 params.genome_dict_taxid = genome_dict_taxid
 
@@ -151,6 +150,7 @@ include { TAXONOMY_ANALYSIS_READS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_SARS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_TICKS } from './modules/total_seq/total_modules.nf'
 
 include { MULTIQC } from './modules/multiqc.nf'
 include { SENDMAIL; SENDMAIL_PY } from './modules/sendMail.nf'
@@ -247,6 +247,16 @@ workflow taxonomy_analysis_reads_tysia{
     //SENDMAIL_PY(MULTIQC.out)
 }
 
+workflow taxonomy_analysis_reads_ticks{
+    Channel
+        .fromFilePairs(params.reads, checkIfExists: true)
+        .set { read_pairs_ch }
+    genome = file(params.genome)
+    //genomes = params.genomes
+    bracken_settings = params.bracken_settings
+    TAXONOMY_ANALYSIS_TICKS(read_pairs_ch, genome, bracken_settings)
+    MULTIQC(TAXONOMY_ANALYSIS_TICKS.out)
+}
 
 workflow taxonomy_analysis_sars{
     Channel
