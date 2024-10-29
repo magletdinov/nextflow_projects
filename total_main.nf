@@ -3,7 +3,7 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "17_10_24"
+params.run = "24_10_24"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -20,7 +20,7 @@ def bracken_settings_dict = [
 params.bracken_settings_dict = bracken_settings_dict
 params.bracken_settings = ['S', 'G']
 params.krakentools_flag = false
-params.extract_taxid = false
+params.extract_taxid = true
 //def taxid_dict = [
 //    '3050337': ["k10_bird_S5"],
 //    '694014':   ["k18_bird_S13", "k16_bird_S11", "k24_bird_S19"],
@@ -81,7 +81,7 @@ params.taxid_dict_v2 = taxid_dict_v2
 
 //params.taxid = ['1286', '649161', '28901', '1767', '2267275', '1764', '6035', '3050299', '2163996', '68416']
 //params.taxid = ['3049954', '40324']
-params.taxid = 3050299
+params.taxid = 1491
 
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
@@ -118,10 +118,12 @@ params.to_nodes = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/no
 params.to_names = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/names.dmp"
 params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 def bowtie2_index = [
-    'neg-C-rev_S21_L001': 'GRCh38_noalt_as',
-    'L219P8-beads_S19_L001': 'GRCh38_noalt_as',
-    'L219P8-Monarch_S18_L001': 'GRCh38_noalt_as',
-    'L219P8-nodepl_S20_L001': 'GRCh38_noalt_as'
+    'NEG-DNA_S3_L001': 'GRCh38_noalt_as',
+    'NEG-RNA_S6_L001': 'GRCh38_noalt_as',
+    'Shapovalova-DNA-Likvor14_S2_L001': 'GRCh38_noalt_as',
+    'Shapovalova-DNA-Plasma_S1_L001': 'GRCh38_noalt_as',
+    'Shapovalova-RNA-Likvor14_S5_L001': 'GRCh38_noalt_as',
+    'Shapovalova-RNA-Plasma_S4_L001': 'GRCh38_noalt_as'
 ]
 params.bowtie2_index = bowtie2_index
 params.chunkSize = 100
