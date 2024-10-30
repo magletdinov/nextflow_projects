@@ -180,6 +180,10 @@ workflow TAXONOMY_ANALYSIS_TICKS {
     genome
     //genomes
     bracken_settings
+    bowtie2_db
+    db
+    to_nodes
+    to_names
   main:
     FQ1(read_pairs_ch)
     TRIM_ADAPT(read_pairs_ch)
@@ -192,9 +196,20 @@ workflow TAXONOMY_ANALYSIS_TICKS {
     dir_name = "all_data"
     KRAKEN2_1(TRIM_4_NUCL.out, dir_name)
     BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
+
+    REMOVE_HOST(TRIM_4_NUCL.out, bowtie2_db)
+    metaSPAdes(REMOVE_HOST.out)
+    shuffling_fasta(metaSPAdes.out.id_scaffolds)
+    ch_fasta = shuffling_fasta.out.splitFasta(by: params.chunkSize, file:true)
+    //ch_fasta.view()
+    ch_hits = blastn(ch_fasta, db).id_report
+    //ch_hits.view()
+    ch_collected = ch_hits.collectFile(storeDir:params.blastn_report).map{ [it.name, it] }
+    //ch_collected.view()
+    blastn_parse_50_hits(ch_collected, to_nodes, to_names)
     
   emit: 
-     FQ1.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | collect
+     FQ1.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | concat(blastn_parse_50_hits.out)| collect
      //FQ1.out | concat(KRAKEN2_1.out.report) | collect
 }
 

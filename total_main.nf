@@ -117,12 +117,18 @@ params.to_nodes = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/no
 params.to_names = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/names.dmp"
 params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 def bowtie2_index = [
-    'NEG-DNA_S3_L001': 'GRCh38_noalt_as',
-    'NEG-RNA_S6_L001': 'GRCh38_noalt_as',
-    'Shapovalova-DNA-Likvor14_S2_L001': 'GRCh38_noalt_as',
-    'Shapovalova-DNA-Plasma_S1_L001': 'GRCh38_noalt_as',
-    'Shapovalova-RNA-Likvor14_S5_L001': 'GRCh38_noalt_as',
-    'Shapovalova-RNA-Plasma_S4_L001': 'GRCh38_noalt_as'
+    '27_tick_S15': 'GRCh38_noalt_as',
+    '29_tick_S17': 'GRCh38_noalt_as',
+    '32_tick_S18': 'GRCh38_noalt_as',
+    '35_tick_S19': 'GRCh38_noalt_as',
+    '36_tick_S20': 'GRCh38_noalt_as',
+    '37_tick_S21': 'GRCh38_noalt_as',
+    '39_tick_S23': 'GRCh38_noalt_as',
+    '40_tick_S24': 'GRCh38_noalt_as',
+    '41_tick_S25': 'GRCh38_noalt_as',
+    '42_tick_S26': 'GRCh38_noalt_as',
+    '43_tick_S27': 'GRCh38_noalt_as',
+    'Negative_control_ticks_sample_27_44_S14': 'GRCh38_noalt_as'
 ]
 params.bowtie2_index = bowtie2_index
 params.chunkSize = 100
@@ -254,7 +260,13 @@ workflow taxonomy_analysis_reads_ticks{
     genome = file(params.genome)
     //genomes = params.genomes
     bracken_settings = params.bracken_settings
-    TAXONOMY_ANALYSIS_TICKS(read_pairs_ch, genome, bracken_settings)
+
+    bowtie2db = params.bowtie2db
+    bowtie2_index = params.bowtie2_index
+    db = file( params.db )
+    to_nodes = params.to_nodes
+    to_names = params.to_names
+    TAXONOMY_ANALYSIS_TICKS(read_pairs_ch, genome, bracken_settings, bowtie2db, db, to_nodes, to_names)
     MULTIQC(TAXONOMY_ANALYSIS_TICKS.out)
 }
 
