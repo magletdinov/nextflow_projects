@@ -19,8 +19,8 @@ process FASTQC {
 }
 
 process TRIM_ADAPT {
-    conda = '/export/home/agletdinov/mambaforge/envs/fastp'
-    //conda "${CONDA_PREFIX_1}/envs/fastp"
+    //conda = '/export/home/agletdinov/mambaforge/envs/fastp'
+    conda "${CONDA_PREFIX_1}/envs/fastp"
     tag "Fastp on ${sample_id}"
     publishDir "${params.outdir}/fastp_adapt", mode: "copy"
     
@@ -48,8 +48,8 @@ process TRIM_ADAPT {
 }
   
 process TRIM_4_NUCL {
-    conda = 'bioconda::cutadapt'
-    //conda "${CONDA_PREFIX_1}/envs/cutadapt"
+    //conda = 'bioconda::cutadapt'
+    conda "${CONDA_PREFIX_1}/envs/cutadapt"
     tag "Cutadapt on ${sample_id}"
     //publishDir "${params.outdir}/cutadapt_trim/${mode}_n", mode: "copy"
     publishDir "${params.outdir}/cutadapt_trim", mode: "copy"
@@ -111,8 +111,8 @@ process TRIM_PRIMERS {
 }
 
 process REMOVE_HOST {
-    conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
-    //conda "${CONDA_PREFIX_1}/envs/bowtie2"
+    //conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
+    conda "${CONDA_PREFIX_1}/envs/bowtie2"
     tag "Remove host from ${sample_id}"
     publishDir "${params.outdir}/remove_host", mode:'copy'
     cpus 40
@@ -296,7 +296,8 @@ process SAMTOOLS_CONSENSUS {
 }
 
 process SAMTOOLS_CONSENSUS_LITE {
-    conda 'bioconda::samtools'
+    //conda 'bioconda::samtools'
+    conda "${CONDA_PREFIX_1}/envs/samtools"
     
     tag "Samtools consensus on ${sample_id}"
     publishDir "${params.outdir}/consensus", mode:'copy'
@@ -352,8 +353,9 @@ process SAMTOOLS_STATS {
 
 process RENAME_FASTA_ID {
     //conda 'conda-forge::biopython'
-    conda "/export/home/agletdinov/mambaforge/envs/reat"
-     
+    //conda "/export/home/agletdinov/mambaforge/envs/reat"
+    conda "${CONDA_PREFIX_1}/envs/reat"
+    
     tag "Rename fasta id for ${sample_id}"
     publishDir "${params.outdir}/consensus_new_head", mode:'copy'
     
@@ -377,7 +379,8 @@ process RENAME_FASTA_ID {
 
 process KRAKEN2 {
     //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
     maxForks 1
     cpus 45
 
@@ -410,7 +413,8 @@ process KRAKEN2 {
 
 process KRAKEN2_FASTA {
     //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
     //maxForks 1
     errorStrategy 'ignore'
     cpus 45
@@ -434,7 +438,8 @@ process KRAKEN2_FASTA {
 
 process BRACKEN {
     //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    //conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    conda "${CONDA_PREFIX_1}/envs/bracken"
     //maxForks 1
     cpus 20
 
@@ -455,7 +460,8 @@ process BRACKEN {
 
 process BRACKEN_EACH {
     //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    //conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    conda "${CONDA_PREFIX_1}/envs/bracken"
     //maxForks 1
     cpus 20
     
@@ -479,7 +485,8 @@ process BRACKEN_EACH {
 
 process EXTRACT_KRAKEN_READS {
     //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
     //maxForks 1
     cpus 20
     
@@ -519,7 +526,8 @@ process EXTRACT_KRAKEN_READS {
 
 process EXTRACT_KRAKEN_READS_FASTA {
     //conda 'kraken2'
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
     //maxForks 1
     //errorStrategy 'ignore'
     cpus 20
@@ -552,7 +560,8 @@ process EXTRACT_KRAKEN_READS_FASTA {
 }
 
 process EXTRACT_KRAKEN_READS_TAXID_LIST {
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
     cpus 20
     
     tag "Extract kraken reads on ${sample_id}"
@@ -595,7 +604,8 @@ process EXTRACT_KRAKEN_READS_TAXID_LIST {
 
 
 process EXTRACT_KRAKEN_READS_TAXID {
-    conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
     cpus 20
     
     tag "Extract kraken reads on ${sample_id}"
@@ -652,8 +662,8 @@ process REMOVE_HUMAN {
 
 
 process IDENTIFY_CLADE {
-    conda "/export/home/agletdinov/mambaforge/envs/reat"
-     
+    //conda "/export/home/agletdinov/mambaforge/envs/reat"
+    conda "${CONDA_PREFIX_1}/envs/reat" 
     tag "Clade for ${sample_id}"
     publishDir "${params.outdir}/clades", mode:'copy'
     
@@ -681,7 +691,8 @@ process IDENTIFY_CLADE {
 
 process UNICYCLER {
     //conda 'bioconda::unicycler'
-    conda "/export/home/agletdinov/mambaforge/envs/unicycler"
+    //conda "/export/home/agletdinov/mambaforge/envs/unicycler"
+    conda "${CONDA_PREFIX_1}/envs/unicycler" 
     cpus 40
     //memory 500.GB
     //maxForks 2
@@ -708,7 +719,9 @@ process UNICYCLER {
 
 process MEGAHIT {
     //conda 'bioconda::megahit'
-    conda "/export/home/agletdinov/mambaforge/envs/megahit"
+    //conda "/export/home/agletdinov/mambaforge/envs/megahit"
+    conda "${CONDA_PREFIX_1}/envs/megahit" 
+    
     memory 300.GB
     maxForks 3
     cpus 40
@@ -733,7 +746,8 @@ process MEGAHIT {
 }
 
 process QUAST {
-    conda "/export/home/agletdinov/mambaforge/envs/quast"
+    //conda "/export/home/agletdinov/mambaforge/envs/quast"
+    conda "${CONDA_PREFIX_1}/envs/quast" 
     cpus 40
 
     tag "Quast for ${sample_id}"
@@ -757,7 +771,8 @@ process QUAST {
 
 process METAPHLAN {
     //conda 'bioconda::metaphlan'
-    conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
+    //conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
+    conda "${CONDA_PREFIX_1}/envs/metaphlan" 
     //memory = '1 MB'
     //maxForks 2
     cpus 40
@@ -780,7 +795,8 @@ process METAPHLAN {
 
 process METAPHLAN_AGG {
     //conda 'bioconda::metaphlan'
-    conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
+    //conda "/export/home/agletdinov/mambaforge/envs/metaphlan"
+    conda "${CONDA_PREFIX_1}/envs/metaphlan" 
     //memory 500.GB
     //maxForks 2
     tag "Metaphlan on ${sample_id}"
@@ -800,7 +816,8 @@ process METAPHLAN_AGG {
 
 process DIAMOND {
     //conda 'bioconda::metaphlan'
-    conda "/export/home/agletdinov/mambaforge/envs/diamond"
+    //conda "/export/home/agletdinov/mambaforge/envs/diamond"
+    conda "${CONDA_PREFIX_1}/envs/diamond" 
     //memory = '1 MB'
     //maxForks 2
     cpus 20
@@ -831,7 +848,8 @@ process DIAMOND {
 
 process blastn {
     //conda 'bioconda::metaphlan'
-    conda "/export/home/agletdinov/mambaforge/envs/blast"
+    //conda "/export/home/agletdinov/mambaforge/envs/blast"
+    conda "${CONDA_PREFIX_1}/envs/blast"
     //memory = '1 MB'
     //maxForks 2
     cpus 10
@@ -876,7 +894,8 @@ process BLASTN {
 
 process blastn_parse_1_hit{
     //conda 'bioconda::metaphlan'
-    conda "/export/home/agletdinov/mambaforge/envs/reat"
+    //conda "/export/home/agletdinov/mambaforge/envs/reat"
+    conda "${CONDA_PREFIX_1}/envs/reat"
     //memory = '1 MB'
     //maxForks 2
     cpus 5
@@ -923,7 +942,9 @@ process blastn_parse_1_hit{
 
 
 process blastn_parse_50_hits{
-    conda "/export/home/agletdinov/mambaforge/envs/reat"
+    //conda "/export/home/agletdinov/mambaforge/envs/reat"
+    conda "${CONDA_PREFIX_1}/envs/reat"
+    
     tag "Parse blastn result for ${sample_id} (50 hits)"
     publishDir "${params.outdir}/blastn_parse/${sample_id}", mode:'copy'
     
@@ -1091,7 +1112,8 @@ process blastn_parse_50_hits{
 
 process metaSPAdes {
     //conda 'bioconda::metaphlan'
-    conda "/export/home/agletdinov/mambaforge/envs/spades"
+    //conda "/export/home/agletdinov/mambaforge/envs/spades"
+    conda "${CONDA_PREFIX_1}/envs/spades"
     //maxForks 2
     cpus 40
     tag "MetaSPAdes on ${sample_id}"
@@ -1111,7 +1133,9 @@ process metaSPAdes {
 }
 
 process shuffling_fasta {
-    conda "/export/home/agletdinov/mambaforge/envs/reat"
+    //conda "/export/home/agletdinov/mambaforge/envs/reat"
+    conda "${CONDA_PREFIX_1}/envs/reat"
+    
     tag "MetaSPAdes on ${sample_id}"
     publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
     
@@ -1137,7 +1161,9 @@ process shuffling_fasta {
 
 
 process DORADO_GPU {
+    //conda "${CONDA_PREFIX_1}/envs/dorado"
     conda "${CONDA_PREFIX_1}/envs/dorado"
+    
     maxForks 1
     tag "Dorado basecaller on ${sample_id}"
     publishDir "${params.outdir}/dorado_basecaller", mode: "copy"
@@ -1158,7 +1184,9 @@ process DORADO_GPU {
 }
 
 process DORADO_CORRECTION_GPU {
+    //conda "${CONDA_PREFIX_1}/envs/dorado"
     conda "${CONDA_PREFIX_1}/envs/dorado"
+    
     maxForks 1
     tag "Dorado correction on ${sample_id}"
     publishDir "${params.outdir}/dorado_correction", mode: "copy"
