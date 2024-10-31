@@ -174,6 +174,26 @@ workflow TAXONOMY_ANALYSIS_TYSIA {
      //FQ1.out | concat(KRAKEN2_1.out.report) | collect
 }
 
+workflow TAXONOMY_ANALYSIS_TYSIA_LITE {
+  take:
+    read_pairs_ch
+    bowtie2_db
+    taxid
+    bracken_settings
+  main:
+    FQ1(read_pairs_ch)
+    TRIM_ADAPT(read_pairs_ch)
+    TRIM_4_NUCL(TRIM_ADAPT.out)
+    REMOVE_HOST(TRIM_4_NUCL.out, bowtie2_db)
+    dir_name = "all_data"
+    KRAKEN2_1(TRIM_4_NUCL.out, dir_name)
+    EXTRACT_KRAKEN_READS_TAXID(TRIM_4_NUCL.out.join(KRAKEN2_1.out.id_output).join(KRAKEN2_1.out.id_report), taxid)
+    BRACKEN_EACH(KRAKEN2_1.out.id_report, bracken_settings)
+  emit: 
+     FQ1.out | concat(KRAKEN2_1.out.report) | concat(BRACKEN_EACH.out) | collect
+     //FQ1.out | concat(KRAKEN2_1.out.report) | collect
+}
+
 workflow TAXONOMY_ANALYSIS_TICKS {
   take:
     read_pairs_ch

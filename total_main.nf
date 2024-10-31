@@ -3,7 +3,7 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "24_10_24_nextseq"
+params.run = "04_10_24_nextseq"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
 params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
@@ -117,18 +117,30 @@ params.to_nodes = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/no
 params.to_names = "/export/home/public/agletdinov_shared/ncbi_taxonomy/update/names.dmp"
 params.bowtie2db = "/export/home/public/agletdinov_shared/bowtie2db/"
 def bowtie2_index = [
-    '27_tick_S15': 'GRCh38_noalt_as',
-    '29_tick_S17': 'GRCh38_noalt_as',
-    '32_tick_S18': 'GRCh38_noalt_as',
-    '35_tick_S19': 'GRCh38_noalt_as',
-    '36_tick_S20': 'GRCh38_noalt_as',
-    '37_tick_S21': 'GRCh38_noalt_as',
-    '39_tick_S23': 'GRCh38_noalt_as',
-    '40_tick_S24': 'GRCh38_noalt_as',
-    '41_tick_S25': 'GRCh38_noalt_as',
-    '42_tick_S26': 'GRCh38_noalt_as',
-    '43_tick_S27': 'GRCh38_noalt_as',
-    'Negative_control_ticks_sample_27_44_S14': 'GRCh38_noalt_as'
+    '10_tick_S14': 'GRCh38_noalt_as',
+    '11_tick_S15': 'GRCh38_noalt_as',
+    '12_tick_S16': 'GRCh38_noalt_as',
+    '13_tick_S17': 'GRCh38_noalt_as',
+    '14_tick_S18': 'GRCh38_noalt_as',
+    '15_tick_S19': 'GRCh38_noalt_as',
+    '16_tick_S20': 'GRCh38_noalt_as',
+    '17_tick_S21': 'GRCh38_noalt_as',
+    '18_tick_S22': 'GRCh38_noalt_as',
+    '19_tick_S23': 'GRCh38_noalt_as',
+    '1_tick_S8': 'GRCh38_noalt_as',
+    '20_tick_S24': 'GRCh38_noalt_as',
+    '21_tick_S25': 'GRCh38_noalt_as',
+    '22_tick_S26': 'GRCh38_noalt_as',
+    '23_tick_S27': 'GRCh38_noalt_as',
+    '24_tick_S28': 'GRCh38_noalt_as',
+    '25_tick_S29': 'GRCh38_noalt_as',
+    '26_tick_S30': 'GRCh38_noalt_as',
+    '2_tick_S9': 'GRCh38_noalt_as',
+    '6_tick_S10': 'GRCh38_noalt_as',
+    '7_tick_S11': 'GRCh38_noalt_as',
+    '8_tick_S12': 'GRCh38_noalt_as',
+    '9_tick_S13': 'GRCh38_noalt_as',
+    'C-_1-26_S31': 'GRCh38_noalt_as'
 ]
 params.bowtie2_index = bowtie2_index
 params.chunkSize = 100
@@ -157,6 +169,8 @@ include { TAXONOMY_ANALYSIS_SARS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_TICKS } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_TYSIA_LITE } from './modules/total_seq/total_modules.nf'
+
 
 include { MULTIQC } from './modules/multiqc.nf'
 include { SENDMAIL; SENDMAIL_PY } from './modules/sendMail.nf'
@@ -268,6 +282,19 @@ workflow taxonomy_analysis_reads_ticks{
     to_names = params.to_names
     TAXONOMY_ANALYSIS_TICKS(read_pairs_ch, genome, bracken_settings, bowtie2db, db, to_nodes, to_names)
     MULTIQC(TAXONOMY_ANALYSIS_TICKS.out)
+}
+
+workflow taxonomy_analysis_reads_tysia_lite{
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    bowtie2db = params.bowtie2db
+    bowtie2_index = params.bowtie2_index
+    taxid = params.taxid
+    bracken_settings = params.bracken_settings
+    TAXONOMY_ANALYSIS_TYSIA_LITE(read_pairs_ch, bowtie2db, taxid, bracken_settings)
+    MULTIQC(TAXONOMY_ANALYSIS_TYSIA_LITE.out)
+    //SENDMAIL_PY(MULTIQC.out)
 }
 
 workflow taxonomy_analysis_sars{

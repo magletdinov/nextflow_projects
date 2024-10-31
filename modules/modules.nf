@@ -1,5 +1,5 @@
 process FASTQC {
-    //conda = 'bioconda::fastqc'
+    //conda = 'bioconda::fastqc bioconda::multiqc'
     conda "${CONDA_PREFIX_1}/envs/multiqc"
 
     tag "FastQC on ${sample_id}"
@@ -19,8 +19,8 @@ process FASTQC {
 }
 
 process TRIM_ADAPT {
-    //conda = '/export/home/agletdinov/mambaforge/envs/fastp'
-    conda "${CONDA_PREFIX_1}/envs/fastp"
+    conda = '/export/home/agletdinov/mambaforge/envs/fastp'
+    //conda "${CONDA_PREFIX_1}/envs/fastp"
     tag "Fastp on ${sample_id}"
     publishDir "${params.outdir}/fastp_adapt", mode: "copy"
     
@@ -48,8 +48,8 @@ process TRIM_ADAPT {
 }
   
 process TRIM_4_NUCL {
-    //conda = 'bioconda::cutadapt'
-    conda "${CONDA_PREFIX_1}/envs/cutadapt"
+    conda = 'bioconda::cutadapt'
+    //conda "${CONDA_PREFIX_1}/envs/cutadapt"
     tag "Cutadapt on ${sample_id}"
     //publishDir "${params.outdir}/cutadapt_trim/${mode}_n", mode: "copy"
     publishDir "${params.outdir}/cutadapt_trim", mode: "copy"
@@ -111,8 +111,8 @@ process TRIM_PRIMERS {
 }
 
 process REMOVE_HOST {
-    //conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
-    conda "${CONDA_PREFIX_1}/envs/bowtie2"
+    conda = '/export/home/agletdinov/mambaforge/envs/bowtie2'
+    //conda "${CONDA_PREFIX_1}/envs/bowtie2"
     tag "Remove host from ${sample_id}"
     publishDir "${params.outdir}/remove_host", mode:'copy'
     cpus 40
