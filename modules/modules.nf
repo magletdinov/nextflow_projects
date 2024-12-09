@@ -116,6 +116,7 @@ process REMOVE_HOST {
     tag "Remove host from ${sample_id}"
     publishDir "${params.outdir}/remove_host", mode:'copy'
     cpus 40
+    debug true
     
     input:
     tuple val(sample_id), path(reads)
@@ -129,6 +130,8 @@ process REMOVE_HOST {
     script:
     """
     idx_base=\$(find ${params.bowtie2db}/ -name '${params.bowtie2_index[sample_id]}*.bt2' | awk -F \".\" '{print \$1 | \"sort -u\"}')
+    echo "Index base path: \${idx_base}"
+
     bowtie2 -p ${task.cpus} -x \${idx_base} \
         -1 ${reads[0]} \
         -2 ${reads[1]} \
