@@ -14,7 +14,8 @@ workflow VZV {
     TRIM_ADAPT(read_pairs_ch)
     TRIM_4_NUCL(TRIM_ADAPT.out)
     TRIM_PRIMERS(TRIM_4_NUCL.out)
-    KRAKEN2(TRIM_PRIMERS.out)
+    dir_name = "all_data"
+    KRAKEN2(TRIM_4_NUCL.out, dir_name)
     BWA_INDEX(key_areas, key_areas.name)
     BWA_MEM_BAM_SORT(TRIM_PRIMERS.out, BWA_INDEX.out)
     SAMTOOLS_INDEX(BWA_MEM_BAM_SORT.out)
