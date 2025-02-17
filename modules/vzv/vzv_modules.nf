@@ -18,13 +18,13 @@ workflow VZV {
     KRAKEN2(TRIM_4_NUCL.out, dir_name)
     BWA_INDEX(key_areas, key_areas.name)
     BWA_MEM_BAM_SORT(TRIM_PRIMERS.out, BWA_INDEX.out)
-    SAMTOOLS_INDEX(BWA_MEM_BAM_SORT.out)
-    SAMTOOLS_CONSENSUS(BWA_MEM_BAM_SORT.out)
-    SAMTOOLS_STATS(BWA_MEM_BAM_SORT.out)
+    //SAMTOOLS_INDEX(BWA_MEM_BAM_SORT.out.bam)
+    SAMTOOLS_CONSENSUS(BWA_MEM_BAM_SORT.out.bam)
+    SAMTOOLS_STATS(BWA_MEM_BAM_SORT.out.bam)
     RENAME_FASTA_ID(SAMTOOLS_CONSENSUS.out, script1)
     IDENTIFY_CLADE(RENAME_FASTA_ID.out, script2, script3)
   emit: 
-     //BWA_MEM_BAM_SORT.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | collect
+     //BWA_MEM_BAM_SORT.out.bam | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out) | collect
      FASTQC.out | concat(SAMTOOLS_STATS.out) | concat(KRAKEN2.out.report) | concat(IDENTIFY_CLADE.out) | collect
      //SAMTOOLS_STATS.out | concat(KRAKEN2.out.report) | collect
 }

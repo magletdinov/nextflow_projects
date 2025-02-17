@@ -102,12 +102,21 @@ process TRIM_PRIMERS {
     //maxRetries 5
 
     script:
-    """
-    cutadapt -a file:${params.primer_a} -A file:${params.primer_a} -g file:${params.primer_g} -G file:${params.primer_g} \
-    -o ${sample_id}_t_pr_R1.fastq.gz -p ${sample_id}_t_pr_R2.fastq.gz \
-        ${reads[0]} ${reads[1]} \
-        -j ${task.cpus}
-    """
+    if (params.singleEnd) {
+        """
+        cutadapt -a file:${params.primer_a} -g file:${params.primer_g} \
+            -o ${sample_id}_t_pr.fastq.gz \
+            ${reads} \
+            -j ${task.cpus}
+        """
+    } else {
+        """
+        cutadapt -a file:${params.primer_a} -A file:${params.primer_a} -g file:${params.primer_g} -G file:${params.primer_g} \
+            -o ${sample_id}_t_pr_R1.fastq.gz -p ${sample_id}_t_pr_R2.fastq.gz \
+                ${reads[0]} ${reads[1]} \
+                -j ${task.cpus}
+        """
+    }    
 }
 
 process REMOVE_HOST {
@@ -209,17 +218,28 @@ process BWA_MEM_BAM_SORT {
     //maxRetries 5
     
     output:
-    tuple val(sample_id), path("${sample_id}.aln.sorted.bam")
+    tuple val(sample_id), path("${sample_id}.aln.sorted.bam"), emit: bam
+    tuple val(sample_id), path("${sample_id}.aln.sorted.bam.bai"), emit: bai_index
    
     cpus 20
     //maxForks params.maxForks
     
     script:
-    """
-    bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads[0]} ${reads[1]}|
-    samtools view --threads ${task.cpus} -1|
-    samtools sort --threads ${task.cpus} -o "${sample_id}.aln.sorted.bam" 
-    """
+    if (params.singleEnd) {
+        """
+        bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads} |
+        samtools view --threads ${task.cpus} -1|
+        samtools sort --threads ${task.cpus} -o "${sample_id}.aln.sorted.bam"
+        samtools index "${sample_id}.aln.sorted.bam" "${sample_id}.aln.sorted.bam.bai"
+        """
+    } else {
+        """
+        bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads[0]} ${reads[1]}|
+        samtools view --threads ${task.cpus} -1|
+        samtools sort --threads ${task.cpus} -o "${sample_id}.aln.sorted.bam"
+        samtools index "${sample_id}.aln.sorted.bam" "${sample_id}.aln.sorted.bam.bai"
+        """
+        } 
 }
 
 process BWA_MEM_BAM_SORT_FULL_GENOME {

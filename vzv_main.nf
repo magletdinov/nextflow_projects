@@ -6,11 +6,11 @@ def myDict = [
     '2': 'dva',
     '4': 'cheture',
 ]
- 
-params.run = "06_08_24"
+params.singleEnd = false
+params.run = "07_02_25"
 params.shared = "/export/home/public/agletdinov_shared"
-params.results_project = "/export/home/agletdinov/work/nextflow_projects/VZV"
-params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
+params.vzv_project = "/export/home/agletdinov/work/nextflow_projects/VZV"
+params.reads = "${params.vzv_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
 params.genome = "${params.shared}/genomes/vzv/NC_001348.1.fasta"
 params.primer_a = "${params.shared}/primers/vzv/aADAPTERX_v2.fasta"
@@ -23,7 +23,7 @@ params.script2 = "/export/home/agletdinov/work/git_projects/gitlab/vzv-classifie
 params.script3 = "${projectDir}/bin/vzv_run.py"
 params.script4 = "${projectDir}/bin/clade_aggregate.py"
 //params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
-params.outdir = "${params.results_project}/results/${params.run}"
+params.outdir = "${params.shared}/nextflow_projects/VZV/results/${params.run}"
 
 //params.outdir = "check_raw_data/"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
