@@ -1,4 +1,4 @@
-include { EXTRACT_KRAKEN_READS_TEST } from './modules/modules.nf'
+include { EXTRACT_KRAKEN_READS_TEST } from '../modules/modules.nf'
 params.taxid = 694014
 params.run = "20_07_24"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"

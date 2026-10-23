@@ -3,22 +3,24 @@
  * pipeline input parameters
  */
 //params.run = "07_08_24_rerun_02_08_24"
-params.run = "04_10_24_nextseq"
+
+params.run = "novaseq_alhovscij"
 params.shared = "/export/home/public/agletdinov_shared"
 params.results_project = "/export/home/agletdinov/work/nextflow_projects/total_seq"
-params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
+params.reads = "${params.results_project}/fastq/${params.run}/*p{1,2}*.fastq"
+//params.reads = "${params.results_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
 //params.reads = "${params.results_project}/fastq/02_08_24/*R{1,2}*.fastq.gz"
 params.singleEnd = false
 
-//params.reads = "${params.results_project}/fastq/${params.run}/k18*R{1,2}*.fastq.gz"
 params.adapters = "${params.shared}/adapters/adapters.fasta"
 params.metaphlandb = "/export/home/public/agletdinov_shared/metaphlandb"
 def bracken_settings_dict = [
     'S': 'species',
     'G': 'genus',
+    'F': 'family'
 ]
 params.bracken_settings_dict = bracken_settings_dict
-params.bracken_settings = ['S', 'G']
+params.bracken_settings = ['F']
 params.krakentools_flag = false
 params.extract_taxid = false
 //def taxid_dict = [
@@ -81,7 +83,7 @@ params.taxid_dict_v2 = taxid_dict_v2
 
 //params.taxid = ['1286', '649161', '28901', '1767', '2267275', '1764', '6035', '3050299', '2163996', '68416']
 //params.taxid = ['3049954', '40324']
-params.taxid = 1491
+params.taxid = 10239
 
 params.methods = ["4"]
 params.bact_genome_dir = "/export/home/public/agletdinov_shared/genomes/bacterias"
@@ -170,10 +172,29 @@ include { TAXONOMY_ANALYSIS_READS_EUPATH } from './modules/total_seq/total_modul
 include { TAXONOMY_ANALYSIS_TYSIA } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_TICKS } from './modules/total_seq/total_modules.nf'
 include { TAXONOMY_ANALYSIS_TYSIA_LITE } from './modules/total_seq/total_modules.nf'
+include { TAXONOMY_ANALYSIS_ALHOVSKIJ } from './modules/total_seq/total_modules.nf'
 
 
 include { MULTIQC } from './modules/multiqc.nf'
 include { SENDMAIL; SENDMAIL_PY } from './modules/sendMail.nf'
+
+
+workflow taxonomy_analysis_alhovskij {
+    Channel
+        .fromFilePairs( params.reads, size: params.singleEnd ? 1 : 2 )
+        .set { read_pairs_ch }
+    Channel
+        .fromPath("/export/home/agletdinov/work/nextflow_projects/total_seq/results/novaseq_alhovscij/primary_assembles/*.fasta")
+        .map { path -> tuple(path.getName().split(".fasta")[0], [path]) }
+        .set { primary_assembles_ch }
+    db = file( params.db )
+    to_nodes = params.to_nodes
+    to_names = params.to_names
+    TAXONOMY_ANALYSIS_ALHOVSKIJ(read_pairs_ch, primary_assembles_ch, params.bracken_settings, db, to_nodes, to_names)
+    MULTIQC(TAXONOMY_ANALYSIS_ALHOVSKIJ.out)
+    //SENDMAIL_PY(MULTIQC.out)
+}
+
 
 workflow taxonomy_analysis{
     Channel

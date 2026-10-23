@@ -3,11 +3,12 @@ process FASTQC {
     conda "${CONDA_PREFIX_1}/envs/multiqc"
 
     tag "FastQC on ${sample_id}"
-    publishDir "${params.outdir}/fastqc", mode: "copy"
+    publishDir "${params.outdir}/fastqc/${dir_name}", mode: "copy"
 
     input:
     tuple val(sample_id), path(reads)
-
+    val (dir_name)
+    
     output:
     path("*")
 
@@ -36,17 +37,47 @@ process TRIM_ADAPT {
     //maxRetries 5
     
     script:
-    if (params.singleEnd) {
+    if (params.singleEnd_TRIM_ADAPT) {
         """
         fastp -i ${reads} -o ${sample_id}_t_a.fastq.gz --thread ${task.cpus} --adapter_fasta ${params.adapters}
         """
     } else {
         """
-        fastp -i ${reads[0]} -I ${reads[1]} -o ${sample_id}_t_a_R1.fastq.gz -O  ${sample_id}_t_a_R2.fastq.gz --thread ${task.cpus} --adapter_fasta ${params.adapters}
+        fastp -i ${reads[0]} -I ${reads[1]} -o ${sample_id}_t_a_R1.fastq.gz -O  ${sample_id}_t_a_R2.fastq.gz --thread ${task.cpus} --adapter_fasta ${params.adapters}/adapters.fasta
         """
     }
 }
-  
+
+process TRIMMOMATIC {
+    //conda = '/export/home/agletdinov/mambaforge/envs/fastp'
+    conda "${CONDA_PREFIX_1}/envs/trimmomatic"
+    tag "Trimmomatic on ${sample_id}"
+    publishDir "${params.outdir}/trimmomatic", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    tuple val("${sample_id}-trimmomatic"), path('*.fastq.gz'), emit: sample_id__all_fastq
+    tuple val("${sample_id}-trimmomatic"), path('*_p1.fastq.gz'), emit: sample_id__p1_fastq
+    tuple val("${sample_id}-trimmomatic"), path('*_u1.fastq.gz'), emit: sample_id__u1_fastq
+    tuple val("${sample_id}-trimmomatic"), path('*_p2.fastq.gz'), emit: sample_id__p2_fastq
+    tuple val("${sample_id}-trimmomatic"), path('*_u2.fastq.gz'), emit: sample_id__u2_fastq
+    
+    tuple val("${sample_id}-trimmomatic"), path('*_p*.fastq.gz'), emit: sample_id__p_fastq
+    
+    cpus 20
+    //maxForks params.maxForks
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    script:
+    """
+    trimmomatic PE -threads ${task.cpus} ${reads[0]} ${reads[1]} ${sample_id}_p1.fastq.gz ${sample_id}_u1.fastq.gz ${sample_id}_p2.fastq.gz ${sample_id}_u2.fastq.gz \
+    ILLUMINACLIP:${params.adapters}/NexteraPE-PE.fa:2:30:10 ILLUMINACLIP:${params.adapters}/TruSeq2-PE.fa:2:20:10 ILLUMINACLIP:${params.adapters}/TruSeq3-PE-2.fa:2:20:10 LEADING:7 TRAILING:7 SLIDINGWINDOW:4:15 MINLEN:40
+    """
+}
+
 process TRIM_4_NUCL {
     //conda = 'bioconda::cutadapt'
     conda "${CONDA_PREFIX_1}/envs/cutadapt"
@@ -60,7 +91,8 @@ process TRIM_4_NUCL {
 
     output:
     //tuple val("${sample_id}_${mode}"), path('*fastq.gz')
-    tuple val("${sample_id}"), path('*fastq.gz')
+    tuple val("${sample_id}"), path('*fastq.gz'), emit: sample_id__fastq
+    path('*fastq.gz'), emit: fastq
     
     cpus 20
 
@@ -69,7 +101,7 @@ process TRIM_4_NUCL {
     //maxRetries 5
 
     script:
-    if (params.singleEnd) {
+    if (params.singleEnd_TRIM_4_NUCL) {
         """
         cutadapt -u 4 -u -4 -o ${sample_id}_t_4.fastq.gz \
         ${reads} -j ${task.cpus}
@@ -166,8 +198,34 @@ process BWA_INDEX {
     publishDir "${params.outdir}/bwa_index", mode:'copy'
     
     input:
-    path(ref_fasta)
-    val(prefix)
+    tuple path(ref_fasta), val(prefix)
+    //path(ref_fasta)
+    //val(prefix)
+    
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    tuple val(prefix), path("${prefix}.{ann,amb,sa,bwt,pac}")
+
+    """
+    echo "Building BWA index for file: ${ref_fasta}"
+    bwa index \\
+        -p "${prefix}" \\
+        "${ref_fasta}"
+    """
+}
+
+process BWA_INDEX_before_09_04_25 {
+    //conda = 'bioconda::bwa'
+    conda "${CONDA_PREFIX_1}/envs/bwa"
+    tag "Bwa index for ${prefix}"
+    publishDir "${params.outdir}/bwa_index", mode:'copy'
+    
+    input:
+    tuple path(ref_fasta), val(prefix)
+    //path(ref_fasta)
+    //val(prefix)
     
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     //maxRetries 5
@@ -205,6 +263,46 @@ process BWA_INDEX_FULL_GENOME {
 }
 
 process BWA_MEM_BAM_SORT {
+    //conda 'bioconda::bwa bioconda::samtools'
+    conda "${CONDA_PREFIX_1}/envs/bwa"
+
+    tag "Bwa mem on ${sample_id}"
+    publishDir "${params.outdir}/bam", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads), val(idxbase), path("bwa_index/*")
+    //tuple val(idxbase), path("bwa_index/*")
+    
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    //path("*"), emit: all_res
+    tuple val("${sample_id}-${idxbase}"), path("${sample_id}-${idxbase}.aln.sorted.bam"), emit: sample_id__bam
+    tuple val("${sample_id}-${idxbase}"), path("${sample_id}-${idxbase}.aln.sorted.bam.bai"), emit: sample_id__bai
+   
+    cpus 20
+    //maxForks params.maxForks
+    
+    script:
+    if (params.singleEnd_BWA_MEM_BAM_SORT) {
+        """
+        bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads} |
+        samtools view --threads ${task.cpus} -1|
+        samtools sort --threads ${task.cpus} -o "${sample_id}-${idxbase}.aln.sorted.bam"
+        samtools index "${sample_id}-${idxbase}.aln.sorted.bam" "${sample_id}-${idxbase}.aln.sorted.bam.bai"
+        """
+    } else {
+        """
+        bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads[0]} ${reads[1]}|
+        samtools view --threads ${task.cpus} -1|
+        samtools sort --threads ${task.cpus} -o "${sample_id}-${idxbase}.aln.sorted.bam"
+        samtools index "${sample_id}-${idxbase}.aln.sorted.bam" "${sample_id}-${idxbase}.aln.sorted.bam.bai"
+        """
+        } 
+}
+
+process BWA_INDEX_MEM_BAM_SORT {
     conda 'bioconda::bwa bioconda::samtools'
     
     tag "Bwa mem on ${sample_id}"
@@ -212,7 +310,7 @@ process BWA_MEM_BAM_SORT {
     
     input:
     tuple val(sample_id), path(reads)
-    tuple val(idxbase), path("bwa_index/*")
+    tuple val(prefix), path(ref_fasta)
     
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     //maxRetries 5
@@ -227,14 +325,20 @@ process BWA_MEM_BAM_SORT {
     script:
     if (params.singleEnd) {
         """
-        bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads} |
+        bwa index \\
+            -p "${prefix}" \\
+            "${ref_fasta}"
+        bwa mem -t ${task.cpus} ${reads} |
         samtools view --threads ${task.cpus} -1|
         samtools sort --threads ${task.cpus} -o "${sample_id}.aln.sorted.bam"
         samtools index "${sample_id}.aln.sorted.bam" "${sample_id}.aln.sorted.bam.bai"
         """
     } else {
         """
-        bwa mem -t ${task.cpus} "bwa_index/${idxbase}" ${reads[0]} ${reads[1]}|
+        bwa index \\
+            -p "${prefix}" \\
+            "${ref_fasta}"
+        bwa mem -t ${task.cpus} ${reads[0]} ${reads[1]}|
         samtools view --threads ${task.cpus} -1|
         samtools sort --threads ${task.cpus} -o "${sample_id}.aln.sorted.bam"
         samtools index "${sample_id}.aln.sorted.bam" "${sample_id}.aln.sorted.bam.bai"
@@ -296,7 +400,7 @@ process SAMTOOLS_INDEX {
 
 process SAMTOOLS_CONSENSUS {
     //conda 'bioconda::samtools'
-    conda "${CONDA_PREFIX_1}/envs/samtools"
+    conda "${CONDA_PREFIX_1}/envs/bwa"
     tag "Samtools consensus on ${sample_id}"
     publishDir "${params.outdir}/consensus", mode:'copy'
     
@@ -374,6 +478,39 @@ process SAMTOOLS_STATS {
 }
 
 
+process SAMTOOLS_EXTRACT_FASTQ {
+    //conda 'bioconda::samtools'
+    conda "${CONDA_PREFIX_1}/envs/samtools"
+    tag "Samtools fastq on ${sample_id}"
+    publishDir "${params.outdir}/fastq_after_mapping/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(bam)
+    
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    //maxRetries 5
+    
+    output:
+    tuple val(sample_id), path("*.fastq"), emit: sample_id__fastq
+   
+    cpus 20
+    //maxForks params.maxForks
+    
+    script:
+    """
+    samtools view -b -F 4 --threads ${task.cpus} ${bam} | \
+    samtools sort -n -m 10G -@ ${task.cpus} - | \
+    samtools fastq \
+        -1 ${sample_id}-R1.fastq \
+        -2 ${sample_id}-R2.fastq \
+        -0 /dev/null \
+        -s /dev/null \
+        -n \
+        --threads ${task.cpus} -
+    """
+}
+
+
 process RENAME_FASTA_ID {
     //conda 'conda-forge::biopython'
     //conda "/export/home/agletdinov/mambaforge/envs/reat"
@@ -404,8 +541,8 @@ process KRAKEN2 {
     //conda 'kraken2'
     //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
     conda "${CONDA_PREFIX_1}/envs/kraken2"
-    maxForks 1
-    cpus 45
+    //maxForks 1
+    cpus 15
 
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
@@ -415,20 +552,20 @@ process KRAKEN2 {
     val (dir_name)
     
     output:
-    path('*.kraken'), emit: report
-    tuple val(sample_id), path('*report.kraken'), emit: id_report
-    tuple val(sample_id), path('*output.kraken'), emit: id_output
+    path('*.kraken'), emit: both_report_output
+    tuple val(sample_id), path('*report.kraken'), emit: sample_id__report
+    tuple val(sample_id), path('*output.kraken'), emit: sample_id__output
     
     script:
-    if (params.singleEnd) {
+    if (params.singleEnd_KRAKEN2) {
         """
         kraken2 --db ${params.kraken2db} --threads ${task.cpus} --memory-mapping\
-         --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
+         --output ${sample_id}_${dir_name}_output.kraken --report ${sample_id}_${dir_name}_report.kraken ${reads} > ${sample_id}_${dir_name}_kraken.txt
         """
     } else {
         """
         kraken2 --db ${params.kraken2db} --threads ${task.cpus} --memory-mapping\
-         --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_kraken.txt
+         --output ${sample_id}_${dir_name}_output.kraken --report ${sample_id}_${dir_name}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_${dir_name}_kraken.txt
         """
     }
 }
@@ -440,7 +577,7 @@ process KRAKEN2_FASTA {
     conda "${CONDA_PREFIX_1}/envs/kraken2"
     //maxForks 1
     errorStrategy 'ignore'
-    cpus 45
+    cpus 15
         
     tag "Kraken2 on ${sample_id}"
     publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
@@ -449,13 +586,13 @@ process KRAKEN2_FASTA {
     tuple val(sample_id), path(reads)
     val (dir_name)
     output:
-    path('*.kraken'), emit: report
-    tuple val(sample_id), path('*report.kraken'), emit: id_report
-    tuple val(sample_id), path('*output.kraken'), emit: id_output
+    path('*.kraken'), emit: both_report_output
+    tuple val(sample_id), path('*report.kraken'), emit: sample_id__report
+    tuple val(sample_id), path('*output.kraken'), emit: sample_id__output
     
     script:
     """
-    kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus}  --output ${sample_id}_output.kraken --report ${sample_id}_report.kraken ${reads} > ${sample_id}_kraken.txt
+    kraken2 --db ${params.kraken2db} --memory-mapping --threads ${task.cpus} --output ${sample_id}_${dir_name}_output.kraken --report ${sample_id}_${dir_name}_report.kraken ${reads} > ${sample_id}_${dir_name}_kraken.txt
     """
 }
 
@@ -480,6 +617,65 @@ process BRACKEN {
     bracken -l S -t ${task.cpus} -d ${params.kraken2db} -i ${kraken_report} -o ${sample_id}_bracken_S_mqc.tsv
     """
 }
+
+
+process BRACKEN_UPDATED {
+    //conda 'kraken2'
+    //conda "/export/home/agletdinov/mambaforge/envs/bracken"
+    conda "${CONDA_PREFIX_1}/envs/bracken"
+    //maxForks 1
+    cpus 20
+
+    tag "Bracken on ${sample_id}"
+    publishDir "${params.outdir}/bracken/${dir_name}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(kraken_report)
+    val (dir_name)
+
+    output:
+    path('*.tsv'), emit: tsv
+    tuple val(sample_id), path('*.tsv'), emit: sample_id__tsv
+    
+    script:
+    """
+    bracken -l S -t ${task.cpus} -d ${params.kraken2db} -i ${kraken_report} -o ${sample_id}_bracken_S_mqc.tsv
+    """
+}
+
+process KRAKEN2_TMP {
+    //conda 'kraken2'
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
+    //maxForks 1
+    cpus 15
+
+    tag "Kraken2 on ${sample_id}"
+    publishDir "${params.outdir}/kraken2/${dir_name}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads)
+    val (dir_name)
+    
+    output:
+    path('*.kraken'), emit: both_report_output
+    tuple val(sample_id), path('*report.kraken'), emit: sample_id__report
+    tuple val(sample_id), path('*output.kraken'), emit: sample_id__output
+    
+    script:
+    if (params.singleEnd_KRAKEN2) {
+        """
+        kraken2 --db ${params.kraken2db} --threads ${task.cpus} --memory-mapping\
+         --output ${sample_id}_${dir_name}_output.kraken --report ${sample_id}_${dir_name}_report.kraken ${reads} > ${sample_id}_${dir_name}_kraken.txt
+        """
+    } else {
+        """
+        kraken2 --db ${params.kraken2db} --threads ${task.cpus} --memory-mapping\
+         --output ${sample_id}_${dir_name}_output.kraken --report ${sample_id}_${dir_name}_report.kraken --paired ${reads[0]} ${reads[1]} > ${sample_id}_${dir_name}_kraken.txt
+        """
+    }
+}
+
 
 process BRACKEN_EACH {
     //conda 'kraken2'
@@ -546,6 +742,32 @@ process EXTRACT_KRAKEN_READS {
         """
     }
 }
+
+process EXTRACT_KRAKEN_READS_FROM_FASTA_TO_FASTA {
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
+    cpus 20
+    
+    tag "Extract kraken reads on ${sample_id}"
+    publishDir "${params.outdir}/krakentools/extract_taxids_scaffold_${dir_name}/${sample_id}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(contigs), path(kraken_output), path(kraken_report)
+    val (dir_name)
+    //val taxid
+    
+    output: 
+    tuple val(sample_id), path('*.fasta'), emit: sample_id__fasta
+    
+    script:
+    """
+    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t 10239 12908 0\
+            -s ${contigs}\
+            -o ${sample_id}-10239_12908.fasta --include-children
+    """
+
+}
+
 
 process EXTRACT_KRAKEN_READS_FASTA {
     //conda 'kraken2'
@@ -632,25 +854,60 @@ process EXTRACT_KRAKEN_READS_TAXID {
     cpus 20
     
     tag "Extract kraken reads on ${sample_id}"
-    publishDir "${params.outdir}/krakentools/extract_taxids/${sample_id}", mode: "copy"
+    publishDir "${params.outdir}/krakentools/extract_taxids_reads/${sample_id}", mode: "copy"
     
     input:
     tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
     val taxid
     
-    output:
-    tuple val(sample_id), path('*fast*'), emit: id_files    
-    tuple val(sample_id), path('*[12].fasta*'), emit: id_fasta
-
-    when:
-    params.extract_taxid == true   
+    output: 
+    tuple val(sample_id), path('*.fastq'), emit: sample_id__fastq
     
     script:
-    """
-    extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid}\
-        -s ${reads[0]} -s2 ${reads[1]} \
-        -o ${sample_id}-${taxid}-eupath-withchildren_1.fasta -o2 ${sample_id}-${taxid}-eupath-withchildren_2.fasta --include-children
-    """
+    if (params.singleEnd_EXTRACT_KRAKEN_READS_TAXID) {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid}\
+            -s ${reads}\
+            -o ${sample_id}-${taxid}.fastq --include-children --fastq-output
+        """
+    } else {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid}\
+            -s ${reads[0]} -s2 ${reads[1]} \
+            -o ${sample_id}-${taxid}-R1.fastq -o2 ${sample_id}-${taxid}-R2.fastq --include-children --fastq-output
+        """
+    }
+}
+
+process EXTRACT_KRAKEN_READS_TAXID_FASTA {
+    //conda "/export/home/agletdinov/mambaforge/envs/kraken2"
+    conda "${CONDA_PREFIX_1}/envs/kraken2"
+    cpus 20
+    
+    tag "Extract kraken reads on ${sample_id}"
+    publishDir "${params.outdir}/krakentools/extract_taxids_scaffold/${sample_id}", mode: "copy"
+    
+    input:
+    tuple val(sample_id), path(reads), path(kraken_output), path(kraken_report)
+    val taxid
+    
+    output: 
+    tuple val(sample_id), path('*.fasta'), emit: sample_id__fasta
+    
+    script:
+    if (params.singleEnd_EXTRACT_KRAKEN_READS_TAXID_FASTA) {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid}\
+            -s ${reads}\
+            -o ${sample_id}-${taxid}.fasta --include-children
+        """
+    } else {
+        """
+        extract_kraken_reads.py -k ${kraken_output} -r ${kraken_report} -t ${taxid}\
+            -s ${reads[0]} -s2 ${reads[1]} \
+            -o ${sample_id}-${taxid}-R1.fasta -o2 ${sample_id}-${taxid}-R2.fasta --include-children
+        """
+    }
 }
 
 
@@ -749,21 +1006,47 @@ process MEGAHIT {
     maxForks 3
     cpus 40
 
-    tag "Megahit on ${sample_id}"
-    publishDir "${params.outdir}/megahit", mode:'copy'
+    tag "Megahit simple on ${sample_id}"
+    publishDir "${params.outdir}/secondary_assembles", mode:'copy'
     
     input:
     tuple val(sample_id), path(reads)
 
     output:
     path('*'), emit: report
-    tuple val(sample_id), path("${sample_id}/*fa"), emit: simple_id_contigs
-    tuple val("${sample_id}-megahit"), path("${sample_id}/*fa"), emit: id_contigs
+    //tuple val(sample_id), path("${sample_id}/*fa"), emit: simple_id_contigs
+    tuple val("${sample_id}-megahit_simple"), path("megahit_simple/*fa"), emit: sample_id__contigs
 
     script:
     """
     megahit -1 ${reads[0]} -2 ${reads[1]} \
-        -o ${sample_id} --out-prefix ${sample_id} --memory 0.3 -t ${task.cpus} \
+        -o megahit_simple --out-prefix ${sample_id} --memory 0.3 -t ${task.cpus}
+    """
+}
+
+process MEGAHIT_MS {
+    //conda 'bioconda::megahit'
+    //conda "/export/home/agletdinov/mambaforge/envs/megahit"
+    conda "${CONDA_PREFIX_1}/envs/megahit" 
+    
+    memory 300.GB
+    maxForks 3
+    cpus 40
+
+    tag "Megahit meta-sensitive on ${sample_id}"
+    publishDir "${params.outdir}/secondary_assembles", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads)
+
+    output:
+    path('*'), emit: report
+    tuple val("${sample_id}-megahit_ms"), path("megahit_ms/*fa"), emit: sample_id__contigs
+
+    script:
+    """
+    megahit -1 ${reads[0]} -2 ${reads[1]} \
+        -o megahit_ms --out-prefix ${sample_id}-megahit_ms --memory 0.3 -t ${task.cpus} \
         --presets meta-sensitive
     """
 }
@@ -771,24 +1054,91 @@ process MEGAHIT {
 process QUAST {
     //conda "/export/home/agletdinov/mambaforge/envs/quast"
     conda "${CONDA_PREFIX_1}/envs/quast" 
-    cpus 40
+    cpus 20
 
     tag "Quast for ${sample_id}"
     publishDir "${params.outdir}/quast/${sample_id}", mode:'copy'
     
     input:
-    tuple val(sample_id), path(contigs)
-    each taxid
+    tuple val(sample_id), path(contigs_1), path(contigs_2), path(reads)
+    path(ref_fasta)
+    path(ref_annotation)
     
     //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
     //maxRetries 5
     
     output:
-    tuple val(sample_id), path("*")
+    path("*")
 
+    script:
     """
-    quast.py ${contigs} /
-          -t ${task.cpus} -r ${params.genome_dict_taxid[taxid]}
+    quast.py   ${contigs_1} \
+               ${contigs_2} \
+            -r ${ref_fasta} \
+            -1 ${reads[0]} -2 ${reads[1]} \
+            -g ${ref_annotation} \
+            -o . \
+            -t ${task.cpus}
+    """
+}
+
+process QUAST_SINGLE_INPUT {
+    //conda "/export/home/agletdinov/mambaforge/envs/quast"
+    conda "${CONDA_PREFIX_1}/envs/quast" 
+    cpus 30
+
+    tag "Quast for ${sample_id}"
+    publishDir "${params.outdir}/quast/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs), path(reads)
+    path(ref_genome)
+    path(ref_annotation)
+    
+    //errorStrategy { sleep(Math.pow(2, task.attempt) * 200 as long); return 'retry' }
+    maxRetries 1
+    
+    output:
+    path("*"), emit: all
+    path("${sample_id}-report_mqc.tsv"), emit: report
+
+    script:
+    """
+    quast.py   ${contigs} \
+            -r ${params.ref_genome} \
+            -1 ${reads[0]} -2 ${reads[1]} \
+            -g ${params.ref_annotation} \
+            -o . \
+            -t ${task.cpus} \
+            -l ${sample_id}
+    mv report.tsv ${sample_id}-report_mqc.tsv
+    """
+}
+
+process QUAST_NO_REFERENCE {
+    conda "${CONDA_PREFIX_1}/envs/quast"
+    cpus 20
+
+    tag "Quast (no ref) for ${sample_id}"
+    publishDir "${params.outdir}/quast/${dir_name}/${sample_id}", mode: 'copy'
+    
+    input:
+    tuple val(sample_id), path(contigs), path(reads)
+    val (dir_name)
+    
+    output:
+    path("*"), emit: all
+    path("${sample_id}-report_mqc.tsv"), emit: report
+
+    script:
+    """
+    quast.py ${contigs} \
+        -1 ${reads[0]} -2 ${reads[1]} \
+        -o . \
+        -t ${task.cpus} \
+        -l ${sample_id}
+    
+    mv report.tsv ${sample_id}-report_mqc.tsv
     """
 }
 
@@ -875,20 +1225,21 @@ process blastn {
     conda "${CONDA_PREFIX_1}/envs/blast"
     //memory = '1 MB'
     //maxForks 2
-    cpus 10
+    cpus 40
     tag "Blastn on ${sample_id}"
-    //publishDir "${params.outdir}/blastn/${sample_id}", mode:'copy'
+    publishDir "${params.outdir}/blastn/${dir_name}/${sample_id}", mode:'copy'
 
     input:
     tuple val(sample_id), path(contigs)
-    path db 
+    path db
+    val(dir_name)
 
     output:
-    tuple val(sample_id), path('*.blastn'), emit: id_report
+    tuple val(sample_id), path('*.blastn'), emit: sample_id__report
 
     script:
     """
-    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-10 -max_target_seqs 50 -max_hsps 1 -task blastn -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
+    blastn -db ${params.db}/nt -num_threads ${task.cpus} -out ${sample_id}.blastn -query ${contigs} -evalue 1e-10 -max_target_seqs 50 -max_hsps 1 -task megablast -outfmt "6 qaccver saccver sskingdoms sscinames salltitles staxids pident evalue"
     """
 }
 
@@ -969,12 +1320,13 @@ process blastn_parse_50_hits{
     conda "${CONDA_PREFIX_1}/envs/reat"
     
     tag "Parse blastn result for ${sample_id} (50 hits)"
-    publishDir "${params.outdir}/blastn_parse/${sample_id}", mode:'copy'
+    publishDir "${params.outdir}/blastn_parse/${dir_name}/${sample_id}", mode:'copy'
     
     input:
-    tuple val(sample_id), path(report)
+    tuple val(sample_id), path(report), path(to_contigs)
     path(to_nodes)
     path(to_names)
+    val(dir_name)
 
     output:
     path('*.tsv')
@@ -986,6 +1338,9 @@ process blastn_parse_50_hits{
     import numpy as np
     from pathlib import Path
     import sys
+    from Bio import SeqIO
+    from Bio.SeqRecord import SeqRecord
+    from Bio.Seq import Seq
     labs_contaminants = {12814    : "Respiratory syncytial virus", 
                     3049954  : "Orthopneumovirus hominis", 
                     10407    : "Hepatitis B virus", 
@@ -1044,6 +1399,13 @@ process blastn_parse_50_hits{
             if i in path_to_root:
                 return True
         return False
+        
+    def isvir(x, nodes, names):
+        path_to_root = create_path_to_root(x, nodes)
+        if 10239 in path_to_root:
+            return True
+        else:
+            return False
 
     def find_common_ancestor(tax_ids, taxonomy_df):
         tax_ids = [int(i) for i in tax_ids]
@@ -1071,7 +1433,7 @@ process blastn_parse_50_hits{
                 break
         return common_ancestor
 
-    def blast_parser(to_names, to_nodes, to_blastn_report, to_eupath_df):
+    def blast_parser(to_names, to_nodes, to_blastn_report, to_contigs, to_eupath_df):
         names = pd.read_csv(to_names, sep="\t", header=None, usecols=[0, 2, 6], names=["tax_id", "name", "type"], index_col="tax_id")
         names = names[names["type"] == "scientific name"]
         nodes = pd.read_csv(to_nodes, sep="\t", header=None, usecols=[0, 2, 4], names=["tax_id", "parent tax_id", "tax_name"], index_col="tax_id")
@@ -1096,12 +1458,16 @@ process blastn_parse_50_hits{
             list_of_best_taxid.append(common_ancestor)
 
         results = pd.DataFrame({"scaffold_name":list_of_scaffolds,"taxid":list_of_best_taxid})
-        results['length'] = results['scaffold_name'].apply(lambda x: int(x.split("_")[3]))
+        contigs_fasta = [seq_record for seq_record in SeqIO.parse(to_contigs, "fasta")]
+        contigs_length = {i.id:len(i.seq) for i in contigs_fasta}
+        results['length'] = results['scaffold_name'].apply(lambda x: contigs_length[x])
+        #results['length'] = results['scaffold_name'].apply(lambda x: int(x.split("_")[3]))
 
         # Группируем и агрегируем данные
         results_agg = results.groupby(by="taxid").agg(
             scaffold_count=("scaffold_name", "count"),
             average_length=("length", "mean"),
+            total_lenght=("length", "sum"),
             max_length=("length", "max")
         )
         results_agg["average_length"] = np.round(results_agg["average_length"], 0)
@@ -1110,12 +1476,14 @@ process blastn_parse_50_hits{
         names.index.name = 'taxid'
         nodes.index.name = 'taxid'
         end = results_agg.join(names).join(nodes)
-        filt_end = end[["scaffold_count", "average_length", "max_length", "name", "tax_name"]]
+        filt_end = end[["scaffold_count", "average_length", "total_lenght", "max_length", "name", "tax_name"]]
 
         filt_end.sort_values(by="scaffold_count", ascending=False, inplace=True)
 
         filt_end.reset_index(inplace=True)
         filt_end["no_contaminant"] = filt_end["taxid"].apply(lambda x: not iscontaminant(x, nodes, names))
+        filt_end["isvir"] = filt_end["taxid"].apply(lambda x: isvir(x, nodes, names))
+
 
         list_of_eupath = eupath_df[1].unique()
         mask = filt_end["taxid"].apply(lambda x: len(set(create_path_to_root(x, nodes)) & set(list_of_eupath)) > 0)
@@ -1126,19 +1494,19 @@ process blastn_parse_50_hits{
     to_names = Path('${to_names}')
     to_nodes = Path('${to_nodes}')
     to_blastn_report = Path('${report}')
+    to_contigs = Path('${to_contigs}')
     to_eupath_df = Path("/export/home/public/agletdinov_shared/kraken2db/k2_eupathdb48/seqid2taxid.map")
-    filt_end = blast_parser(to_names=to_names, to_nodes=to_nodes, to_blastn_report=to_blastn_report, to_eupath_df=to_eupath_df)
+    filt_end = blast_parser(to_names=to_names, to_nodes=to_nodes, to_blastn_report=to_blastn_report, to_contigs=to_contigs, to_eupath_df=to_eupath_df)
     filt_end.to_csv(f"{to_blastn_report.stem}_blastn_50_hits_mqc.tsv", sep="\t")
     sys.exit()
     """
 }
 
 process metaSPAdes {
-    //conda 'bioconda::metaphlan'
-    //conda "/export/home/agletdinov/mambaforge/envs/spades"
+    //conda "/export/home/agletdinov/mambaforge/envs/meta-spades"
     conda "${CONDA_PREFIX_1}/envs/spades"
-    //maxForks 2
-    cpus 40
+    maxForks 2
+    cpus 5
     tag "MetaSPAdes on ${sample_id}"
     publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
     
@@ -1146,12 +1514,37 @@ process metaSPAdes {
     tuple val(sample_id), path(reads)
     
     output:
-    tuple val(sample_id), path('*'), emit: id_all
-    tuple val(sample_id), path('scaffolds.fasta'), emit: id_scaffolds
+    tuple val(sample_id), path('*'), emit: sample_id__all
+    tuple val(sample_id), path("${sample_id}-metaSPAdes-scaffolds.fasta"), emit: sample_id__scaffolds
  
     script:
     """
     spades.py --meta -1 ${reads[0]} -2  ${reads[1]} -t ${task.cpus} -o .
+    copy scaffolds.fasta ${sample_id}-metaSPAdes-scaffolds.fasta
+    """
+}
+
+process isolateSPAdes {
+    conda "${CONDA_PREFIX_1}/envs/spades"
+
+    errorStrategy 'ignore'
+    
+    maxForks 2
+    cpus 5
+    tag "IsolateSPAdes on ${sample_id}"
+    publishDir "${params.outdir}/isolateSPAdes/${sample_id}", mode:'copy'
+    
+    input:
+    tuple val(sample_id), path(reads)
+    
+    output:
+    tuple val(sample_id), path('*'), emit: sample_id__all
+    tuple val(sample_id), path("${sample_id}-isolateSPAdes-scaffolds.fasta"), emit: sample_id__scaffolds
+ 
+    script:
+    """
+    spades.py --isolate -1 ${reads[0]} -2  ${reads[1]} -t ${task.cpus} -o .
+    mv scaffolds.fasta ${sample_id}-isolateSPAdes-scaffolds.fasta
     """
 }
 
@@ -1160,13 +1553,13 @@ process shuffling_fasta {
     conda "${CONDA_PREFIX_1}/envs/reat"
     
     tag "MetaSPAdes on ${sample_id}"
-    publishDir "${params.outdir}/metaSPAdes/${sample_id}", mode:'copy'
+    publishDir "${params.outdir}/shuffling_fasta/${sample_id}", mode:'copy'
     
     input:
     tuple val(sample_id), path(contigs)
     
     output:
-    tuple val(sample_id), path('shuffled_scaffolds.fasta'), emit: id_all
+    tuple val(sample_id), path('shuffled_scaffolds.fasta'), emit: sample_id__all
  
     script:
     """
@@ -1182,6 +1575,26 @@ process shuffling_fasta {
     """
 }
 
+process FILTER_FASTA_BY_LENGTH {
+    conda "${CONDA_PREFIX_1}/envs/seqkit"
+    
+    maxForks 5
+    tag "Seqkit"
+    publishDir "${params.outdir}/${dir_name}_${min_length}_bp_min", mode: "copy"
+
+    input:
+    tuple val(sample_id), path(fasta_file)
+    val(min_length)
+    val(dir_name)
+    
+    output:
+    tuple val(sample_id), path("filtered_${fasta_file.name}"), emit: sample_id__filtered_fasta
+    
+    script:
+    """
+    seqkit seq -m ${min_length} ${fasta_file} > filtered_${fasta_file.name}
+    """
+}
 
 process DORADO_GPU {
     //conda "${CONDA_PREFIX_1}/envs/dorado"
@@ -1247,6 +1660,6 @@ process MEDAKA {
     BASECALLS=${reads}
     DRAFT=draft_assm/assm_final.fa
     OUTDIR=medaka_consensus
-    medaka_consensus -i ${BASECALLS} -d ${DRAFT} -o ${OUTDIR} -t ${NPROC} -m r1041_e82_400bps_hac_g632
+    medaka_consensus -i \${BASECALLS} -d \${DRAFT} -o \${OUTDIR} -t \${NPROC} -m r1041_e82_400bps_hac_g632
     """
 }

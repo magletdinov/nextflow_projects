@@ -1,8 +1,91 @@
 include { FASTQC as FQ1 ; FASTQC as FQ2 } from '../modules.nf'
 include { METAPHLAN as METAPHLAN1 ; METAPHLAN as METAPHLAN2 } from '../modules.nf'
-include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; KRAKEN2_FASTA; BRACKEN; BRACKEN_EACH; EXTRACT_KRAKEN_READS; EXTRACT_KRAKEN_READS_FASTA; EXTRACT_KRAKEN_READS_TAXID_LIST; EXTRACT_KRAKEN_READS_TAXID; BWA_INDEX; BWA_INDEX_FULL_GENOME; BWA_MEM_BAM_SORT; BWA_MEM_BAM_SORT_FULL_GENOME; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS_LITE; SAMTOOLS_STATS; MEGAHIT; QUAST; UNICYCLER; BLASTN; blastn; blastn_parse_1_hit; blastn_parse_50_hits; DIAMOND; REMOVE_HOST; REMOVE_HUMAN; metaSPAdes; shuffling_fasta } from '../modules.nf'
+include { TRIM_ADAPT; TRIM_4_NUCL; KRAKEN2; BRACKEN; BRACKEN_EACH; EXTRACT_KRAKEN_READS; EXTRACT_KRAKEN_READS_FASTA; EXTRACT_KRAKEN_READS_TAXID_LIST; EXTRACT_KRAKEN_READS_TAXID; EXTRACT_KRAKEN_READS_FROM_FASTA_TO_FASTA; BWA_INDEX; BWA_INDEX_FULL_GENOME; BWA_MEM_BAM_SORT; BWA_MEM_BAM_SORT_FULL_GENOME; BWA_INDEX_MEM_BAM_SORT; SAMTOOLS_INDEX; SAMTOOLS_CONSENSUS_LITE; SAMTOOLS_STATS; SAMTOOLS_EXTRACT_FASTQ; MEGAHIT; MEGAHIT_MS; QUAST; UNICYCLER; BLASTN; blastn; blastn_parse_1_hit; blastn_parse_50_hits; DIAMOND; REMOVE_HOST; REMOVE_HUMAN; metaSPAdes; shuffling_fasta; QUAST_NO_REFERENCE } from '../modules.nf'
 //include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
 include { KRAKEN2 as KRAKEN2_1 ; KRAKEN2 as KRAKEN2_2 } from '../modules.nf'
+include { KRAKEN2_FASTA as KRAKEN2_FASTA_1 ; KRAKEN2_FASTA as KRAKEN2_FASTA_2 } from '../modules.nf'
+include { QUAST_NO_REFERENCE as QUAST_NO_REFERENCE_PRIMARY; QUAST_NO_REFERENCE as QUAST_NO_REFERENCE_SECONDARY; QUAST_NO_REFERENCE as QUAST_NO_REFERENCE_SECONDARY_FILT_LENGTH } from '../modules.nf'
+
+include { FILTER_FASTA_BY_LENGTH as FILTER_FASTA_BY_LENGTH_1 ; FILTER_FASTA_BY_LENGTH as FILTER_FASTA_BY_LENGTH_2 } from '../modules.nf'
+include { blastn as blastn_1 ; blastn as blastn_2 } from '../modules.nf'
+include { blastn_parse_50_hits as blastn_parse_50_hits_1 ; blastn_parse_50_hits as blastn_parse_50_hits_2 } from '../modules.nf'
+workflow TAXONOMY_ANALYSIS_ALHOVSKIJ {
+  take:
+    read_pairs_ch
+    primary_assembles_ch
+    bracken_settings
+    db
+    to_nodes
+    to_names
+  main:
+    read_pairs_ch//.view()
+    FQ1(read_pairs_ch)
+    dir_name = "raw_data"
+    KRAKEN2_1(read_pairs_ch, dir_name)
+    dir1_name = "primary_assembles"
+    FILTER_FASTA_BY_LENGTH_1(primary_assembles_ch, '1000', dir1_name)
+    blastn_1(FILTER_FASTA_BY_LENGTH_1.out.sample_id__filtered_fasta, db, dir1_name)
+    blastn_parse_50_hits_1(blastn_1.out.sample_id__report.join(FILTER_FASTA_BY_LENGTH_1.out.sample_id__filtered_fasta), to_nodes, to_names, dir1_name)
+    
+    KRAKEN2_FASTA_1(primary_assembles_ch, dir_name)
+    dir8_name = "primary_assembles_before_length_filtering"
+    KRAKEN2_FASTA_2(primary_assembles_ch, dir8_name)
+    dir2_name = "viral_and_unclassified_from_primary_assembles"
+    EXTRACT_KRAKEN_READS_FROM_FASTA_TO_FASTA(primary_assembles_ch.join(KRAKEN2_FASTA_1.out.sample_id__output).join(KRAKEN2_FASTA_1.out.sample_id__report), dir2_name)
+    BWA_INDEX(EXTRACT_KRAKEN_READS_FROM_FASTA_TO_FASTA.out.sample_id__fasta
+        .map { i, j -> tuple(j, i)})//.view()
+    combine_ch = read_pairs_ch.combine(BWA_INDEX.out)//.view()
+    //combine_ch.view()
+    BWA_MEM_BAM_SORT(combine_ch)
+    SAMTOOLS_EXTRACT_FASTQ(BWA_MEM_BAM_SORT.out.sample_id__bam)
+    
+    origin_ch = SAMTOOLS_EXTRACT_FASTQ.out.sample_id__fastq
+    alh_ch = origin_ch.filter { sample_id, files -> sample_id.contains('alhovscij') } //на этих последовательностях запустил CLC
+    megahit_ch = origin_ch.filter { sample_id, files -> sample_id.endsWith('-megahit')  }
+    megahit_ms_ch = origin_ch.filter { sample_id, files -> sample_id.contains('megahit_metasens') }
+    metaspades_ch = origin_ch.filter { sample_id, files -> sample_id.contains('spades_meta') }
+    
+    //alh_ch.view()
+    //megahit_ch.view()
+    //megahit_ms_ch.view()
+    //metaspades_ch.view()
+    
+    MEGAHIT(megahit_ch)
+    MEGAHIT_MS(megahit_ms_ch)
+    
+    megahit_res_ch = MEGAHIT.out.sample_id__contigs
+    megahit_res_ch = megahit_res_ch.map{ sample_id, file -> tuple(sample_id.split("-megahit_simple")[0], file) }
+
+    megahit_ms_res_ch = MEGAHIT_MS.out.sample_id__contigs
+    megahit_ms_res_ch = megahit_ms_res_ch.map{ sample_id, file -> tuple(sample_id.split("-megahit_ms")[0], file) }
+   
+    Channel
+        .fromPath("/export/home/agletdinov/work/nextflow_projects/total_seq/results/novaseq_alhovscij/secondary_assembles/clc/2d-2d_contigs-alhovscij.contigs.fa")
+        .map { path -> tuple(path.getName().split(".contigs.fa")[0], path) }
+        .set { alh_ch_res_ch }
+
+    dir3_name = "before_length_filtering"
+    assembler_reads_res_ch = megahit_res_ch.join(megahit_ch).mix(megahit_ms_res_ch.join(megahit_ms_ch)).mix(alh_ch_res_ch.join(alh_ch))
+    QUAST_NO_REFERENCE_SECONDARY(assembler_reads_res_ch, dir3_name)
+    
+    assembler_res_ch = assembler_reads_res_ch.map { sample_id, fasta, reads -> tuple(sample_id, fasta) }//.view()
+    dir6_name = "secondary_assembles"
+    FILTER_FASTA_BY_LENGTH_2(assembler_res_ch, '1000', dir6_name)
+    //FILTER_FASTA_BY_LENGTH.out.sample_id__filtered_fasta.view()
+    
+    dir4_name = "after_length_filtering"
+    //alh_ch.mix(megahit_ch).mix(megahit_ms_ch).view()
+    assembler_filt_reads_res_ch = FILTER_FASTA_BY_LENGTH_2.out.sample_id__filtered_fasta.join(alh_ch.mix(megahit_ch).mix(megahit_ms_ch))
+    QUAST_NO_REFERENCE_SECONDARY_FILT_LENGTH(assembler_filt_reads_res_ch, dir4_name)
+   
+    
+    dir7_name = "secondary_assembles"
+    blastn_2(FILTER_FASTA_BY_LENGTH_2.out.sample_id__filtered_fasta, db, dir7_name)
+    blastn_parse_50_hits_2(blastn_2.out.sample_id__report.join(FILTER_FASTA_BY_LENGTH_2.out.sample_id__filtered_fasta), to_nodes, to_names, dir7_name)
+    
+  emit: 
+     FQ1.out | concat(KRAKEN2_FASTA_1.out.both_report_output) | collect
+}
 
 
 workflow TAXONOMY_ANALYSIS {
@@ -99,6 +182,8 @@ workflow TAXONOMY_ANALYSIS_READS {
     methods
     bracken_settings
     db
+    to_nodes
+    to_names
   main:
     FQ1(read_pairs_ch)
     TRIM_ADAPT(read_pairs_ch)
@@ -107,7 +192,7 @@ workflow TAXONOMY_ANALYSIS_READS {
     REMOVE_HUMAN(TRIM_4_NUCL.out.join(KRAKEN2.out.id_output).join(KRAKEN2.out.id_report))
     BRACKEN_EACH(KRAKEN2.out.id_report, bracken_settings)
     blastn(REMOVE_HUMAN.out.id_onefasta, db)
-    
+    blastn_parse_50_hits(blastn.out.sample_id_report, to_nodes, to_names)
   emit: 
      FQ1.out | concat(KRAKEN2.out.report) | concat(BRACKEN_EACH.out) | collect
      //FASTQC.out | concat(KRAKEN2.out) | collect

@@ -6,12 +6,13 @@ def myDict = [
     '2': 'dva',
     '4': 'cheture',
 ]
+
 params.singleEnd = false
-params.run = "07_02_25"
+params.run = "23_09_26"
 params.shared = "/export/home/public/agletdinov_shared"
 params.vzv_project = "/export/home/agletdinov/work/nextflow_projects/VZV"
 params.reads = "${params.vzv_project}/fastq/${params.run}/*R{1,2}*.fastq.gz"
-params.adapters = "${params.shared}/adapters/adapters.fasta"
+params.adapters = "${params.shared}/adapters"
 params.genome = "${params.shared}/genomes/vzv/NC_001348.1.fasta"
 params.primer_a = "${params.shared}/primers/vzv/aADAPTERX_v2.fasta"
 params.primer_g = "${params.shared}/primers/vzv/gXADAPTER_v2.fasta"
@@ -22,11 +23,16 @@ params.script1 = "${projectDir}/bin/rename_fasta_id.py"
 params.script2 = "/export/home/agletdinov/work/git_projects/gitlab/vzv-classifier/vzv_analysis.py"
 params.script3 = "${projectDir}/bin/vzv_run.py"
 params.script4 = "${projectDir}/bin/clade_aggregate.py"
-//params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
-params.outdir = "${params.shared}/nextflow_projects/VZV/results/${params.run}"
+params.kraken2db = "/export/home/public/agletdinov_shared/kraken2db/minikraken2_v2_8GB_201904_UPDATE"
+params.outdir = "/export/home/agletdinov/work/nextflow_projects/VZV/results/${params.run}"
+//params.outdir = "${params.shared}/nextflow_projects/VZV/results/${params.run}"
 
 //params.outdir = "check_raw_data/"
 //params.maxForks = 50  // Задайте необходимое максимальное число процессов
+
+params.singleEnd_TRIM_4_NUCL = false
+params.singleEnd_KRAKEN2 = false
+
 
 log.info """\
     R N A S E Q - N F   P I P E L I N E
